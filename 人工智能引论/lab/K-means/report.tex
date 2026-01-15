@@ -1,0 +1,140 @@
+\documentclass[a4paper]{article}
+
+% --- Packages ---
+\usepackage{titling}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{ctex}
+% 字体设置：在使用 pdfLaTeX 编译时，下面的包可以减少或消除 Computer Modern 字体的替换警告。
+% 如果你使用 XeLaTeX 或 LuaLaTeX（推荐用于中文），可直接用 XeLaTeX 编译并不需要这些包。
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% --- Document Information ---
+\title{K-means聚类实验报告}
+\author{王松宸 2024201594}
+\date{\today}
+
+\setlength{\droptitle}{-3cm}
+% --- Listings Style for Python Code ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% --- Begin Document ---
+\begin{document}
+
+\maketitle
+
+\section{K-means 算法实现}
+
+K-means 算法是一个迭代过程，主要包含以下四个步骤：
+\begin{enumerate}
+    \item \textbf{初始化}：从数据集中随机选择 $k$ 个样本点作为初始的聚类中心。
+    \item \textbf{分配}：对于数据集中的每一个样本点，计算它到 $k$ 个聚类中心的距离（使用欧氏距离的平方），并将其分配给距离最近的聚类中心所在的簇。
+    \item \textbf{更新}：对于每一个簇，重新计算其所有样本点的均值，并将该均值作为新的聚类中心。
+    \item \textbf{收敛判断}：重复执行分配和更新步骤，直到聚类中心的位置变化小于预设的阈值，或者达到最大迭代次数，算法收敛。
+\end{enumerate}
+
+\section{实验设置}
+\subsection{数据集与特征}
+实验数据来源于猫/狗图像数据集。我使用 \texttt{load\_data.py} 保存图像数据的路径和标签，并用 \texttt{wenlan\_feature\_extractor.py} 提取图像的特征向量并保存。特征文件包含三部分：
+\begin{itemize}
+    \item \textbf{features}: $N \times D$ 的特征矩阵，其中 $N$ 是样本数，$D$ 是特征维度。
+    \item \textbf{labels}: 样本的真实标签（猫0/狗1）。
+    \item \textbf{paths}: 每个特征对应的原始图片路径。
+\end{itemize}
+
+\subsection{数据预处理}
+在聚类前，我对特征进行了 L2 归一化，将所有特征向量缩放到单位长度。
+
+\subsection{实验参数}
+我针对猫和狗的数据分别进行了聚类数等于4的实验。
+
+\section{实验结果与分析}
+\subsection{PCA 二维可视化}
+为了直观地观察聚类效果，我将高维特征通过主成分分析（PCA）降至二维，并用不同颜色表示每个样本所属的簇。聚类中心也被投影到该二维空间，并用黑色“X”标记。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{outputs/wenlan_embeddings_cats_l2_k4_pca2d.png}
+    \caption{猫数据集聚类结果的 PCA 二维可视化 ($k=4$)}
+    \label{fig:pca_cats}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{outputs/wenlan_embeddings_dogs_l2_k4_pca2d.png}
+    \caption{狗数据集聚类结果的 PCA 二维可视化 ($k=4$)}
+    \label{fig:pca_dogs}
+\end{figure}
+
+\subsection{簇内图像分析}
+我还将每个簇内的图像进行拼图展示，便于观察出一些同一簇样本具有的特征。
+
+\begin{figure}[H]
+    \centering
+    % 使用 2x2 网格展示四个簇的拼图
+    \begin{tabular}{cc}
+        \includegraphics[width=0.4\textwidth]{outputs/wenlan_embeddings_cats_l2_k4_cluster_01.png} &
+        \includegraphics[width=0.4\textwidth]{outputs/wenlan_embeddings_cats_l2_k4_cluster_02.png} \\
+        \includegraphics[width=0.33\textwidth]{outputs/wenlan_embeddings_cats_l2_k4_cluster_03.png} &
+        \includegraphics[width=0.33\textwidth]{outputs/wenlan_embeddings_cats_l2_k4_cluster_04.png} \\
+    \end{tabular}
+    \caption{猫数据集的簇内图像}
+    \label{fig:cluster_cats_grid}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    % 左1右3：设置等高列以保证顶部、底部对齐
+    \begin{minipage}[H][0.75\textheight]{0.58\textwidth}
+        \centering
+        \includegraphics[height=0.75\textheight, keepaspectratio]{outputs/wenlan_embeddings_dogs_l2_k4_cluster_03.png}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[H][0.6\textheight]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{outputs/wenlan_embeddings_dogs_l2_k4_cluster_01.png}
+        \vfill
+        \includegraphics[width=\textwidth]{outputs/wenlan_embeddings_dogs_l2_k4_cluster_02.png}
+        \vfill
+        \includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{outputs/wenlan_embeddings_dogs_l2_k4_cluster_04.png}
+    \end{minipage}
+    \caption{狗数据集的簇内图像}
+    \label{fig:cluster_dogs_grid}
+\end{figure}
+
+观察发现同一簇的猫（狗）具有较为相似的姿态或者毛色特征。
+\section{结论}
+本实验成功实现并应用了 K-means 算法对图像特征进行聚类。通过 PCA 可视化和簇内图像分析，发现 K-means 能够根据文澜模型提取的视觉特征对图像进行有意义的分组。
+
+\end{document}
