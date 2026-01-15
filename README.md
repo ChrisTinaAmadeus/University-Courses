@@ -1,2 +1,2 @@
 # University Courses
-This repository contains the C/C++ codes I crafted during my first semester's Programming Course. They represent my initial journey and learning phase in computer programming.
+这个仓库用来存放我在中国人民大学本科期间专业课的资料。或许能够稍微见证一下一个代码小白的成长历程。
