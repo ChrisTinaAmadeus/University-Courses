@@ -1,0 +1,180 @@
+{
+  "plan_name": "test1.html_自动化测试清单_STRICT_PATHS",
+  "source_file": "/mnt/data/test1.html",
+  "path_policy": "仅允许绝对路径（从 /html 起），禁止使用 // 与任何属性/类名筛选；同级定位使用 [n]。",
+  "runner_contract": {
+    "commands": [
+      "CheckHTML",
+      "Text <absolute_path>",
+      "OutHTML <absolute_path>"
+    ],
+    "compare_modes": {
+      "exact": "与 expected.text 全字符串精确匹配（含换行）。",
+      "contains_all": "输出中需要包含 expected.lines 的每一条子串。",
+      "multiline_contains_all": "逐行检查：输出需包含 expected.lines 中的所有行（允许额外行与属性顺序不同）。"
+    },
+    "whitespace_policy": "将 CRLF 正规化为 LF；保留行尾换行；不自动裁剪首尾空白。"
+  },
+  "tests": [
+    {
+      "id": "TC01",
+      "name": "HTML合法性校验-整体结构",
+      "type": "CheckHTML",
+      "command": "CheckHTML",
+      "expected": {
+        "mode": "contains_all",
+        "lines": [
+          "合法"
+        ]
+      },
+      "notes": "文档为良构，无明显标签不匹配。"
+    },
+    {
+      "id": "TC02",
+      "name": "页眉领域分类标题文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/header/h1",
+      "expected": {
+        "mode": "exact",
+        "text": "Computer Science > Computation and Language (cs.CL)"
+      },
+      "notes": "HTML 实体 &gt; 应解码为 '>'。"
+    },
+    {
+      "id": "TC03",
+      "name": "论文标题文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/h1",
+      "expected": {
+        "mode": "exact",
+        "text": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC04",
+      "name": "投稿/修订日期 Dateline（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/div[1]",
+      "expected": {
+        "mode": "exact",
+        "text": "Submitted on 28 Jan 2022; last revised 10 Jan 2023 (v6)"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC05",
+      "name": "作者区纯文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/div[2]",
+      "expected": {
+        "mode": "exact",
+        "text": "Authors: Jason Wei , Xuezhi Wang , Dale Schuurmans , Maarten Bosma , Brian Ichter , Fei Xia , Ed Chi , Quoc Le , Denny Zhou"
+      },
+      "notes": "所有作者名之间保留逗号与空格，行内不换行。"
+    },
+    {
+      "id": "TC06",
+      "name": "摘要段落文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/blockquote",
+      "expected": {
+        "mode": "exact",
+        "text": "Abstract: We explore how generating a chain of thought — a series of intermediate reasoning steps — significantly improves the ability of large language models to perform complex reasoning. In particular, we show how such reasoning abilities emerge naturally in sufficiently large language models via a simple method called chain of thought prompting, where a few chain of thought demonstrations are provided as exemplars in prompting. Experiments on three large language models show that chain of thought prompting improves performance on a range of arithmetic, commonsense, and symbolic reasoning tasks. The empirical gains can be striking. For instance, prompting a 540B-parameter language model with just eight chain of thought exemplars achieves state of the art accuracy on the GSM8K benchmark of math word problems, surpassing even finetuned GPT-3 with a verifier."
+      },
+      "notes": "包含前缀 'Abstract:'。"
+    },
+    {
+      "id": "TC07",
+      "name": "Subjects 文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/dl/dd[1]",
+      "expected": {
+        "mode": "exact",
+        "text": "Computation and Language (cs.CL) ; Artificial Intelligence (cs.AI)"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC08",
+      "name": "Cite as 文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/dl/dd[2]",
+      "expected": {
+        "mode": "exact",
+        "text": "arXiv:2201.11903 [cs.CL] (v6)"
+      },
+      "notes": "链接文本应为 'arXiv:2201.11903 [cs.CL] (v6)' 或等价（不含 URL）。"
+    },
+    {
+      "id": "TC09",
+      "name": "DOI 文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/dl/dd[3]",
+      "expected": {
+        "mode": "exact",
+        "text": "10.48550/arXiv.2201.11903"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC10",
+      "name": "PDF 链接 OuterHTML（绝对路径）",
+      "type": "OutHTML",
+      "command": "/html/body/main/section/div/a",
+      "expected": {
+        "mode": "exact",
+        "text": "<a href=\"https://arxiv.org/pdf/2201.11903\" rel=\"noopener\">View PDF</a>"
+      },
+      "notes": "需要完整匹配 <a> 标签的 outerHTML。"
+    },
+    {
+      "id": "TC11",
+      "name": "TeX Source 链接 OuterHTML（绝对路径）",
+      "type": "OutHTML",
+      "command": "/html/body/main/section/div[3]/a[2]",
+      "expected": {
+        "mode": "exact",
+        "text": "<a href=\"https://arxiv.org/src/2201.11903\" rel=\"noopener\">TeX Source</a>"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC12",
+      "name": "Submission history 标题与内容（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/main/section/section/p",
+      "expected": {
+        "mode": "exact",
+        "text": "[v1] Fri, 28 Jan 2022 02:33:07 UTC (944 KB) [v2] Wed, 6 Apr 2022 03:51:50 UTC (933 KB) [v3] Wed, 1 Jun 2022 00:10:30 UTC (303 KB) [v4] Mon, 13 Jun 2022 21:44:34 UTC (283 KB) [v5] Mon, 10 Oct 2022 20:21:17 UTC (285 KB) [v6] Tue, 10 Jan 2023 23:07:57 UTC (306 KB)"
+      },
+      "notes": "包含多行；<br> 转换为换行。"
+    },
+    {
+      "id": "TC13",
+      "name": "页脚来源链接文本（绝对路径）",
+      "type": "Text",
+      "command": "/html/body/footer/p/a",
+      "expected": {
+        "mode": "exact",
+        "text": "https://arxiv.org/abs/2201.11903"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC14",
+      "name": "页脚段落 OuterHTML（绝对路径）",
+      "type": "OutHTML",
+      "command": "/html/body/footer/p",
+      "expected": {
+        "mode": "multiline_contains_all",
+        "lines": [
+          "<p>",
+          "Source:",
+          "</p>"
+        ]
+      },
+      "notes": "允许 <a> 的属性顺序不同；故使用 contains_all。"
+    }
+  ]
+}

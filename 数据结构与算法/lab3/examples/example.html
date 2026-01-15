@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Lab3: Example</title>
+</head>
+
+<body>
+    <!-- document.querySelectorAll('.class1') Result: NodeList(3) [div.class0.class1, span.class1, img.class1] -->
+    <div class="class0 class1"> div.class0.class1 </div>
+    <div><span class="class1"> span.class1 </span></div>
+    <img class="class1" src="/img1.png" alt="img.class1">
+
+    <!-- document.querySelectorAll('#id1') Result: NodeList [div#id1] -->
+    <!-- document.querySelectorAll('#id2') Result: NodeList [span#id2] -->
+    <!-- document.querySelectorAll('#id3') Result: NodeList [img#id3] -->
+    <div id="id1"> div#id1 </div>
+    <div><span id="id2"> span#di2 </span></div>
+    <img id="id3" src="/img2.png" alt="img#id3">
+
+    <!-- document.querySelectorAll('.class2.class3') Result: NodeList(3) [div.class2.class3, span.class3.class2, img.class2.class0.class3] -->
+    <div class="class2 class3"> div.class2.class3 </div>
+    <div><span class="class3 class2"> span.class3.class2 </span></div>
+    <img class="class2 class0 class3" src="/img1" alt="img.class2.class0.class3">
+    <!-- document.querySelectorAll('#id4.class2') Result: NodeList [div#id4.class2] -->
+    <div id="id4" class="class2"> div#id4.class2 </div>
+
+    <!-- document.querySelectorAll('.class4 .class5') Result: NodeList(2) [div.class5, p#id5.class5] -->
+    <!-- document.querySelectorAll('.class4 .class5 .class6') Result: NodeList [div.class6] -->
+    <!-- document.querySelectorAll('div.class4 p.class5#id5') Result: NodeList [p#id5.class5] -->
+    <div class="class4">
+        <div><div class="class5">
+            div.class5
+            <a href="/a.html"><p id="id5" class="class5">
+                p#id5.class5
+            </p></a>
+            <a href="/b.html"><div class="class6">
+                div.class6
+            </div></a>
+        </div></div>
+    </div>
+
+    <!-- document.querySelectorAll('*') Result: NodeList(24) [html, head, title, body, div.class0.class1, div, span.class1, ...] -->
+    <!-- document.querySelectorAll('div') Result: NodeList(13) [div.class0.class1, div, div#id1, div, div.class2.class3, div, ...] -->
+    <!-- document.querySelectorAll('span, p') Result: NodeList(4) [span.class1, span#id2, span.class3.class2, p#id5.class5] -->
+    <!-- document.querySelectorAll('.class4 .class5, .class4 a *') Result: NodeList(3) [div.class5, p#id5.class5, div.class6] -->
+    <!-- document.querySelectorAll('div > .class1') Result: NodeList [span.class1] -->
+    <!-- document.querySelectorAll('.class1 + div') Result: NodeList(2) [div, div#id1] -->
+    <!-- document.querySelectorAll('div.class2.class3 ~ .class0') Result: NodeList [img.class2.class0.class3] -->
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+{
+  "plan_name": "test4.html_自动化测试清单_STRICT_PATHS",
+  "source_file": "/mnt/data/test4.html",
+  "path_policy": "仅允许绝对路径，从 /html 开始，不使用 //、不使用任何属性筛选。可使用 [n] 同级索引。",
+  "runner_contract": {
+    "commands": [
+      "CheckHTML",
+      "Text <absolute_path>",
+      "OutHTML <absolute_path>"
+    ],
+    "compare_modes": {
+      "exact": "与 expected.text 全字符串精确匹配（含换行）。",
+      "contains_all": "输出中需要包含 expected.lines 的每一条子串。",
+      "multiline_contains_all": "逐行检查：输出需包含 expected.lines 中的所有行（允许额外行与属性顺序不同）。"
+    },
+    "whitespace_policy": "将 CRLF 正规化为 LF；保留行尾换行；不自动裁剪首尾空白。"
+  },
+  "tests": [
+    {
+      "id": "TC01",
+      "name": "HTML合法性校验-整体结构",
+      "type": "CheckHTML",
+      "command": "CheckHTML",
+      "expected": {
+        "mode": "contains_all",
+        "lines": [
+          "合法"
+        ]
+      },
+      "notes": "严格路径规则与该用例无关。"
+    },
+    {
+      "id": "TC02",
+      "name": "主标题文本（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div[2]/div[1]/div/h1",
+      "expected": {
+        "mode": "exact",
+        "text": "The 64th Annual Meeting of the Association for Computational Linguistics"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC03",
+      "name": "副标题地理+日期（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div[2]/div[1]/div/p",
+      "expected": {
+        "mode": "exact",
+        "text": "San Diego, California, United States July 2–7, 2026"
+      },
+      "notes": "按实际文档内容获取；不使用 '//'。"
+    },
+    {
+      "id": "TC04",
+      "name": "内容区所有二级标题（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div[2]/div[2]/article/section/h2",
+      "expected": {
+        "mode": "exact",
+        "text": "Welcome! Permalink\nNews Permalink\nImportant Dates Permalink\nFAQ Permalink"
+      },
+      "notes": "包含 'Permalink' 文本，因为它在 h2 内部。"
+    },
+    {
+      "id": "TC05",
+      "name": "Welcome 段落文本（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div[2]/div[2]/article/section/p[1]",
+      "expected": {
+        "mode": "exact",
+        "text": "ACL 2026 will be held in San Diego, CA, from July 2 - 7, 2026. More information will be announced soon."
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC06",
+      "name": "News 表格日期列（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div[2]/div[2]/article/section/table/tbody/tr/td[1]",
+      "expected": {
+        "mode": "exact",
+        "text": "October 8, 2025\nMay 23, 2025"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC07",
+      "name": "News 第一行事件文本（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div/div/article/section/table/tbody/tr[1]/td[2]",
+      "expected": {
+        "mode": "exact",
+        "text": "Call for papers is out."
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC08",
+      "name": "News 第一行事件链接 OuterHTML（严格绝对路径）",
+      "type": "OutHTML",
+      "command": "/html/body/div/div[2]/div[2]/article/section/table/tbody/tr[1]/td[2]/a",
+      "expected": {
+        "mode": "exact",
+        "text": "<a href=\"https://2026.aclweb.org/calls/main_conference_papers/\">Call for papers</a>"
+      },
+      "notes": "使用 exact；外层 HTML 字符串需完全匹配。"
+    },
+    {
+      "id": "TC09",
+      "name": "Important Dates 说明（粗体，严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div[2]/div[2]/article/section/p[3]/b",
+      "expected": {
+        "mode": "exact",
+        "text": "All deadlines are 11.59 pm UTC -12h (anywhere on earth)."
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC10",
+      "name": "UTC 链接 OuterHTML（严格绝对路径）",
+      "type": "OutHTML",
+      "command": "/html/body/div/div[2]/div[2]/article/section/p[3]/b/a",
+      "expected": {
+        "mode": "exact",
+        "text": "<a href=\"https://www.timeanddate.com/time/zone/timezone/utc-12\" target=\"_blank\">UTC -12h</a>"
+      },
+      "notes": ""
+    },
+    {
+      "id": "TC11",
+      "name": "页脚社交链接文本（严格绝对路径，仅社交3项）",
+      "type": "Text",
+      "command": "/html/body/div/div[3]/footer/div[1]/ul/li/a",
+      "expected": {
+        "mode": "exact",
+        "text": "Twitter\nGitHub\nFeed"
+      },
+      "notes": "限定到 footer 的第一个 div 的列表，避免包含品牌/主题链接。"
+    },
+    {
+      "id": "TC12",
+      "name": "导航栏菜单项文本（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/nav/ul/li/a",
+      "expected": {
+        "mode": "exact",
+        "text": "Skip to primary navigation\nSkip to content\nSkip to footer"
+      },
+      "notes": "页面此处为跳转链接（Skip to ...）共3项。"
+    },
+    {
+      "id": "TC13",
+      "name": "主标题 OuterHTML（严格绝对路径）",
+      "type": "OutHTML",
+      "command": "/html/body/div/div/div/div/h1",
+      "expected": {
+        "mode": "multiline_contains_all",
+        "lines": [
+          "<h1",
+          "The 64th Annual Meeting of the Association for Computational Linguistics",
+          "</h1>"
+        ]
+      },
+      "notes": "允许属性差异；因此用 contains_all。"
+    },
+    {
+      "id": "TC14",
+      "name": "图片署名文本（严格绝对路径）",
+      "type": "Text",
+      "command": "/html/body/div/div[2]/div[1]/span",
+      "expected": {
+        "mode": "exact",
+        "text": "Photo by Frank Mckenna"
+      },
+      "notes": ""
+    }
+  ]
+}

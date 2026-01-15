@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Test</title>
+</head>
+
+<body>
+    <!-- Both block and inline elements can be nested inside block elements; -->
+    <div>
+        <div>
+        </div>
+        <span>
+        </span>
+    </div>
+    <!-- Inline element can be nested inside block and inline element; -->
+    <span>
+        <span>
+        </span>
+    </span>
+    <!-- Block element cannot be nested inside an inline element; -->
+    <span>
+        <div>
+        </div>
+    </span>
+    <!-- Special block element(h, p, dt): only inline element can be nested inside -->
+    <p>
+        <span>123</span>
+        <p>123</p>
+    </p>
+    <!-- Special inline element(a): Both block and inline elements can be nested inside except itself -->
+    <a>
+        <p>123</p>
+        <a>123</a>
+    </a>
+</body>
+
+</html>

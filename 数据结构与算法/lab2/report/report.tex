@@ -1,0 +1,151 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{xcolor}
+\geometry{margin=1in}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+
+% 调整标题垂直位置（负值上移，按需修改）
+\setlength{\droptitle}{-3cm}
+
+% 使所有 section标题居中
+% \titleformat{\section}[block]{\centering\Large\bfseries}{\thesection}{1em}{}
+
+\title{HTML 结构解析与校验实验报告}
+\author{王松宸 2024201594}
+\date{\today}
+
+\lstdefinestyle{code}{
+	basicstyle=\ttfamily\small,
+	breaklines=true,
+	frame=single,
+	backgroundcolor=\color[RGB]{248,248,248},
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	tabsize=2,
+	showstringspaces=false
+}
+
+\begin{document}
+\maketitle
+
+\section{核心内容}
+本实验基于线性表与栈，完成对 HTML 文档的读取、合法性校验（CheckHTML），并实现了OuterHTML与Text两个查询功能。
+
+此外，\textbf{扩展实现了额外功能（a），支持输入绝对路径、相对路径与部分路径。}
+
+同时，\textbf{针对用户实现了大小写不敏感匹配等功能}，提升了查询的灵活性与实用性。
+
+\section{代码总体设计}
+程序采用“单遍扫描 + 栈”策略：
+\begin{enumerate}[nosep]
+	\item 读取 HTML 文件（去除 UTF-8 BOM），缓存为 \verb|g_html|；
+	\item 预处理阶段进行基础配对校验：遇到起始标签入栈，遇到结束标签出栈；完整跳过注释以及 \verb|<script>|/\verb|<style>| 块；将校验错误记录在 \verb|g_errors| 中；
+	\item 交互命令：
+	\begin{itemize}[nosep]
+		\item CheckHTML：输出配对、嵌套、未闭合等错误；
+		\item Outer\_HTML(path)：按简化 XPath 匹配，输出对应元素的 OuterHTML；
+		\item Text(path)：在匹配元素内抽取文本，按块级元素插入换行并合并多余空白。
+	\end{itemize}
+\end{enumerate}
+
+核心模块关系如下：文件读取 \(\to\) 预处理校验 \(\to\) 路径解析与匹配 \(\to\) OuterHTML/Text 输出。
+
+\section{数据结构与关键函数解析}
+\subsection{栈结构}
+顺序栈 \verb|SqStack|：
+\begin{itemize}[nosep]
+	\item 成员：\verb|base|、\verb|top|、\verb|stacksize|；
+	\item \verb|initStack| 初始化容量为 \verb|MAXSIZE|；\verb|Push| 满则按 \verb|MAXSIZE| 增量扩容；\verb|Pop| 空栈返回错误；
+	\item 额外提供 \verb|PushTag|/\verb|PopTag| 封装标签名的入栈/出栈（以 \verb|'\0'| 作为分隔）。
+\end{itemize}
+
+\subsection{路径解析与匹配（实现额外功能）}
+\begin{itemize}[nosep]
+	\item \textbf{parse\_path\_tokens}：按 \verb|'/'| 切分，去除多余空白；识别三类情形：
+	\begin{enumerate}[nosep]
+		\item \textit{全部选择}：路径为空或为 \verb|'/'|，表示选择整个文档；
+		\item \textit{绝对路径}：以 \verb|'/'| 开头，要求路径与当前打开路径\textbf{完全相等}；
+		\item \textit{相对/部分路径}：不以 \verb|'/'| 开头，允许路径作为当前打开路径的\textbf{后缀}匹配（即部分路径）。
+	\end{enumerate}
+	\item \textbf{path\_matches}：实现上述两种匹配策略；
+	\item \textbf{perform\_query}：扫描文档维护打开标签栈（名称序列），在遇到起始/结束标签时检查是否与目标路径匹配：
+	\begin{itemize}[nosep]
+		\item Outer\_HTML：在匹配的起始标签处，找到与之配对的结束位置，输出完整片段；
+		\item Text：在匹配范围内调用文本抽取函数，输出归一化文本。
+	\end{itemize}
+\end{itemize}
+
+\subsection{标签解析}
+\begin{itemize}[nosep]
+	\item \textbf{find\_tag\_gt}：从字符 \verb|'<'| 起，正确跨越属性单引号/双引号，找到配对的 \verb|'>'|；
+	\item \textbf{skip\_comment}：跳过 \verb|<!-- ... -->| 整段；
+	\item \textbf{skip\_script\_style\_block}：匹配对应的关闭标签，整体跳过脚本/样式块（不参与栈与内容抽取）；
+	\item \textbf{自闭合识别}：内置常见自闭合标签集合（BR/HR/IMG/META/LINK/INPUT/AREA/...），并支持显式形式 \verb|<tag ... />|；
+	\item \textbf{大小写处理}：统一将标签名提升为大写参与比较，匹配不区分大小写。
+\end{itemize}
+
+
+
+\subsection{文本抽取与归一化}
+\begin{itemize}[nosep]
+	\item \textbf{extract\_text\_in\_range}：忽略标签/注释/脚本样式，累积文本；遇到块级元素（HTML/BODY/DIV/P/UL/LI/TABLE/TD/TH/\dots）闭合时插入换行；\verb|<br>| 直接视为换行；
+	\item \textbf{normalize\_text\_preserve\_newlines}：
+	\begin{itemize}[nosep]
+		\item 连续空格、\verb|\t|、\verb|\r| 折叠为单个空格；
+		\item 保留并折叠我们插入的换行符，逐行修剪首尾空格；
+		\item 移除末尾多余换行，确保输出整洁稳定。
+	\end{itemize}
+\end{itemize}
+
+\subsection{预处理与内容校验}
+	extbf{preprocess\_html} 负责：
+\begin{itemize}[nosep]
+	\item 线性扫描输入，遇起始标签入栈、结束标签出栈，记录未闭合/多余关闭等结构性错误；
+	\item 对注释与 \verb|<script>|/\verb|<style>| 采取整体跳过，避免误报配对；
+	\item 以 \verb|OpenTag| 向量辅助报错位置输出。
+\end{itemize}
+	extbf{validate\_content\_model} 对内容模型做检查，示例规则：
+\begin{itemize}[nosep]
+	\item R1：若当前为块级元素，祖先若为行内且不为 \verb|A|，提示可能的嵌套不当；
+	\item R2：祖先为 \verb|H1–H6|/\verb|P|/\verb|DT| 时，不允许再出现块级后代；
+	\item R3：\verb|A| 不能包含 \verb|A| 后代。
+\end{itemize}
+
+\subsection{文件读入与 BOM 处理}
+	extbf{load\_file} 以二进制读取本地文件，统一移除 UTF-8 BOM，将内容缓存到全局 \verb|g_html| 并以 \verb|'\0'| 结尾，便于后续以 \verb|string_view| 只读视图进行高效扫描。
+
+\section{命令接口说明}
+\begin{description}
+	\item[1 解析新的文件] 读取本地 HTML 文件到内存，自动去除 UTF-8 BOM。
+	\item[2 检查此文件合法性] 利用栈完成配对、嵌套与未闭合检查，列出错误位置与标签名。
+	\item[3 输出对应路径下的 html 代码段] \verb|Outer_html(path)|：多个匹配节点用换行分隔。
+	\item[4 输出对应路径下的文本] \verb|Text(path)|：按块级元素换行策略输出整洁文本。
+	\item[5 退出程序] 结束交互。
+\end{description}
+
+\section{面向用户的设计与交互细节}
+\begin{description}
+	\item \textbf{1 宽容的路径输入}：路径前后空白会被修剪，多余的 \verb|'/'| 自动忽略；标签名大小写不敏感；空路径或 \verb|'/'| 表示“整页”。
+	\item \textbf{2 清晰的提示与回显}：未加载文件时阻止查询并提示操作顺序；每次命令后重新打印菜单，降低误操作成本。
+	\item \textbf{3 输出一致性}：多个匹配结果以单个换行分隔；文本抽取遵循“块级换行、空白合并、行级修剪”的格式化规则，便于直读与比对。
+	\item \textbf{4 错误处理}：
+		\begin{itemize}[nosep]
+			\item 文件不存在/无法打开时及时报错；
+			\item 结构性错误（未闭合、错位闭合、脚本/样式缺关闭等）集中展示；
+			\item 查询无命中时输出提示而非静默失败。
+		\end{itemize}
+\end{description}
+
+\section{总结}
+本实验以顺序栈为核心，完成了 HTML 的结构校验与两类查询；
+在此基础上实现了XPath额外功能（绝对/相对/部分路径）与用户友好功能。
+
+\end{document}
