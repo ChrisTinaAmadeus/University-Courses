@@ -1,0 +1,40 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\contentsline {section}{\numberline {1}完成内容概览}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}数据与预处理流程}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}模型结构速览与理解}{1}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}基础 TODO 代码思路与解释}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Task 1: Self-Attention 计算}{2}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Task 2: Transformer forward}{2}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Task 3: 推理阶段输入分词与索引化}{2}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}附加问题回答}{2}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Question 1: 为什么 \texttt  {trg} 舍弃最后一个字符而 \texttt  {trg\_y} 舍弃第一个字符?}{2}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Question 2: 训练与测试阶段 decoder 输入的不同}{3}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}训练过程}{3}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}训练设置}{3}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}训练结果与可视化分析}{3}{subsection.6.2}\protected@file@percent }
+\newlabel{fig:loss_curve}{{1a}{4}{Train vs Dev Loss}{figure.caption.1}{}}
+\newlabel{sub@fig:loss_curve}{{a}{4}{Train vs Dev Loss}{figure.caption.1}{}}
+\newlabel{fig:lr_curve}{{1b}{4}{Noam 学习率调度}{figure.caption.1}{}}
+\newlabel{sub@fig:lr_curve}{{b}{4}{Noam 学习率调度}{figure.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces 损失与学习率曲线。左：训练/验证集平均交叉熵随 epoch 下降；右：Noam 调度先升后降的特征，有助于初期探索与后期平稳收敛。}}{4}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:curves}{{1}{4}{损失与学习率曲线。左：训练/验证集平均交叉熵随 epoch 下降；右：Noam 调度先升后降的特征，有助于初期探索与后期平稳收敛。}{figure.caption.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 完整验证集 (Epoch 1-10) Loss 与困惑度走势。}}{4}{table.caption.2}\protected@file@percent }
+\newlabel{tab:dev_loss}{{1}{4}{完整验证集 (Epoch 1-10) Loss 与困惑度走势。}{table.caption.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}编码器多头自注意力热力图}{4}{subsubsection.6.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces 编码器第 1 层部分注意力头。局部对角线较明显，体现对临近词位的强烈建模。}}{4}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:attn_layer1}{{2}{4}{编码器第 1 层部分注意力头。局部对角线较明显，体现对临近词位的强烈建模。}{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 编码器第 2 层部分注意力头。跨距离关注开始增多，出现对非相邻 token 的聚合，说明层次化语义抽象。}}{5}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:attn_layer2}{{3}{5}{编码器第 2 层部分注意力头。跨距离关注开始增多，出现对非相邻 token 的聚合，说明层次化语义抽象。}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}实验过程}{5}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}输入内容}{5}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}补充命令行代码}{5}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}终端}{5}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}输出内容}{6}{subsection.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}结果分析}{6}{subsection.7.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}NMT, Self-Attention 与 Transformer 的认识}{6}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}心得体会}{6}{section.9}\protected@file@percent }
+\gdef \@abspage@last{6}
