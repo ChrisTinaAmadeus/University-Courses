@@ -1,0 +1,301 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+
+\section*{第一题}
+\[
+A = \begin{bmatrix}
+1 & -1 & 0 & 0 & 1 \\
+1 & 1 & 0 & -3 & 0 \\
+2 & -1 & 0 & 1 & -1 \\
+-1 & 2 & 0 & -2 & -1
+\end{bmatrix}
+\xrightarrow{}
+\begin{bmatrix}
+1 & -1 & 0 & 0 & 1 \\
+0 & 2 & 0 & -3 & -1 \\
+0 & 1 & 0 & 1 & -3 \\
+0 & 1 & 0 & -2 & 0
+\end{bmatrix}
+\xrightarrow{}
+\begin{bmatrix}
+1 & -1 & 0 & 0 & 1 \\
+0 & 1 & 0 & -4 & 2 \\
+0 & 0 & 0 & 1 & -1 \\
+0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\xrightarrow{}
+\begin{bmatrix}
+1 & 0 & 0 & 0 & -1 \\
+0 & 1 & 0 & 0 & -2 \\
+0 & 0 & 0 & 1 & -1 \\
+0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+\medskip
+将对A所做的行变换应用到$\bar{A}$,可以求解$Ax=b$
+\medskip
+\[
+\bar{A}=
+\begin{bmatrix}
+1 & -1 & 0 & 0 & 1 &3\\
+1 & 1 & 0 & -3 & 0 &6\\
+2 & -1 & 0 & 1 & -1 &5\\
+-1 & 2 & 0 & -2 & -1 &-1
+\end{bmatrix}
+\xrightarrow{}
+\begin{bmatrix}
+1 & 0 & 0 & 0 & -1 &3\\
+0 & 1 & 0 & 0 & -2 &0\\
+0 & 0 & 0 & 1 & -1 &-1\\
+0 & 0 & 0 & 0 & 0 &0
+\end{bmatrix}
+\]
+\medskip
+\[
+\text{整理为方程组}
+\left\{
+\begin{array}{l}
+x_1 - x_5 = 3 \\
+x_2 - 2x_5 = 0 \\
+x_3 = t \quad (t\in\mathbb{R})\\
+x_4 - x_5 = -1 \\
+x_5 = s \quad (s\in\mathbb{R})
+\end{array}
+\right.
+\]
+\medskip
+\[
+\text{解集}
+S = \left\{\, x \in \mathbb{R}^5 \mid x =
+\begin{pmatrix}
+3 \\ 0 \\ 0 \\ -1 \\ 0
+\end{pmatrix}
++ s
+\begin{pmatrix}
+1 \\ 2 \\ 0 \\ 1 \\ 1
+\end{pmatrix}
++ t
+\begin{pmatrix}
+0 \\ 0 \\ 1 \\ 0 \\ 0
+\end{pmatrix}
+,\ s, t \in \mathbb{R}
+\right\}
+\]
+
+
+\section*{第二题}
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 将$x_1,x_2,x_3$写为矩阵$X$
+\medskip
+\[
+X=
+\begin{pmatrix}
+x_1 & x_2 & x_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+2 &1 &3 \\
+-1 & 1 & -3 \\
+3 & -2 & 8
+\end{pmatrix}
+\xrightarrow{}
+\begin{pmatrix}
+2 & 1 & 3 \\
+0 & \frac{3}{2} & -\frac{3}{2} \\
+0 & -\frac{7}{2} & \frac{7}{2}
+\end{pmatrix}
+\xrightarrow{}
+\begin{pmatrix}
+2 & 1 & 3 \\
+0 & 1 & -1 \\
+0 & 0 & 0
+\end{pmatrix}
+\]
+\medskip
+$X$的非零行有两行，即$\operatorname{rank}(X) = 2 < n$
+
+因此，$x_1,x_2,x_3$线性相关。
+\item 将$x_1,x_2,x_3$写为矩阵$X$
+\medskip
+\[
+X=
+\begin{pmatrix}
+x_1 & x_2 & x_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 &1 &1 \\
+2 &1 &0 \\
+1 &0 &0 \\
+0 &1 &1 \\
+0 &1 &1
+\end{pmatrix}
+\xrightarrow{}
+\begin{pmatrix}
+1 &1 &1 \\
+0 &-1 &-2 \\
+0 &0 &1 \\
+0 &0 &0 \\
+0 &0 &0
+\end{pmatrix}
+\]
+\medskip
+$X$的非零行有三行，即$\operatorname{rank}(X) = 3 = n$
+
+因此，$x_1,x_2,x_3$线性无关。
+\end{enumerate}
+\section*{第三题}
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 求解
+$
+A_{\Phi}\cdot
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+3x_1+2x_2+x_3\\
+x_1+x_2+x_3\\
+x_1-3x_2\\
+2x_1+3x_2+x_3
+\end{pmatrix}
+$
+\medskip
+解得$A_{\Phi}=
+\begin{pmatrix}
+3 & 2 & 1 \\
+1 & 1 & 1 \\
+1 & -3 & 0 \\
+2 & 3 & 1
+\end{pmatrix}
+$
+\item 对$A_{\Phi}$做初等行变换
+\medskip
+\[
+A_{\Phi}=
+\begin{pmatrix}
+3 & 2 & 1 \\
+1 & 1 & 1 \\
+1 & -3 & 0 \\
+2 & 3 & 1
+\end{pmatrix}
+\xrightarrow{}
+\begin{pmatrix}
+1 & \frac{2}{3} & \frac{1}{3} \\
+0 & \frac{1}{3} & \frac{2}{3} \\
+0 & -\frac{11}{3} & -\frac{1}{3} \\
+0 & \frac{5}{3} & -\frac{1}{3}
+\end{pmatrix}
+\xrightarrow{}
+\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+0 & 0 & 0
+\end{pmatrix}
+\]
+\medskip
+$A_{\Phi}$的非零行有三行，即$\operatorname{rank}(A_{\Phi}) = 3$
+\item $\ker(A_{\Phi}) = \{\,x \in \mathbb{R}^3 \mid A_{\Phi}x = 0\,\}$
+
+$\because\ \operatorname{rank}(A_{\Phi}) + \dim\ker(A_{\Phi}) = n = 3$
+
+$\therefore\ \dim\ker(A_{\Phi}) = 0$
+
+从而 $\ker(A_{\Phi}) = \{0\}$
+\medskip
+\[
+\operatorname{Im}(A_{\Phi}) = \mathrm{span}\left\{
+\begin{pmatrix}3\\1\\1\\2\end{pmatrix},\
+\begin{pmatrix}2\\1\\-3\\3\end{pmatrix},\
+\begin{pmatrix}1\\1\\0\\1\end{pmatrix}
+\right\} \subset \mathbb{R}^4,\quad \dim\operatorname{Im}(A_{\Phi})=3.
+\]
+\end{enumerate}
+\section*{第四题}
+
+\textbf{($\Rightarrow$) 充分性}：
+
+若 $Ax=b$ 有唯一解，则解存在，
+故 $b\in \operatorname{Im}(A)$，从而有
+$
+\operatorname{rank}([A\,|\,b]) = \operatorname{rank}(A)
+$
+
+又因为解唯一，有$|A|=0
+\xrightarrow{}
+\dim \ker(A)=0$，由秩—零度定理 $\dim \ker(A)+\operatorname{rank}(A)=n$，得 $\operatorname{rank}(A)=n$
+
+综上，$\operatorname{rank}([A\,|\,b])=\operatorname{rank}(A)=n$
+
+\medskip
+\textbf{($\Leftarrow$) 必要性}：
+
+若 $\operatorname{rank}([A\,|\,b])=\operatorname{rank}(A)=n$，
+则由 $\operatorname{rank}([A\,|\,b])=\operatorname{rank}(A)$ 可以确定方程组有解
+
+其次 $\operatorname{rank}(A)=n$ 由秩—零度定理推出 $\dim\ker(A)=0$，故解至多一个
+
+综上，解存在且至多一个，故解唯一
+
+\medskip
+\textbf{命题得证}
+
+\section*{第五题}
+若$T$为线性映射，则$T$需满足两点：
+
+\medskip
+$(1)T\begin{pmatrix} x_1+x_2 \\ y_1+y_2 \end{pmatrix}=T\begin{pmatrix} x_1 \\ y_1 \end{pmatrix}+T\begin{pmatrix} x_2 \\ y_2 \end{pmatrix}$
+（2）$T\begin{pmatrix} \lambda x \\ \lambda y \end{pmatrix}=\lambda T\begin{pmatrix} x \\ y \end{pmatrix}$
+
+\medskip
+对于（1），有：
+
+\[
+T\begin{pmatrix} x_1+x_2 \\ y_1+y_2 \end{pmatrix}
+=
+\begin{pmatrix} 3(x_1+x_2)-(y_1+y_2) \\ y_1+y_2 \\ x_1+x_2 \end{pmatrix}
+=
+\begin{pmatrix} 3x_1 - y_1 \\ y_1 \\ x_1 \end{pmatrix}
+\;+
+\begin{pmatrix} 3x_2 - y_2 \\ y_2 \\ x_2 \end{pmatrix}
+=
+T\begin{pmatrix} x_1 \\ y_1 \end{pmatrix}
+\;+
+T\begin{pmatrix} x_2 \\ y_2 \end{pmatrix}
+\]
+
+\medskip
+对于（2），有：
+\[
+T\begin{pmatrix} \lambda x \\ \lambda y \end{pmatrix}
+=
+\begin{pmatrix} 3\lambda x - \lambda y \\ \lambda y \\ \lambda x \end{pmatrix}
+=
+\lambda \begin{pmatrix} 3x - y \\ y \\ x \end{pmatrix}
+=
+\lambda T\begin{pmatrix} x \\ y \end{pmatrix}.
+\]
+
+综上，$T$为线性映射，验证完毕
+\end{document}

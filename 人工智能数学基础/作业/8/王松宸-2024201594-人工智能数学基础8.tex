@@ -1,0 +1,378 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 图片支持
+\usepackage{graphicx}
+% 默认从当前文件夹查找图片
+\graphicspath{{./}}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{第一题}
+因为函数$f$与$g$定义在相同的区间，所以设定义域为$D$，则$fg$的定义域也为$D$
+
+$\because f$与$g$都是$D$上的凸函数
+
+$\therefore \forall x_1, x_2 \in D, \forall \lambda \in [0,1]$，有
+\begin{center}
+$\displaystyle
+\begin{aligned}
+f(\lambda x_1 + (1-\lambda)x_2) &\leq \lambda f(x_1) + (1-\lambda)f(x_2) = A \\
+g(\lambda x_1 + (1-\lambda)x_2) &\leq \lambda g(x_1) + (1-\lambda)g(x_2) = B
+\end{aligned}$
+\end{center}
+
+若$h = fg$也为凸函数，则$\forall x_1, x_2 \in D, \forall \lambda \in [0,1]$,应有
+\begin{center}
+$\displaystyle
+\begin{aligned}
+h(\lambda x_1 + (1-\lambda)x_2) &\leq \lambda h(x_1) + (1-\lambda)h(x_2) \\
+\Rightarrow f(\lambda x_1 + (1-\lambda)x_2)g(\lambda x_1 + (1-\lambda)x_2)
+&\leq \lambda f(x_1)g(x_1) + (1-\lambda)f(x_2)g(x_2) = C
+\end{aligned}$
+\end{center}
+
+比较$C$与$AB$的大小，若有$AB \leq C$则h为凸函数：
+
+$AB - C = [\lambda f(x_1) + (1-\lambda)f(x_2)][\lambda g(x_1) + (1-\lambda)g(x_2)]-[\lambda f(x_1)g(x_1) + (1-\lambda)f(x_2)g(x_2)]$
+
+$\qquad \qquad = \lambda (\lambda -1)(f(x_1)-f(x_2))(g(x_1)-g(x_2))$
+
+$\because f$与$g$都非减或非增
+
+$\therefore (f(x_1)-f(x_2))(g(x_1)-g(x_2)) \geq 0$
+
+又$\because \lambda (\lambda -1) \leq 0$
+
+$\therefore AB - C \leq 0 \Rightarrow AB \leq C$
+
+$\Rightarrow h = fg$为凸函数，证毕
+\section*{第二题}
+将该优化问题写为标准形式：
+\begin{center}
+$\displaystyle
+\begin{aligned}
+\text{Minimize} \quad & \frac{1}{2}x^TPx+q^Tx+r \\
+\text{Subject to} \quad & -1-x_i \leq 0, & i = 1,2,3\\
+& x_i - 1 \leq 0, & i = 1,2,3
+\end{aligned}$
+\end{center}
+
+\begin{center}
+$\displaystyle
+\text{其中，}  P = \left(
+\begin{array}{ccc}
+13 & 12 & -2 \\
+12 & 17 & 6 \\
+-2 & 6 & 12
+\end{array}\right), \quad q = \left(
+\begin{array}{c}
+-22.0 \\
+-14.5 \\
+13.0
+\end{array}\right), \quad r = 1$
+\end{center}
+%先验证这是一个凸问题，接着让写为Lagrange形式让梯度为0求俩参数，满足KKT条件即证明完毕
+
+首先验证该优化问题为凸问题：
+
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 对于$f_0(x)$，可以把它看作$\frac{1}{2}x^TPx$和$q^Tx+r$的加权和(权重均为1)，分别验证两部分的凸性：
+
+    a.易得仿射函数$q^Tx+r$为凸函数
+
+    b.$\frac{1}{2}x^TPx$二阶可微，因此检验其Hessian矩阵是否半正定：
+
+    $\quad \nabla ^2(\frac{1}{2}x^TPx) = P \rightarrow$计算$P$顺序主子式
+
+    $\quad |P_1| = 13 > 0$
+
+    \medskip
+    $\quad |P_2| = \left|\begin{array}{cc}
+13 & 12 \\
+12 & 17
+\end{array}\right| = 85 > 0$
+
+\medskip
+    $\quad |P_3| = |P| = 13(17 \cdot 12 - 6 \cdot 6) - 12(12 \cdot 12 - (-2) \cdot 6) + (-2)(12 \cdot 6 - 17 \cdot (-2)) = 324 > 0$
+
+    $\quad \Rightarrow P$为正定矩阵
+    
+    $\quad \therefore \frac{1}{2}x^TPx$为凸函数
+
+    $\therefore \text{结合a与b可得}f_0(x)$为凸函数
+
+\item 对于约束条件，$f_i(x) = \pm x_i - 1$均为仿射函数，因此均为凸函数
+\end{enumerate}
+
+$\therefore$综合（1）和（2），该优化问题为凸问题
+
+$\because$原问题是凸问题时，满足KKT条件的点即为该问题的最优解
+
+首先，满足$-1-x^*_i \leq 0, x^*_i - 1 \leq 0$
+
+其次，构造$Lagrange$函数：
+\begin{center}
+$\displaystyle
+L(x,\lambda) = \frac{1}{2}x^TPx+q^Tx+r + \sum\limits_{i=1}^{3}\lambda_{1i}(-1-x_i) + \sum\limits_{i=1}^{3}\lambda_{2i}(x_{i}-1)$
+\end{center}
+
+$\therefore \nabla_x L = x^TP + q^T+(\lambda_1 - \lambda_2)^T$
+
+\medskip
+令$\lambda^*_{1i}(-1-x^*_i) = 0 \,,\,\lambda^*_{2i}(x^*_{i}-1) = 0\, ,\,\nabla_x L = 0$，代入$x^*$求解：
+
+\medskip
+解得$
+\lambda_1^* = \left(
+\begin{array}{c}
+1 \\
+0 \\
+0
+\end{array}\right), \quad
+\lambda_2^* = \left(
+\begin{array}{c}
+0 \\
+0 \\
+2
+\end{array}\right)$
+
+\medskip
+有解，且解满足$\lambda^*_i \geq 0 , i=1,2$
+
+\medskip
+$\therefore$该问题的最优解为$x^* = \left(
+\begin{array}{c}
+1 \\
+\frac{1}{2} \\
+-1
+\end{array}\right)$，证毕
+\section*{第三题}
+\begin{enumerate}[label=({\alph*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item $\because (x-2)(x-4) \leq 0$
+
+    $ \therefore $可行集为$[2,4]$
+
+    $ \because x \in [2,4] \text{时} ,f_0(x)_{min} = 2^2 + 1 = 5$
+
+    $ \therefore $ 最优值为$p^* = 5$，最优解为$x^* = 2$
+
+\item 构造$Lagrange$函数：$L(x,\lambda) = x^2+1 + \lambda (x-2)(x-4) = (1 + \lambda)x^2 - 6\lambda x + (1+8\lambda)$
+
+    绘制目标函数图像并加入$\lambda$取正值的$Lagrange$函数曲线:
+
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{image1.png}
+    \end{center}
+
+    由图像中取的正$\lambda = 0,0.5,1,2,3$，可判断对于任意$\lambda \geq 0$，都有$p^* \geq \inf\limits_{x} L(x,\lambda)$，下界性质得证
+\item 对偶函数$g(\lambda) = \inf\limits_{x} L(x,\lambda) = L(\frac{3\lambda}{1+\lambda},\lambda) = \frac{1+9\lambda -\lambda ^2}{1+\lambda} (\lambda \geq 0)$
+
+\medskip
+    寻找对偶问题的最优值：$g'(\lambda) = \frac{-\lambda^2-2\lambda+8}{(1+\lambda)^2} = \frac{9}{(1+\lambda)^2} - 1$，图像为开口向下的抛物线
+
+    $\therefore g'(\lambda) = 0 \Rightarrow \text{对偶最优解}\lambda^* = 2$
+
+    $\therefore $对偶最优值$d^* = g(2) = 5$
+
+    $\because d^* = p^*$
+
+    $\therefore $强对偶性成立
+
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{image2.png}
+    \end{center}
+\end{enumerate}
+\section*{第四题}
+$L(x,\lambda,\mu) = f_0(x) + \lambda f_1(x) + \mu h_1(x) = c^Tx + \lambda^T (Gx - h) + \mu^T (Ax - b)$
+
+$\rightarrow g(\lambda, \mu) = \inf\limits_{x} L(x,\lambda,\mu) = -\lambda^Th-\mu^Tb+\inf\limits_{x}(c^T+\lambda^T G+ \mu^T A)x$
+
+\medskip
+$\because$若线性函数不是恒值，则其下确界是$-\infty$
+
+$\therefore$该线性规划问题的对偶函数为：
+
+\medskip
+$g(\lambda, \mu) = \left\{
+\begin{array}{ll}
+-\lambda^Th - \mu^Tb, & c^T + \lambda^T G + \mu^T A = 0 \\
+-\infty, & \text{其他情况}
+\end{array}
+\right.$
+
+\medskip
+$\therefore$ 该线性规划的对偶问题为：
+\begin{center}
+$\displaystyle
+\begin{aligned}
+\text{Maximize} \quad & -\lambda^Th - \mu^Tb \\
+\text{Subject to} \quad & c^T + \lambda^T G +\mu^T A = 0 \\
+& \lambda \succeq 0
+\end{aligned}$
+\end{center}
+
+\section*{第五题}
+该问题的$KKT$条件如下：
+
+\begin{center}
+$\displaystyle
+\begin{aligned}
+\nabla f_0(x^*) + \nu^* \nabla h(x^*) &= 0 \\
+h(x^*) &= 0 \\
+\end{aligned}$
+\end{center}
+
+计算梯度：
+\begin{center}
+$\displaystyle
+\nabla f_0(x) = \left(
+\begin{array}{ccc}
+-6x_1 +2 &
+2x_2 + 2 &
+4x_3 +2
+\end{array}\right), \quad
+\nabla h(x) = \left(
+\begin{array}{ccc}
+2x_1 &
+2x_2 &
+2x_3
+\end{array}\right)$
+\end{center}
+
+代入$KKT$条件，得方程组：
+\begin{center}
+$\displaystyle
+\begin{cases}
+-6x_1^* + 2 + 2\nu^* x_1^* &= 0 \\
+2x_2^* + 2 + 2\nu^* x_2^* &= 0 \\
+4x_3^* + 2 + 2\nu^* x_3^* &= 0 \\
+{x_1^*}^2 + {x_2^*}^2 +
+{x_3^*}^2 - 1 &= 0
+\end{cases}$
+\end{center}
+
+借助计算器得到三个解，满足 KKT 条件的所有点为：
+\begin{center}
+\begin{tabular}{ll}
+点 1: & $x \approx \displaystyle\left(\begin{array}{c}0.1626 \\
+0.4651 \\
+0.8696\end{array}\right),\quad \nu \approx -3.1500$,\\
+点 2: & $x \approx \displaystyle\left(\begin{array}{c}0.3604 \\
+-0.8163 \\
+-0.4494\end{array}\right),\quad \nu \approx 0.2250$,\\
+点 3: & $x \approx \displaystyle\left(\begin{array}{c}-0.9662 \\
+-0.1986 \\
+-0.1657\end{array}\right),\quad \nu \approx 4.0350$.
+\end{tabular}
+\end{center}
+
+求最优解，计算每一个点对应的$f_0(x)$值：
+\begin{center}
+\begin{tabular}{ll}
+点 1: & $f_0(x) \approx -3(0.1626)^2 + (0.4651)^2 + 2(0.8696)^2 + 2(0.1626+0.4651+0.8696)$ \\
+    & $\qquad\qquad\qquad\qquad\qquad\qquad\approx 4.6441$,\\
+点 2: & $f_0(x) \approx -3(0.3604)^2 + (-0.8163)^2 + 2(-0.4494)^2 + 2(0.3604-0.8163-0.4494)$ \\
+    & $\qquad\qquad\qquad\qquad\qquad\qquad\approx -1.1299$,\\
+点 3: & $f_0(x) \approx -3(-0.9662)^2 + (-0.1986)^2 + 2(-0.1657)^2 + 2(-0.9662-0.1986-0.1657)$ \\
+    & $\qquad\qquad\qquad\qquad\qquad\qquad\approx -5.3672$.
+\end{tabular}
+\end{center}
+
+因此点 3 的 $f_0$ 最小，故点 3 为最优解，最优值为-5.3672，
+
+即 $x^* \approx \displaystyle\left(\begin{array}{c}-0.9662 \\
+-0.1986 \\
+-0.1657\end{array}\right),\quad f_0(x^*) \approx -5.3672$.
+\section*{第六题}
+\begin{enumerate}[label={(\arabic*)}, leftmargin=*, itemsep=0.3em]
+\item 充分性：若 $\nabla^2 f(x) \succeq 0\;(\forall x\in D)$，则对任意 $x,y\in D$ 与 $t\in[0,1]$，考虑一维函数
+\[
+g(t)=f\big(x+t(y-x)\big),\quad t\in[0,1].
+\]
+由链式法则，
+\[
+g'(t)=\nabla f\big(x+t(y-x)\big)^T (y-x), \qquad g''(t)=(y-x)^T \nabla^2 f\big(x+t(y-x)\big)(y-x)\ge 0.
+\]
+故 $g$ 在区间 $[0,1]$ 上为一维凸函数，于是
+\[
+g(t)\le (1-t)g(0)+t g(1)= (1-t)f(x)+t f(y).
+\]
+令 $t=\lambda$ 即得
+\[
+f\big((1-\lambda)x+\lambda y\big) \le (1-\lambda) f(x)+ \lambda f(y),\quad \forall \lambda\in[0,1].
+\]
+因此 $f$ 是凸函数，故充分性成立。
+
+
+\item 必要性：若 $f$ 凸且 $f\in C^2(D)$，取任意点 $x\in D$ 与任意方向 $d\in\mathbb{R}^n$，考虑一维函数
+\[
+\phi(t)=f(x+td),\quad t\text{ 在使 }x+td\in D\text{ 的某开区间内}.
+\]
+由于 $f$ 凸，$\phi$ 亦凸（一维线性组合保持凸性）。
+
+因此对一维二阶可微凸函数必有 $\phi''(0)\ge 0$。计算二阶导：
+\[
+\phi''(0)= d^T \nabla^2 f(x) d \ge 0,\quad \forall d\in \mathbb{R}^n.
+\]
+于是 $\nabla^2 f(x)$ 的二次型非负，说明 Hessian 半正定。
+
+由于 $x$ 与 $d$ 任取，得 $\nabla^2 f(x)\succeq 0$ 对所有 $x\in D$ 成立，必要性证明完毕。
+\end{enumerate}
+
+\textbf{综上，$f$ 是凸函数 $\Longleftrightarrow$ $\nabla^2 f(x)\succeq 0$（对所有 $x\in D$），命题得证。}
+
+\section*{第七题}
+叶荫宇,斯坦福大学李国鼎讲席教授，2009年荣获INFORMS冯·诺依曼理论奖，是首位获此殊荣的华人科学家。其主要学术贡献包括：
+
+\begin{itemize}
+    \item \textbf{优化算法与复杂性理论}
+    \begin{itemize}
+        \item 内点法奠基：在线性规划内点法理论研究中做出开创性工作
+        \item 原始-对偶预测-校正框架：显著提升大规模线性规划问题求解效率
+        \item 分布式鲁棒优化：为不确定性决策提供理论工具
+    \end{itemize}
+    
+    \item \textbf{锥优化与半定规划}
+    \begin{itemize}
+        \item 系统发展锥规划模型，统一并推广线性与凸优化理论
+        \item 应用于传感器网络定位，提出基于半定规划的节点定位方法
+    \end{itemize}
+    
+    \item \textbf{算法求解器与工业应用}
+    \begin{itemize}
+        \item 参与开发优化求解器COPT，将求解速度提升3倍以上
+        \item 研究成果应用于电力系统调度、高速铁路规划等领域
+    \end{itemize}
+    
+    \item \textbf{在线优化与学习算法}
+    \begin{itemize}
+        \item 推动在线线性规划发展，提出自适应决策方法
+        \item 在强化学习与马尔可夫决策过程复杂度分析中做出贡献
+    \end{itemize}
+    
+    \item \textbf{学术荣誉}
+    \begin{itemize}
+        \item 2009年 冯·诺依曼理论奖（INFORMS）
+        \item 2012年 国际数学规划大会Tseng Lectureship奖
+        \item 2014年 SIAM优化奖
+        \item 谷歌学术引用超65,000次
+    \end{itemize}
+\end{itemize}
+\end{document}

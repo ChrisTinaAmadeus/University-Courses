@@ -1,0 +1,79 @@
+\documentclass{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=18mm,right=18mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+
+\pagestyle{empty}
+\begin{document}
+
+\section*{第一题}
+% 将小问改为行内编号而非换行标题
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 若 $a\in \mathbb{Z}$, $b\in \mathbb{Z}$，显然有 $a-b\in \mathbb{Z}$，因此整数集 $\mathbb{Z}$ 对普通的减法运算封闭。
+\item 令 $b\in \mathbb{Z}^*$，则 $\exists\, a=kb+1\in\mathbb{Z}^*\,(k\in\mathbb{Z})$ 使得 $\dfrac{a}{b}\notin\mathbb{Z}^*$，因此非零整数集 $\mathbb{Z}^*$ 对普通的除法运算不封闭。
+\end{enumerate}
+
+\section*{第二题}
+% 这里写第二题内容
+$\because\,a,b\,$是有限阶元
+
+$\therefore\,$令 $\,|a|=m,|b|=n\,(m,n\in\mathbb{Z}^+)$
+
+$\therefore\,(b^{-1}ab)^m=(b^{-1}abb^{-1}ab...b^{-1}ab)$
+
+设 $e$ 为群 $G$ 的单位元
+
+则$b^{-1}b=e$
+
+$\therefore\,(b^{-1}ab)^m=b^{-1}a^mb=b^{-1}b=e$
+
+若$\exists\,k<m(k\in\mathbb{Z}^+)$,使得$(b^{-1}ab)^k=e$
+
+则一定有$a^k=e$,与$|a|=m$矛盾
+
+$\therefore\,|b^{-1}ab|= m=|a|$
+
+证明完毕
+\section*{第三题}
+$\because\ R=\{(1,1),(1,2),(2,1),(3,2)\}$
+
+$\therefore\ R^2=R\circ R=\{(1,1),(1,2),(2,1),(2,2),(3,1),(3,2)\}$（新增 $(2,2),(3,1)$）
+
+又 $\because\,R^3=R^2\circ R=\{(1,1),(1,2),(2,1),(2,2),(3,1),(3,2)\}$，无新增
+
+$\therefore\ t(R)=\bigcup_{n\ge1}R^n=R\cup R^2=\{(1,1),(1,2),(2,1),(2,2),(3,1),(3,2)\}$
+
+\section*{第四题}
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 若封闭,则有$ab\in A$、$a^2\in A$等
+
+若要满足某个数的平方仍属于集合$A$,则a,b,c的取值只能是0、1或-1
+
+若$a,b,c$取值不为0,1,-1,则$a^2\neq a$
+
+此时若满足封闭性则必有$b=a^2$或$c=a^2$
+
+同理$b,c$则可推出$b=b^4$或$c=c^4$,与$a,b,c$取值不为0,1,-1矛盾
+
+综上，可以确定$a,b,c$的取值只能是0、1或 -1使得$A$对普通乘法封闭
+\item 同(1)可知若满足封闭性，则$a+b\in A$、$a+a \in A$
+
+此时令$a=0$,则$b+b=c,$从而有$\,A=\{0,b,2b\}$
+
+显然由$b \neq0$可知该集合对普通加法不封闭
+
+若$a\neq0$,则同理可知该集合对普通加法依然不封闭
+
+综上，无法确定$a,b,c$的取值使得$A$对普通加法封闭
+\end{enumerate}
+\end{document}

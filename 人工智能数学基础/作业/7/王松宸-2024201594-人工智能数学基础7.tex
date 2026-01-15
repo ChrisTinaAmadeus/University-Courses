@@ -1,0 +1,167 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 图片支持
+\usepackage{graphicx}
+% 默认从当前文件夹查找图片
+\graphicspath{{./}}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{第一题}
+$f(x) = \frac{1}{1+ e ^{-x}} \rightarrow f'(x) = \frac{e^{-x}}{(1+e^{-x})^2}$
+
+\section*{第二题}
+$\frac{df}{dx} = \frac{ df}{d z} \cdot \frac{d z}{d y} \cdot \frac{dy}{d x}$
+
+\medskip
+其中，$\frac{df}{dz} = -\frac{1}{2} e^{-\frac{1}{2} z},\, \frac{dz}{dy} = y^T(S^{-1}+(S^{-1})^T),\, \frac{dy}{dx} = I \in \mathbb{R}^{D \times D}$
+
+\medskip
+$\therefore \frac{df}{dx} = -\frac{1}{2}e^{-\frac{1}{2} z}y^T( S^{-1}+(S^{-1})^T) = -\frac{1}{2} e^{-\frac{1}{2}((x-\mu)^TS^{-1}(x-\mu))} (x-\mu)^T( S^{-1}+(S^{-1})^T) $
+
+\medskip
+偏导数维度：
+
+$\frac{df}{dz} \in \mathbb{R}^{1 \times 1},\, \frac{dz}{dy} \in \mathbb{R}^{1 \times D},\, \frac{dy}{dx} \in \mathbb{R}^{D \times D},$
+$\frac{df}{dx} \in \mathbb{R}^{1 \times D}$
+
+\section*{第三题}
+令$x = \left(
+\begin{array}{c}
+x_1  \\
+x_2  \\
+\vdots \\
+x_D
+\end{array}
+\right)$，则$xx^T = \left(
+\begin{array}{cccc}
+x_1^2 & x_1 x_2 & \cdots & x_1 x_D \\
+x_2 x_1 & x_2^2 & \cdots & x_2 x_D \\
+\vdots & \vdots & \ddots & \vdots \\
+x_D x_1 & x_D x_2 & \cdots & x_D^2
+\end{array}
+\right)$
+
+\medskip
+因此，$f(x)=tr(xx^T+\sigma^2I)= \sum_{i=1}^{D} (x_i^2 + \sigma^2)$
+
+\medskip
+$\therefore \frac{df}{dx} = \left(
+\begin{array}{cccc}
+2x_1 & 2x_2 & \cdots & 2x_D
+\end{array}
+\right)$
+
+\section*{第四题}
+
+设$f:\mathbb{R}^n\to\mathbb{R}$在点$\mathbf{x}$可微
+
+\medskip
+取任意单位向量$\mathbf{u}$，沿$\mathbf{u}$方向的方向导数
+$
+ D_{\mathbf{u}}f(\mathbf{x}) 
+ = \nabla f(\mathbf{x})\cdot \mathbf{u}
+$
+
+\medskip
+$\because
+ \nabla f(\mathbf{x})\cdot \mathbf{u}
+ \le \|\nabla f(\mathbf{x})\| \cdot \|\mathbf{u}\|
+ = \|\nabla f(\mathbf{x})\|
+$
+(当且仅当$\mathbf{u}$与$\nabla f(\mathbf{x})$共线且同向，即
+$
+ \mathbf{u}=\frac{\nabla f(\mathbf{x})}{\|\nabla f(\mathbf{x})\|},
+$
+取等号)
+
+\medskip
+$\therefore$在所有单位方向中，方向导数的最大值为$\|\nabla f(\mathbf{x})\|_2$，达到该最大值的方向就是梯度方向，故函数上升最快的方向为$\nabla f(\mathbf{x})$；同理，下降最快的方向为$-\nabla f(\mathbf{x})$
+
+\medskip
+$\therefore $ 函数变化最快的方向是梯度方向，证明完毕
+
+\medskip
+补充：若$\nabla f(\mathbf{x})=\mathbf{0}$，则对任意$\mathbf{u}$有$D_{\mathbf{u}}f(\mathbf{x})=0$，此时一阶变化对方向不敏感
+
+\section*{第五题}
+$\because f(x) = x^TAx + b^Tx +c$
+
+\medskip
+$\therefore \nabla f = x^T(A+A^T) + b^T$
+
+\medskip
+$\therefore Hessian = \nabla ^2 f = A + A^T$
+
+\section*{第六题}
+$f(x) = \langle Ax,x \rangle = (Ax)^Tx = x^T A^T x = 4x_1^2 +11x_1x_2 + 7x_2^2$
+
+\medskip
+令$x_0 = \left(
+\begin{array}{c}
+1 \\
+1
+\end{array}
+\right)$
+
+\medskip
+$\therefore f(x_0)= 4·(1)^2 + 11·1·1 + 7·(1)^2 = 22$
+
+\medskip
+$\because \nabla f = \left(
+\begin{array}{cc}
+8x_1+11x_2 & 14x_2+11x_1
+\end{array}
+\right)$
+
+\medskip
+$\therefore \nabla f(x_0) = \left(
+\begin{array}{cc}
+19 & 25
+\end{array}
+\right)$
+
+\medskip
+$\because Hessian = \left(
+\begin{array}{cc}
+8 & 11 \\
+11 & 14
+\end{array}
+\right)$
+
+\medskip
+$\therefore \nabla ^2 f (x_0) = \left(
+\begin{array}{cc}
+8 & 11 \\
+11 & 14
+\end{array}
+\right)$
+
+\medskip
+$\therefore f(x) = f(x_0) + \nabla f(x_0)(x - x_0) + \frac{1}{2} (x-x_0)^T \nabla ^2 f(x_0) (x - x_0)$
+
+\medskip
+$ \quad \qquad \,= 22 + 19(x_1-1) + 25(x_2-1) + 4(x_1 - 1)^2 + 11(x_1-1)(x_2-1) + 7(x_2 -1)^2$
+\section*{第七题}
+$f(x)= e^{-\frac{1}{2 \sigma^2}(x - \mu)^2}$
+
+\medskip
+$\therefore f'(x) = e^{-\frac{1}{2 \sigma^2}(x - \mu)^2} \cdot \left(-\frac{1}{2 \sigma^2}\right) \cdot 2(x - \mu) = -\frac{1}{\sigma^2}(x - \mu) e^{-\frac{1}{2 \sigma^2}(x - \mu)^2}$
+\end{document}

@@ -1,0 +1,295 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 图片支持
+\usepackage{graphicx}
+% 代码高亮与框线支持
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\small,
+    frame=single,
+    breaklines=true,
+    backgroundcolor=\color{gray!5},
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+}
+% 默认从当前文件夹查找图片
+\graphicspath{{./}}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{第一题}
+\begin{enumerate}[label=(\arabic*), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 由题意可设$Y_{i,j}$表示编号$i$和编号$j$的小球是否落入同一个盒子
+
+\medskip
+则有
+\[
+Y_{i,j} =
+\begin{cases}
+1, & \text{编号 $i$ 和编号 $j$ 的小球落入同一个盒子}\\
+0, & \text{其他}
+\end{cases}
+\sim B\left(1, \frac{1}{n}\right)
+\]
+
+\medskip
+$\displaystyle \therefore X_{m,n} = \sum_{1 \leq i < j \leq m} Y_{i,j}$，其中共有$\binom{m}{2} = \frac{m(m-1)}{2}$项$Y_{i,j}$
+
+\medskip
+$\displaystyle \therefore \mu_{m,n} = \mathbb{E}[X_{m,n}] = \sum_{1 \leq i < j \leq m} \mathbb{E}[Y_{i,j}] = \frac{m(m-1)}{2} \cdot \frac{1}{n} = \frac{m(m-1)}{2n}$
+
+\medskip
+由方差公式$D(X+Y) = D(X) + D(Y) + 2\mathrm{Cov}(X,Y)$
+
+\medskip
+$\displaystyle \therefore \sigma_{m,n}^2 = D(X_{m,n}) = \sum_{1 \leq i < j \leq m} D(Y_{i,j}) + \sum_{1 \leq i < j,\, 1 \leq k < l,\, (i,j) \neq (k,l)} \mathrm{Cov}(Y_{i,j}, Y_{k,l})$
+
+\medskip
+前一项的计算结果为$\frac{1}{n} \left(1 - \frac{1}{n}\right) \cdot \frac{m(m-1)}{2} = \frac{m(m-1)}{2n} \left(1 - \frac{1}{n}\right)$
+
+\medskip
+对于后一项，分以下两种情况讨论：
+\begin{itemize}
+\item 若$\{i,j\} \cap \{k,l\} = \varnothing$，则$Y_{i,j}$与$Y_{k,l}$独立，$\mathrm{Cov}(Y_{i,j}, Y_{k,l}) = 0$
+\item 若$\{i,j\} \cap \{k,l\} \neq \varnothing$，不妨设$i=k$，则
+\[\begin{aligned}
+\mathrm{Cov}(Y_{i,j}, Y_{i,l}) & = \mathbb{E}[Y_{i,j} Y_{i,l}] - \mathbb{E}[Y_{i,j}] \mathbb{E}[Y_{i,l}] \\
+& = P(Y_{i,j} = 1, Y_{i,l} = 1) - \frac{1}{n} \cdot \frac{1}{n} \\
+& = \frac{1}{n} \cdot \frac{1}{n} - \frac{1}{n^2} = 0
+\end{aligned}\]
+\end{itemize}
+
+\medskip
+综上所述，后一项各协方差均为0，故$\sigma_{m,n}^2 = \frac{m(m-1)}{2n} \left(1 - \frac{1}{n}\right)$
+\item 由切比雪夫不等式，有
+\begin{center}
+$P\left(|X_{m,n} - \mu_{m,n}| \geq k \right) \leq \frac{\sigma_{m,n}^2}{k^2}$
+\end{center}
+
+\medskip
+令$k=c\sqrt{\mu_{m,n}}$，则
+\begin{center}
+$P\left(|X_{m,n} - \mu_{m,n}| \geq c\sqrt{\mu_{m,n}} \right) \leq \frac{\sigma_{m,n}^2}{c^2 \mu_{m,n}}$
+
+\medskip
+$\Rightarrow P\left(|X_{m,n} - \mu_{m,n}| < c\sqrt{\mu_{m,n}} \right) \leq \frac{1}{c^2}\cdot(1- \frac{1}{n}) \leq \frac{1}{c^2}$
+\end{center}
+
+证明完毕
+\end{enumerate}
+\section*{第二题}
+$\because y = e^x$是单调递增函数
+
+$\therefore P(\lambda \geq \alpha) = P(e^\lambda \geq e^\alpha)$
+
+又 $\because y = a^x$在$a>0$时是不减函数
+
+$\therefore P(e^\lambda \geq e^\alpha) = P(e^{s \lambda} \geq e^{s \alpha})$
+
+$\therefore$由马尔可夫不等式，有
+\begin{center}
+$P(e^{s \lambda} \geq e^{s \alpha}) \leq \frac{\mathbb{E}[e^{s \lambda}]}{e^{s \alpha}}$
+
+\medskip
+$\Rightarrow P(\lambda \geq \alpha) \leq e^{-s \alpha}\mathbb{E}[e^{s \lambda}]$（一式证毕）
+\end{center}
+
+\medskip
+同理一式证明有$P(\lambda \leq \alpha)=P(e^{s \lambda} \leq e^{s \alpha})$
+
+$\because y = \frac{1}{x}$在$x>0$时是单调递减函数
+
+$\displaystyle \therefore P(e^{s \lambda} \leq e^{s \alpha}) = P\left(\frac{1}{e^{s \lambda}} \geq \frac{1}{e^{s \alpha}}\right)$
+
+$\therefore$由马尔可夫不等式，有
+\begin{center}
+$\displaystyle P\left(\frac{1}{e^{s \lambda}} \geq \frac{1}{e^{s \alpha}}\right) \leq \frac{\mathbb{E}\left[\frac{1}{e^{s \lambda}}\right]}{\frac{1}{e^{s \alpha}}}$
+
+\medskip
+$\Rightarrow P(\lambda \leq \alpha) \leq e^{s \alpha} \mathbb{E}\left[e^{-s \lambda}\right]$（二式证毕）
+\end{center} 
+
+\section*{第三题}
+设$d$维单位球的体积为$V_d(1) = C_d \cdot 1^d = C_d$，其中$C_d$是与维度$d$相关的常数
+
+\medskip
+半径为$1-\epsilon$的球体积为$V_d(1-\epsilon) = C_d (1-\epsilon)^d$
+
+\medskip
+球表面厚度为$\epsilon$的壳层体积为$V_{shell} = V_d(1) - V_d(1-\epsilon) = C_d [1 - (1-\epsilon)^d]$。
+
+\medskip
+根据题意，壳层体积占总体积的99\%，即：
+\begin{center}
+$\displaystyle \frac{V_{shell}}{V_d(1)} = 1 - (1-\epsilon)^d = 0.99$
+\end{center}
+
+\medskip
+代入$d=1000$，解得：
+\begin{center}
+$(1-\epsilon)^{1000} = 0.01 \Rightarrow 1-\epsilon = (0.01)^{\frac{1}{1000}}$
+
+\medskip
+$\epsilon = 1 - 10^{-\frac{2}{1000}} = 1 - 10^{-0.002} \approx 0.0046$
+\end{center}
+
+\medskip
+故$\epsilon$应约为0.0046
+
+\section*{第四题}
+我认为这道题的核心是让我们直观理解高维空间中的点分布特性，即任意点对距离几乎都集中在一个特定范围内，且它们与原点构成的向量之间的夹角趋近于直角（随机采样的近似正交性）
+
+我写了一段Python代码（见附录）来进行采样与距离和夹角的计算，最后将结果用直方图形式进行可视化：
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{high_dim_plot.png}
+    \caption{高维空间中点对距离与夹角分布直方图}
+\end{figure}
+
+从图中可以看出，在高维空间中：
+\begin{itemize}
+    \item \textbf{距离集中：} 点对之间的距离分布呈现出明显的集中趋势（单峰分布），说明高维空间中任意两点的距离差异较小。
+    \item \textbf{角度正交：} 向量之间的夹角高度集中在 $90^\circ$ 附近，说明高维空间中的随机向量倾向于相互正交。
+\end{itemize}
+
+\section*{第五题}
+将事件都写为其首字母用于简化表达
+
+\begin{equation*}
+\begin{aligned}
+\widetilde{P}\big(E =\mathrm{True}\mid J=\mathrm{True},\,M=\mathrm{False}\big)
+&= P(E)\sum_b P(B)\sum_a P(A\mid B,E)\,P(J\mid A)\,P(M\mid A)\\
+&= P(E)\Big[ P(B)\big(P(A\mid B,E)\,P(J\mid A)\,P(\lnot M\mid A)\big)\\
+&\quad\; +\; P(\lnot B)\big(P(A\mid \lnot B,E)\,P(J\mid \lnot A)\,P(\lnot M\mid \lnot A)\big)\Big]\\
+&= 0.002\cdot 0.20385\\
+&= 0.0004077
+\end{aligned}
+\end{equation*}
+
+\begin{equation*}
+\begin{aligned}
+\widetilde{P}\big(E =\mathrm{False}\mid J=\mathrm{True},\,M=\mathrm{False}\big)
+&= P(\lnot E)\sum_b P(B)\sum_a P(A\mid B,\lnot E)\,P(J\mid A)\,P(M\mid A)\\
+&= P(\lnot E)\Big[ P(B)\big(P(A\mid B,\lnot E)\,P(J\mid A)\,P(\lnot M\mid A)\big)\\
+&\quad\; +\; P(\lnot B)\big(P(A\mid \lnot B,\lnot E)\,P(J\mid \lnot A)\,P(\lnot M\mid \lnot A)\big)\Big]\\
+&= 0.998\cdot 0.051705\\
+&= 0.0516015
+\end{aligned}
+\end{equation*}
+
+\begin{equation*}
+\begin{aligned}
+\therefore P\big(E = \mathrm{True}\mid J=\mathrm{True},\,M=\mathrm{False}\big)
+&= \frac{\widetilde{P}\big(E =\mathrm{True}\mid J=\mathrm{True},\,M=\mathrm{False}\big)}{\widetilde{P}\big(E =\mathrm{True}\mid J=\mathrm{True},\,M=\mathrm{False}\big) + \widetilde{P}\big(E =\mathrm{False}\mid J=\mathrm{True},\,M=\mathrm{False}\big)}\\
+&= \frac{0.0004077}{0.0004077 + 0.0516015}\\
+&\approx 0.00784
+\end{aligned}
+\end{equation*}
+
+\begin{equation*}
+\begin{aligned}
+\quad P\big(E =\mathrm{False}\mid J=\mathrm{True},\,M=\mathrm{False}\big)
+&= \frac{\widetilde{P}\big(E =\mathrm{False}\mid J=\mathrm{True},\,M=\mathrm{False}\big)}{\widetilde{P}\big(E =\mathrm{True}\mid J=\mathrm{True},\,M=\mathrm{False}\big) + \widetilde{P}\big(E =\mathrm{False}\mid J=\mathrm{True},\,M=\mathrm{False}\big)}\\
+&= \frac{0.0516015}{0.0004077 + 0.0516015}\\
+&\approx 0.99216
+\end{aligned}
+\end{equation*}
+
+综上所述，有
+\begin{center}
+$P\big(E\mid J,\,\lnot M\big) \approx 0.00784$
+\end{center}
+\begin{center}
+$P\big(\lnot E\mid J,\,\lnot M\big) \approx 0.99216$
+\end{center}
+\newpage
+\section*{第六题}
+\begin{enumerate}[label=(\arabic*), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 吐槽：知识面确实太广了，这也导致每一个新知识点其实我一开始都不知道它是干什么用的，就需要课后自己去找一些资料看；另外王老师的PPT疑似有些过于简略了，如果能再增加一些解释性文字我觉得效果会很好。
+\item 王老师课上举的很多例子我觉得都很贴切，这一点比大模型给的生硬例子或者为了“直白易懂”而瞎举的例子好多了，但也正如我在吐槽部分所说的，大模型在介绍新知识的立体度上相对来说还是更好一些的，我认为学习这门课时将老师和大模型讲到的内容结合起来才能达到最好的效果。
+\item 大模型在解答作业题上确实对我帮助很大，尤其是体现在解答一些比较困难的证明题上，它可以对我自己的证明过程进行补充，让逻辑更严密。但为了真正学好这门课，在考试中拿到相对好看的分数，我自己一定要把会的部分都写好后再借助大模型神力。
+\item 我清晰记得作业4第一题我让deepseek给我检查的时候它信誓旦旦地把稳态向量计算时候的矩阵放到向量后面，变成求马尔可夫链的稳态向量了。甚至让我怀疑自己写的这个是不是错的，最后因为内鬼ds的答案看着更像对的，我毅然决然地把答案改错了，无语。这大模型还是挺会胡说八道的。
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{题目.png}
+    \caption{作业4第一题题目}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth,height=0.8\textheight]{唐氏ds.jpg} % 缩小图片宽度到50%，高度到30%
+    \caption{deepseek给出的答案}
+\end{figure}
+
+\end{enumerate}
+
+\newpage
+\section*{附录}
+\begin{lstlisting}[language=Python, caption=高维空间点对距离与夹角计算]
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.spatial.distance import pdist
+
+# 设置中文字体
+plt.rcParams["font.sans-serif"] = ["SimHei"]
+plt.rcParams["axes.unicode_minus"] = False
+
+# 设置参数
+dim = 100
+n_samples = 30
+
+# 生成数据: [-0.5, 0.5]^100 中的均匀分布,形状为 (30, 100)
+X = np.random.uniform(-0.5, 0.5, (n_samples, dim))
+
+# 计算所有点对之间的距离
+distances = pdist(X, metric="euclidean")
+
+# 计算所有点向量之间的夹角
+norms = np.linalg.norm(X, axis=1, keepdims=True)
+X_normalized = X / norms
+cosine_similarity = np.dot(X_normalized, X_normalized.T)
+indices = np.triu_indices(n_samples, k=1)
+cos_thetas = cosine_similarity[indices]
+cos_thetas = np.clip(cos_thetas, -1.0, 1.0)
+angles = np.arccos(cos_thetas) * (180 / np.pi)
+
+# 绘图
+plt.figure(figsize=(12, 5))
+
+# 距离直方图
+plt.subplot(1, 2, 1)
+plt.hist(distances, bins=15, color="skyblue", edgecolor="black", alpha=0.7)
+plt.title(f"100维空间中随机点对的距离分布")
+plt.xlabel("欧氏距离")
+plt.ylabel("频数")
+
+# 角度直方图
+plt.subplot(1, 2, 2)
+plt.hist(angles, bins=15, color="salmon", edgecolor="black", alpha=0.7)
+plt.title(f"100维空间中随机向量的夹角分布")
+plt.xlabel("角度 (度)")
+plt.ylabel("频数")
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+\end{document}

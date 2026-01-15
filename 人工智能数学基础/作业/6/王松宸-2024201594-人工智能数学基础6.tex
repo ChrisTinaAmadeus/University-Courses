@@ -1,0 +1,372 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 图片支持
+\usepackage{graphicx}
+% 默认从当前文件夹查找图片
+\graphicspath{{./}}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{第一题}
+$A=\left(
+\begin{array}{ccc}
+1 & 1 & 1 \\
+1 & 5 & 5 \\
+1 & 5 & 14
+\end{array}
+\right)$
+
+若$A$可以进行$Cholesky$分解，则存在下三角矩阵$L=\left(
+\begin{array}{ccc}
+l_{11} & 0 & 0 \\
+l_{21} & l_{22} & 0 \\
+l_{31} & l_{32} & l_{33}
+\end{array}
+\right)$，使得$A=LL^{T}$
+
+$\therefore A = LL^{T}=\left(
+\begin{array}{ccc}
+l_{11}^{2} & l_{11}l_{21} & l_{11}l_{31} \\
+l_{11}l_{21} & l_{21}^{2}+l_{22}^{2} & l_{21}l_{31}+l_{22}l_{32} \\
+l_{11}l_{31} & l_{21}l_{31}+l_{22}l_{32} & l_{31}^{2}+l_{32}^{2}+l_{33}^{2}
+\end{array}
+\right)$
+
+\medskip
+则$l_{11}$与$l_{21}$、$l_{31}$同号且平方为1，$l_{22}$与$l_{32}$同号且平方为4，$l_{33}^2=9$
+
+\medskip
+均取正值，解得$L=\left(
+\begin{array}{ccc}
+1 & 0 & 0 \\
+1 & 2 & 0 \\
+1 & 2 & 3
+\end{array}
+\right)$，故$A$可以进行$Cholesky$分解
+
+\section*{第二题}
+$A=\left(
+\begin{array}{ccc}
+1 & 1 & 1 \\
+1 & 2 & 5 \\
+1 & 5 & 3
+\end{array}
+\right)=\left(
+\begin{array}{ccc}
+a_1 & a_2 & a_3 
+\end{array}
+\right)
+\quad \text{令}\,Q = \left(
+\begin{array}{ccc}
+q_1 & q_2 & q_3 
+\end{array}
+\right)$
+
+\medskip
+则$q_1 = \frac{a_1}{||a_1||} = \left(
+\begin{array}{c}
+\frac{\sqrt{3}}{3} \\
+\frac{\sqrt{3}}{3}  \\
+\frac{\sqrt{3}}{3}
+\end{array}
+\right)$
+$\quad \widehat{q_2} = a_2 - (a_2 · q_1)q_1 = \left(
+\begin{array}{c}
+1 \\
+2 \\
+5
+\end{array}
+\right) - \frac{8\sqrt{3}}{3}\left(
+\begin{array}{c}
+\frac{\sqrt{3}}{3} \\
+\frac{\sqrt{3}}{3} \\
+\frac{\sqrt{3}}{3}
+\end{array}
+\right) = \left(
+\begin{array}{c}
+-\frac{5}{3} \\
+-\frac{2}{3} \\
+\frac{7}{3}
+\end{array}
+\right)$
+
+\medskip
+$\therefore q_2 = \frac{\widehat{q_2}}{||\widehat{q_2}||} = 
+\frac{1}{\sqrt{78}} \left(
+\begin{array}{c}
+-5 \\
+-2 \\
+7
+\end{array}
+\right)$
+
+\medskip
+$\widehat{q_3} = a_3 - (a_3 · q_1)q_1 - (a_3 · q_2)q_2 = \frac{7}{13} \left(
+\begin{array}{c}
+-3 \\
+4 \\
+-1
+\end{array}
+\right)$
+
+\medskip
+$\therefore q_3 = \frac{\widehat{q_3}}{||\widehat{q_3}||} = \frac{1}{\sqrt{26}} \left(
+\begin{array}{c}
+-3 \\
+4 \\
+-1
+\end{array}
+\right)$
+
+\medskip
+$\therefore Q = \left(
+\begin{array}{ccc}
+\frac{\sqrt{3}}{3} & -\frac{5}{\sqrt{78}} & -\frac{3}{\sqrt{26}} \\
+\frac{\sqrt{3}}{3} & -\frac{2}{\sqrt{78}} &  \frac{4}{\sqrt{26}} \\
+\frac{\sqrt{3}}{3} &  \frac{7}{\sqrt{78}} & -\frac{1}{\sqrt{26}}
+\end{array}
+\right)\quad R = Q^{T}A = \left(
+\begin{array}{ccc}
+\sqrt{3} & \frac{8}{\sqrt{3}} & 3\sqrt{3} \\
+0 & \frac{\sqrt{78}}{3} & \frac{\sqrt{78}}{13} \\
+0 & 0 & \frac{7\sqrt{26}}{13}
+\end{array}
+\right)$
+
+\medskip
+令$A'=RQ$开始迭代直到收敛，用Python程序计算得$A' \approx \left(
+\begin{array}{ccc}
+7.818 & 0 & 0 \\
+0 & 0.709 & 0 \\
+0 & 0 & -2.526
+\end{array}
+\right)$
+
+\medskip
+故$A$的特征值为$7.818\,,\, 0.709\,,\, -2.526$
+
+\section*{第三题}
+$A^TA = \left(
+\begin{array}{cc}
+2 & -1  \\
+2 & 1  \\
+\end{array}
+\right) \left(
+\begin{array}{cc}
+2 & 2  \\
+-1 & 1  \\
+\end{array}
+\right) = \left(
+\begin{array}{cc}
+5 & 3 \\
+3 & 5 \\
+\end{array}
+\right)$
+
+\medskip
+特征多项式为$|\lambda I - A^TA| = \left|
+\begin{array}{cc}
+\lambda - 5 & -3 \\
+-3 & \lambda - 5 \\
+\end{array}
+\right| = (\lambda - 5)^2 - 9 = \lambda^2 - 10\lambda + 16 = (\lambda - 8)(\lambda - 2)$
+
+\medskip
+故特征值为$\lambda_1 = 8\,,\, \lambda_2 = 2 \longrightarrow D = \left(
+\begin{array}{cc}
+2\sqrt{2} & 0 \\
+0 & \sqrt{2} \\
+\end{array}
+\right)$
+故$A$的奇异值$\sigma_1 = 2\sqrt{2}\,,\, \sigma_2 = \sqrt{2}$
+
+\medskip
+%求特征向量
+对$\lambda_1 = 8$，解方程组$(A^TA - 8I)x = 0$得特征向量$\widehat{p_1} = \left(
+\begin{array}{c}
+1 \\
+1 \\
+\end{array}
+\right)$
+$\longrightarrow p_1 = \frac{\widehat{p_1}}{||\widehat{p_1}||} = \frac{1}{\sqrt{2}} \left(
+\begin{array}{c}
+1 \\
+1 \\
+\end{array}
+\right)$
+
+\medskip
+对$\lambda_2 = 2$，解方程组$(A^TA - 2I)x = 0$得特征向量$\widehat{p_2} = \left(
+\begin{array}{c}
+1 \\
+-1 \\
+\end{array}
+\right)$
+$\longrightarrow p_2 = \frac{\widehat{p_2}}{||\widehat{p_2}||} = \frac{1}{\sqrt{2}} \left(
+\begin{array}{c}
+1 \\
+-1 \\
+\end{array}
+\right)$
+
+\medskip
+$\therefore P = \left(
+\begin{array}{cc}
+\frac{\sqrt{2}}{2} & \frac{\sqrt{2}}{2} \\
+\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} \\
+\end{array}
+\right)$
+
+\medskip
+$q_1 = \frac{1}{\sigma_1} A p_1 = \frac{1}{2\sqrt{2}} A \left(
+\begin{array}{c}
+\frac{\sqrt{2}}{2} \\
+\frac{\sqrt{2}}{2} \\
+\end{array}
+\right) = \frac{1}{2\sqrt{2}} \left(
+\begin{array}{c}
+2\sqrt{2} \\
+0 \\
+\end{array}
+\right) = \left(
+\begin{array}{c}
+1 \\
+0 \\
+\end{array}
+\right)$
+
+\medskip
+$q_2 = \frac{1}{\sigma_2} A p_2 = \frac{1}{\sqrt{2}} A \left(
+\begin{array}{c}
+\frac{\sqrt{2}}{2} \\
+-\frac{\sqrt{2}}{2} \\
+\end{array}
+\right) = \frac{1}{\sqrt{2}} \left(
+\begin{array}{c}
+0 \\
+- \sqrt{2} \\
+\end{array}
+\right) = \left(
+\begin{array}{c}
+0 \\
+-1 \\
+\end{array}
+\right)$
+
+\medskip
+$\therefore Q = \left(
+\begin{array}{cc}
+1 & 0 \\
+0 & -1 \\
+\end{array}
+\right)$
+
+\medskip
+因此$A$的奇异值分解为$A = Q D P^{T}$
+
+\section*{第四题}
+设$A^TA$的一个特征值为$\lambda(\lambda \neq 0)$，则有$A^TAx = \lambda x$，两边左乘$A$得$AA^TAx = \lambda Ax$
+
+\medskip
+令$y = Ax$，若$y \neq 0$，则$AA^T$的一个特征值也为$\lambda$
+
+\medskip
+若$y = 0$，则$A^TAx = 0 \rightarrow \lambda =0$，矛盾
+
+\medskip
+$\therefore A^TA$的非零特征值是$AA^T$的非零特征值
+
+\medskip
+同理可证$AA^T$的非零特征值也是$A^TA$的非零特征值
+
+\medskip
+$\therefore A^TA$与$AA^T$拥有相同的非零特征值
+
+\section*{第五题}
+\begin{enumerate}[label=({\alph*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 
+写成矩阵形式$Ax=b$，其中
+\[
+A=\begin{pmatrix}4.5&3.1\\1.6&1.1\end{pmatrix},\quad b=\begin{pmatrix}19.249\\6.843\end{pmatrix},\quad \det A=4.5\cdot1.1-3.1\cdot1.6=-0.01
+\]
+由Cramer法则，有
+\[
+\begin{aligned}
+x_1&=\frac{\det\big([b,\,a_2]\big)}{\det A}=\frac{19.249\cdot1.1-3.1\cdot6.843}{-0.01}=\frac{-0.0394}{-0.01}=3.94\\
+x_2&=\frac{\det\big([a_1,\,b]\big)}{\det A}=\frac{4.5\cdot6.843-1.6\cdot19.249}{-0.01}=\frac{-0.0049}{-0.01}=0.49
+\end{aligned}
+\]
+
+\item 
+同样使用Cramer法则：
+\[
+\begin{aligned}
+x_1&=\frac{19.249\cdot1.1-3.1\cdot6.84}{-0.01}=\frac{-0.0301}{-0.01}=3.01\\
+x_2&=\frac{4.5\cdot6.84-1.6\cdot19.249}{-0.01}=\frac{-0.0184}{-0.01}=1.84
+\end{aligned}
+\]
+
+\item
+由于$\det A\approx-0.01$非常小，系统病态
+
+方程右端由$6.843$到$6.84$的微小变化，引起解从$(3.94,\,0.49)$显著改变为$(3.01,\,1.84)$
+
+为此计算$A$的条件数：
+
+\medskip
+$A^TA = \left(
+\begin{array}{cc}
+4.5 & 1.6 \\
+3.1 & 1.1 \\
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+4.5 & 3.1 \\
+1.6 & 1.1 \\
+\end{array}
+\right) = \left(
+\begin{array}{cc}
+22.81 & 15.71 \\
+15.71 & 10.82 \\
+\end{array}
+\right)$
+
+\medskip
+特征多项式为$|\lambda I - A^TA| = \left|
+\begin{array}{cc}
+\lambda - 22.81 & -15.71 \\
+-15.71 & \lambda - 10.82 \\
+\end{array}
+\right| = (\lambda - 22.81)(\lambda - 10.82) - 246.8041$
+
+\medskip
+$\longrightarrow \lambda^2 - 33.63\lambda + 0.0001 = 0$
+
+\medskip
+解得特征值$\lambda_1 \approx 33.63\,,\, \lambda_2 \approx 0.000003$
+
+\medskip
+$\therefore$条件数$\kappa(A) = \sqrt{\frac{\lambda_{max}}{\lambda_{min}}} =\frac{\sigma_{max}}{\sigma_{min}}= \sqrt{\frac{33.63}{0.000003}} \approx 3348$
+
+\medskip
+过高的条件数表明该线性系统是病态的，具有高敏感性，因此输入数据的微小变化也会导致解的显著变化
+\end{enumerate}
+\end{document}

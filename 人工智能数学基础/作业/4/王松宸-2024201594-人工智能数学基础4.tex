@@ -1,0 +1,360 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 图片支持
+\usepackage{graphicx}
+% 默认从当前文件夹查找图片
+\graphicspath{{./}}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{第一题}
+$a=1-0.1-0.3=0.6$
+
+$b=1-0.2-0.6=0.2$
+
+$c=1-0.8-0.1=0.1$
+
+\medskip
+$\therefore A =
+\left(
+\begin{array}{ccc}
+0.1 & 0.2 & 0.8 \\
+0.3 & 0.6 & 0.1 \\
+0.6 & 0.2 & 0.1
+\end{array}
+\right)
+$
+
+\medskip 
+设稳态向量为$\omega=\left(
+\begin{array}{c}
+x  \\
+y  \\
+z 
+\end{array}
+\right)$，则有$ \omega A=\omega$
+
+\medskip
+$\therefore 
+\begin{cases}
+0.1x+0.3y+0.6z = x \\
+0.2x+0.6y+0.2z = y \\
+0.8x+0.1y+0.1z = z \\
+x+y+z=1
+\end{cases}
+$
+
+\medskip
+解得$x=y=z=\frac{1}{3}$
+
+$\therefore$长期情况下，有雨、多云和下雨的概率均为$\frac{1}{3}$
+
+\section*{第二题}
+若$\langle\cdot,\cdot\rangle$构成内积，则需依次验证三个条件：
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 正定性：$\langle x,x\rangle \ge 0$（当且仅当$x=0$时取等号）
+\item 对称性：$\forall x,y,\ \langle x,y\rangle=\langle y,x\rangle$
+\item 双线性映射：$\forall x,y,z,\text{对}\, \forall \,\alpha,\beta\in\mathbb{R},\ \langle \alpha x+\beta y,z\rangle=\alpha\langle x,z\rangle+\beta\langle y,z\rangle$且$\ \langle  x ,\alpha y+\beta z\rangle=\alpha\langle x,y\rangle+\beta\langle x,z\rangle$
+\end{enumerate}
+
+对于（1），$\forall x=(x_1,x_2)^T\neq 0$，有$x^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)x=2x_1^2+x_1x_2+2x_2^2=x_1^2+\frac{7}{4}x_2^2+(x_1+\frac{1}{2}x_2)^2\ge 0$
+
+当$x_1=x_2=0$时取等号，故（1）成立
+
+对于（2），$\forall x=(x_1,x_2)^T,y=(y_1,y_2)^T$，有
+$\langle x,y\rangle=x^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)y=2x_1y_1+x_2y_1+2x_2y_2$
+
+$=2y_1x_1+y_1x_2+2y_2x_2=y^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)x=\langle y,x\rangle$，故成立
+
+\medskip
+对于（3）,$\forall x=(x_1,x_2)^T,y=(y_1,y_2)^T,z=(z_1,z_2)^T$，
+
+\medskip
+有
+$\langle \alpha x+\beta y,z\rangle=(\alpha x+\beta y)^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)z$
+$=\alpha x^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)z+\beta y^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)z$
+$=\alpha\langle x,z\rangle+\beta\langle y,z\rangle$
+
+\medskip
+$\langle x,\alpha y+\beta z\rangle=x^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)(\alpha y+\beta z)$
+$=\alpha x^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)y+\beta x^T\left(
+\begin{array}{cc}
+2 & 0  \\
+1 & 2  \\
+\end{array}
+\right)z$
+$=\alpha\langle x,y\rangle+\beta\langle x,z\rangle$，故成立
+
+\medskip
+综上，$\langle\cdot,\cdot\rangle$构成内积
+\section*{第三题}
+$x-y=\left(
+\begin{array}{c}
+2  \\
+3  \\
+3
+\end{array}
+\right)$
+\medskip
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item $\langle x-y,x-y \rangle=(x-y)^T(x-y)=22$
+
+\medskip
+因此 $d(x,y)=\sqrt{\langle x-y,x-y \rangle}=\sqrt{22}$
+\medskip
+\item $\langle x-y,x-y \rangle=(x-y)^T\left(
+\begin{array}{ccc}
+2 &1 &0 \\
+1 &3 &-1 \\
+0 &-1 &2
+\end{array}
+\right)(x-y)=47$
+
+\medskip
+因此 $d(x,y)=\sqrt{\langle x-y,x-y \rangle}=\sqrt{47}$
+\end{enumerate}
+
+\section*{第四题}
+\begin{enumerate}[label=({\alph*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item 由$U$可得$A=\left(
+\begin{array}{cccc}
+0 &1 &-3 &-1 \\
+-1 &-3 &4 &-3 \\
+2 &1 &1 &5 \\
+0 &-1 &2 &0 \\
+2 &2 &1 &7
+\end{array}
+\right)$
+
+\medskip
+$A^TA=\left(
+\begin{array}{cccc}
+9 & 9 & 0 & 27  \\
+9 & 16 & -14 & 27  \\
+0 & -14 & 31 & 3  \\
+27 & 27 & 3 & 84 \\
+\end{array}
+\right) \qquad A^Tx=\left(
+\begin{array}{c}
+9 \\
+23 \\
+-25 \\
+30 \\
+\end{array}
+\right)$
+
+\medskip
+$\therefore$由$A^TA \lambda =A^Tx$可得$\lambda=\left(
+\begin{array}{c}
+-3 \\
+4 \\
+1 \\
+0 \\
+\end{array}
+\right)$
+
+\medskip
+$\therefore \pi_U(x)=A\lambda=\left(
+\begin{array}{c}
+1 \\
+-5 \\
+-1 \\
+-2 \\
+3
+\end{array}
+\right)$
+\item $x-\pi_U(x)=\left(
+\begin{array}{ccccc}
+-2 & -4 & 0 & 6 & -2
+\end{array}
+\right)^T$
+
+\medskip
+$d(x,U)=||x-\pi_U(x)||=\sqrt{\langle x-\pi_U(x),x-\pi_U(x)\rangle}=2\sqrt{15}$
+\end{enumerate}
+
+\section*{第五题}
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item $A+B$是对称正定矩阵
+
+对称性：$(A+B)^T=A^T+B^T=A+B$，故对称性成立
+
+正定性：$\forall \,x \neq 0,\text{有} \, x^T(A+B)x=x^TAx+x^TBx>0$,故正定性成立
+
+\medskip
+\item $AB$不一定是对称正定矩阵，比如令$A=\left(
+\begin{array}{cc}
+1 & 1 \\
+1 & 1
+\end{array}
+\right),\, B=\left(
+\begin{array}{cc}
+1 & 0 \\
+0 & 2
+\end{array}
+\right)
+$
+
+\medskip
+则$AB=\left(
+\begin{array}{cc}
+1 & 2 \\
+1 & 2
+\end{array}
+\right)$，显然不对称，故$AB$不一定是对称正定矩阵
+
+\medskip
+\item $A^{-1}$为对称正定矩阵
+
+对称性：$(A^{-1})^T=(A^T)^{-1}=A^{-1}$，故对称性成立
+
+正定性：$\forall \,y = A^{-1}x,\text{有} \, x^TA^{-1}x=(Ay)^TA^{-1}(Ay)=y^TAy$
+
+由于$A$正定且$y \neq 0$，故$y^TAy>0$
+
+因此$x^TA^{-1}x>0$，故正定性成立
+\end{enumerate}
+
+\section*{第六题}
+$\begin{cases}
+A(0)^2 + (2)^2 + C(0)(2) + D(0) + E(2) + F &= 0 \\
+A(2)^2 + (1)^2 + C(2)(1) + D(2) + E(1) + F &= 0 \\
+A(1)^2 + (-1)^2 + C(1)(-1) + D(1) + E(-1) + F &= 0 \\
+A(-1)^2 + (-2)^2 + C(-1)(-2) + D(-1) + E(-2) + F &= 0 \\
+A(-3)^2 + (1)^2 + C(-3)(1) + D(-3) + E(1) + F &= 0 \\
+A(-1)^2 + (1)^2 + C(-1)(1) + D(-1) + E(1) + F &= 0
+\end{cases}$
+
+\medskip
+得到$A=\left(
+\begin{array}{ccccc}
+0 & 0 &0 &2 &1\\
+4 & 2 & 2 & 1 & 1 \\
+1 & -1 & 1 & -1 & 1 \\
+1 & 2 & -1 & -2 & 1 \\
+9 & -3 & -3 & 1 & 1 \\
+1 & -1 & -1 & 1 & 1
+\end{array}
+\right),\, x=\left(
+\begin{array}{c}
+A \\
+C \\
+D \\
+E \\
+F
+\end{array}
+\right),\, b=\left(
+\begin{array}{c}
+-4 \\
+-1 \\
+-1 \\
+-4 \\
+-1 \\
+-1
+\end{array}
+\right)$
+
+\medskip
+$\therefore A^TA=\left(
+\begin{array}{ccccc}
+100 & -19 & 20 & 11 & 16 \\
+-19 & 19 & 11 & -5 & -1 \\
+-20 & 11 & 16 & -1 & -2 \\
+11 & -5 & -1 & 12 & 2 \\
+16 & -1 & -2 & 2 & 6 \\
+\end{array}
+\right) \qquad A^Tb=\left(
+\begin{array}{c}
+-19 \\
+-5 \\
+5 \\
+-2 \\
+-12 \\
+\end{array}
+\right)$
+
+\medskip
+$\therefore$由$A^TA x =A^Tb$可得$x=\left(
+\begin{array}{c}
+\frac{189}{730} \\
+-\frac{221}{365} \\
+\frac{533}{730} \\
+-\frac{66}{365} \\
+-\frac{908}{365} \\
+\end{array}
+\right)$
+
+\medskip
+$\therefore$最佳拟合椭圆为$\frac{189}{730}x^2+y^2-\frac{221}{365}xy+\frac{533}{730}x-\frac{66}{365}y-\frac{908}{365}=0$
+
+乘以730后化简得{\bfseries\boldmath 椭圆方程 $189x^2+730y^2-442xy+533x-132y-1816=0$}
+
+在坐标系中标记出这六个点并画出椭圆
+
+% 如果你在同一文件夹中有 image.png，可以通过下面的 figure 环境插入：
+\begin{figure}[htb]
+	\centering
+	% width=0.8\textwidth 可以根据需要调整缩放比例
+	\includegraphics[width=0.75\textwidth]{image.png}
+	\caption{样本点及拟合得到的椭圆}
+	\label{fig:ellipse-sample}
+\end{figure}
+
+\end{document}

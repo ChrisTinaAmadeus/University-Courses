@@ -1,0 +1,144 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 图片支持
+\usepackage{graphicx}
+% 默认从当前文件夹查找图片
+\graphicspath{{./}}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{第一题}
+$a=2i+3j-k,\,b=i-2j+k$
+
+$\therefore a·b=2·1+3·(-2)+(-1)·1=-5$
+
+$\quad a×b=(2i+3j-k)×(i-2j+k)$
+
+\medskip
+$\quad \qquad=\left(
+\begin{array}{ccc}
+i & j & k \\
+2 & 3 & -1 \\
+1 & -2 & 1
+\end{array}
+\right)$
+
+\medskip
+$\quad \qquad =i-3j-7k$
+
+$\quad b×a=-(a×b)=-i+3j+7k$
+
+$\therefore ab=-a·b+a×b=5+i-3j-7k$
+
+\section*{第二题}
+令$p=a+bi+cj+dk,\,q=e+fi+gj+hk,\, \nu=bi+cj+dk,\,\mu=fi+gj+hk$
+
+则有$ pq=(a+ \nu)(e+\mu)=ae+a\mu+e\nu+\nu\mu=(ae-\nu · \mu)+(a\mu+e\nu+\nu × \mu)$，实数部分为$ae-\nu · \mu$
+
+同样$qp=(e+\mu)(a+\nu)=ea+e\nu+\mu a+\mu\nu=(ea-\mu · \nu)+(e\nu+\mu a+\mu × \nu)$，实数部分为$ea-\mu · \nu$
+
+因为内积满足交换律，故实数部分相等，证明完毕
+
+\section*{第三题}
+沿用上一题的结果有$ pq=(ae-\nu · \mu)+(a\mu+e\nu+\nu × \mu)$
+
+$\therefore (pq)^*=(ae-\nu · \mu)-(a\mu+e\nu+\nu × \mu)$
+
+$\because q^*=e-(fi+gj+hk)=e-\mu\, ,\,p^*=a-(bi+cj+dk)=a-\nu$
+
+$\therefore q^*p^*=(e-\mu)(a-\nu)=ea-e\nu -a\mu +\mu \nu=(ea-\mu · \nu)-(e\nu+\mu a)+\mu × \nu=(ae-\nu · \mu)-(a\mu+e\nu+\nu × \mu)$
+
+$\therefore (pq)^*=q^*p^*$，证明完毕
+
+\section*{第四题}
+由罗德里格斯公式$\mathbf{v}' = \mathbf{v} \cos\theta + (\mathbf{u} \times \mathbf{v}) \sin\theta + \mathbf{u}(\mathbf{u} \cdot \mathbf{v})(1 - \cos\theta)$
+
+其中$\theta =-\frac{2}{3}\pi,\,\,u=\frac{\sqrt{3}}{3}i+\frac{\sqrt{3}}{3}j+\frac{\sqrt{3}}{3}k$
+
+$\therefore \mathbf{v}' = \mathbf{v} \cos(-\frac{2}{3}\pi) + (\mathbf{u} \times \mathbf{v}) \sin(-\frac{2}{3}\pi) + \mathbf{u}(\mathbf{u} \cdot \mathbf{v})(1 - \cos(-\frac{2}{3}\pi))$
+
+$\quad \quad=(-\frac{1}{2} -\frac{\sqrt{3}}{2} \mathbf{K} + \frac{3}{2}\mathbf{u} \mathbf{u}^T)\mathbf{v}$，其中$\mathbf{K}=\left(
+\begin{array}{ccc}
+0 & -u_z & u_y \\
+u_z & 0 & -u_x \\
+-u_y & u_x & 0
+\end{array}
+\right)$
+
+又$\because \mathbf{u} \mathbf{u}^T=\mathbf{K}^2+\mathbf{I}$
+
+$\therefore \mathbf{R}=\mathbf{I} -\frac{\sqrt{3}}{2} \mathbf{K} + \frac{3}{2}\mathbf{K}^2$
+
+\medskip
+$\quad \quad=\left(
+\begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{array}
+\right)-\frac{3}{2}\left(
+\begin{array}{ccc}
+0 & -u_z & u_y \\
+u_z & 0 & -u_x \\
+-u_y & u_x & 0
+\end{array}
+\right)+\frac{3}{2}\left(
+\begin{array}{ccc}
+-\frac{2}{3} & \frac{1}{3} & \frac{1}{3} \\
+\frac{1}{3} & -\frac{2}{3} & \frac{1}{3} \\
+\frac{1}{3} & \frac{1}{3} & -\frac{2}{3}
+\end{array}
+\right)=\left(
+\begin{array}{ccc}
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+1 & 0 & 0
+\end{array}
+\right)$
+
+\medskip
+$\because$平移向量$\mathbf{t}=\left(
+\begin{array}{ccc}
+2 &
+3 &
+4
+\end{array}
+\right)^T$
+
+$\therefore$ 该变换对应的映射矩阵为$\left(
+\begin{array}{cccc}
+0 & 1 & 0 & 2 \\
+0 & 0 & 1 & 3 \\
+1 & 0 & 0 & 4 \\
+0 & 0 & 0 & 1
+\end{array}
+\right)$
+
+\section*{第五题}
+旋转轴的单位向量$\mathbf{u}'=\left(
+\begin{array}{ccc}
+\frac{\sqrt{2}}{2} &\frac{\sqrt{2}}{2} &0
+\end{array}
+\right)^T$，旋转角度$\theta=\frac{\pi}{2}$
+
+因此构造四元数$\mathbf{q}=\cos\frac{\pi}{4}+\sin\frac{\pi}{4}(\frac{\sqrt{2}}{2}i+\frac{\sqrt{2}}{2}j)=\frac{\sqrt{2}}{2}+\frac{1}{2}i+\frac{1}{2}j$
+
+则$\mathbf{v}'=\mathbf{q}\mathbf{v}\mathbf{q}^{-1}$
+\end{document}
