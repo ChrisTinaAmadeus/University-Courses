@@ -1,0 +1,169 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xeCJK}
+% 指定中文主字体并明确粗体备用字体，避免缺少粗体形状的警告
+% 如果系统没有 SimHei，可改为 Microsoft YaHei 或 Noto Serif CJK SC
+\setCJKmainfont[BoldFont={SimHei}]{SimSun}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{titling}
+\usepackage{indentfirst} % 使章节标题后的第一段也缩进
+
+% 代码高亮样式
+\lstdefinestyle{mypython}{
+	language=Python,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue!70!black},
+	stringstyle=\color{green!50!black},
+	commentstyle=\color{gray},
+	showstringspaces=false,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=8pt,
+	frame=single,
+	framerule=0.5pt,
+	breaklines=true,
+	tabsize=4
+}
+
+% CJK 字体补充：设置等宽与无衬线，明确粗体备用字体
+\setCJKmonofont[BoldFont={SimHei}]{SimSun}
+\setCJKsansfont[BoldFont={SimHei}]{SimSun}
+% 等宽英文字体（Windows 常见字体）
+\setmonofont{Consolas}
+
+\title{强化学习实验报告}
+\author{王松宸\\学号：2024201594}
+\date{}
+\setlength{\droptitle}{-3cm}
+% 统一正文段首缩进宽度
+\setlength{\parindent}{2em}
+
+\begin{document}
+\maketitle
+
+\section{TODO 1}
+\subsection{代码思路}
+
+\begin{lstlisting}[style=mypython, caption={}]
+def compute_return(start_index, chain, gamma):
+    G = 0
+    for i in reversed(range(start_index, len(chain))):
+        # TODO ~1: 实现回报函数
+        G += rewards[chain[i]-1] * (gamma**(i-start_index))
+    return G
+\end{lstlisting}
+
+将所有从 start\_index 开始到链条末尾的奖励值按照折扣因子进行加权求和，得到从 start\_index 开始的回报值 G。
+
+\subsection{运行结果截图}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{result.png}
+    \caption{运行结果截图}
+\end{figure}
+
+\subsection{实验结果分析}
+该chain的回报值计算无误，符合预期。但它明显不是最优的chain，因为包含$s_4$的chain回报值更高。
+
+\section{TODO 2}
+\subsection{原始数据运行结果截图}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{original_MRP_result.png}
+    \caption{原始数据运行结果截图（MRP）}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{original_MDP_result1.png}
+		\caption{original\_MDP\_result1}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{original_MDP_result2.png}
+		\caption{original\_MDP\_result2}
+	\end{subfigure}
+	\caption{原始数据运行结果截图（MDP）}
+\end{figure}
+
+\subsection{修改奖励函数}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{reward1.png}
+		\caption{reward1}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{reward2.png}
+		\caption{reward2}
+	\end{subfigure}
+	\caption{修改奖励函数后的运行结果截图（MDP）}
+\end{figure}
+将奖励函数中"s4-前往s5"的奖励值从10修改为-5，明显看出s4的状态价值降低，从而使得其他路径更具吸引力。
+
+此外，距离s4状态较近的状态（如s3）也受到了影响，其价值同样降低，而距离s4状态较远的状态（如s2、s1）则几乎没有变化。
+
+同时，受策略影响，更“主观”的$\pi_2$相比于纯随机的$\pi_1$，其状态价值变化更小，反映出自主设置的相应策略产生的结果对参数变化具备一定的鲁棒性。
+
+\subsection{修改状态转移函数}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{transition1_1.png}
+        \caption{transition1\_1}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{transition1_2.png}
+        \caption{transition1\_2}
+    \end{subfigure}
+    \caption{第一次修改状态转移函数后的运行结果截图（MDP）}
+\end{figure}
+将状态转移函数中"s4-概率前往"的概率从(0.2, 0.4, 0.4)修改为(0.6, 0.2, 0.2)，使得从s4状态更容易回到s2状态。
+
+这种处理使得整个决策过程多了很多“重新开始”的机会，因为s2状态位于较前的位置。这样的设置可能使状态价值在实际观测结果上更能反映大多数情况的真实价值，因为引起从s4状态到s5状态带来的巨额奖励的概率降低，随机性减弱。
+
+从结果截图中可以看出两种策略下，状态价值的变化均不明显，因此进一步提升从s4状态回到s2状态的概率观察是否能验证我的想法。
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{transition2_1.png}
+        \caption{transition2\_1}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{transition2_2.png}
+        \caption{transition2\_2}
+    \end{subfigure}
+    \caption{第二次修改状态转移函数后的运行结果截图（MDP）}
+\end{figure}
+将状态转移函数中"s4-概率前往"的概率从(0.6, 0.2, 0.2)修改为(0.8, 0.1, 0.1)，进一步提升从s4状态回到s2状态的概率。
+
+这种处理使得从s4状态回到s2状态的概率进一步增加，从而使得s4的状态价值进一步降低，其他状态的价值则保持平稳，说明增长路径（更易回到s2）对产生大额奖励的动作影响较大，通过作用于状态价值上体现出来。
+
+\section{个人思考}
+基于概率的奖励模式设计，更能反映现实中的不确定因素以及模拟一些实际的情况，但这同样也会造成计算结果的波动性增大，从而影响对策略效果的评估。因此，在设计奖励函数时，需要综合考虑任务的实际需求与环境的随机性，选择合适的奖励结构以平衡探索与利用，确保学习过程的稳定性与有效性。
+同时，在设计状态转移函数时，应考虑状态之间的关联性及其对整体策略的影响，避免过度依赖某一状态或路径，从而提升模型的泛化能力和适应性。
+\end{document}

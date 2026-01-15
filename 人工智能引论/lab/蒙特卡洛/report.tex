@@ -1,0 +1,73 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{caption}
+
+% 代码高亮样式
+\lstdefinestyle{mypython}{
+	language=Python,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue!70!black},
+	stringstyle=\color{green!50!black},
+	commentstyle=\color{gray},
+	showstringspaces=false,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=8pt,
+	frame=single,
+	framerule=0.5pt,
+	breaklines=true,
+	tabsize=4
+}
+
+% CJK 字体补充：设置等宽与无衬线，减少缺字警告
+\setCJKmonofont{SimSun}
+\setCJKsansfont{SimSun}
+% 等宽英文字体（Windows 常见字体）
+\setmonofont{Consolas}
+
+\title{蒙特卡洛法估算圆周率实验报告}
+\author{王松宸\\学号：2024201594}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{实现步骤}
+\begin{enumerate}
+	\item 使用 NumPy 生成长度为 $n$ 的随机向量 $x,y\sim\mathcal{U}(0,1)$；
+	\item 判断 is\_in\_circle 的值，从而统计圆内数量 $k$；
+	\item 计算 $\hat{\pi}=4k/n$ 并输出；
+	\item 变更 $n$ 取不同数量，比较估计值的收敛情况；
+\end{enumerate}
+
+\section{源代码}
+
+\lstinputlisting[style=mypython]{源码.py}
+
+\section{运行结果}
+
+% 若同目录下不存在 result.png，使用占位框以保证可编译
+\IfFileExists{result.png}{
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{result.png}
+		\caption{不同 $n$ 下的 $\pi$ 估计输出。}
+		\label{fig:result}
+	\end{figure}
+}
+
+\section{结论}
+实验表明，随着采样点数 $n$ 的增加，基于蒙特卡洛方法的 $\pi$ 估计值逐步收敛到真实值 $3.1415926\dots$。然而，收敛速度与方差下降较慢，若需要高精度需显著增大样本规模或采用方差缩减技术。
+
+\end{document}
