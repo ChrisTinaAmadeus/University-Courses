@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- 首页模板：搜索首页 -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"> <!-- 元信息：字符编码为 UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 自适应移动端视口 -->
+    <title>Luminous - Illuminated Search</title> <!-- 页面标题 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- 引入全站样式 -->
+    
+</head>
+<body class="home-body"> <!-- 首页主体容器（背景与居中布局） -->
+    <!-- 首页标题 -->
+    <div class="home-title" style="margin-bottom: 38px;">Luminous</div>
+
+    <!-- 搜索表单：GET 方式提交到 /query -->
+    <form class="home-search-box" action="/query" method="get">
+        <!-- 搜索输入框：回填 keyword（若存在） -->
+        <input type="text" name="key" placeholder="请输入搜索内容" value="{{ keyword if keyword }}">
+        
+        <!-- 提交按钮：带箭头图标 -->
+        <button type="submit" class="search-btn" aria-label="搜索">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path d="M3 25L25 14L3 3V11L19 14L3 17V25Z" fill="#6dd8eb"/>
+            </svg>
+        </button>
+    </form>
+
+    <!-- 宣传语/副标题描述 -->
+    <div class="home-desc" style="margin-top: 38px; font-size: 1.25rem; color: #6dd8eb; text-align: center;">于无垠信息中，做您的光芒 —— 露米</div>
+
+    <!-- 错误提示：5 秒后自动隐藏 -->
+    {% if error %}
+    <div class="error-message" id="error-message">
+        {{ error }}
+    </div>
+    <script>
+    setTimeout(function() {
+        var err = document.getElementById('error-message');
+        if (err) err.style.display = 'none';
+    }, 5000);
+    </script>
+    {% endif %}
+</body>
+</html>

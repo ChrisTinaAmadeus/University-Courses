@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- 结果页模板：展示搜索结果、分页及交互动画 -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"> <!-- 元信息：字符编码 UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 自适应移动端视口 -->
+    <title>Luminous - Illuminated Search</title> <!-- 页面标题 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- 引入全站样式 -->
+</head>
+<body class="results-body"> <!-- 结果页主体容器（背景与布局） -->
+    <!-- 结果页标题 -->
+    <div class="results-title">Luminous</div>
+
+    <!-- 搜索信息条：展示关键词、结果数量与用时 -->
+    <div class="results-info">
+        <p>搜索"{{ keyword }}"结果：找到约 {{ total_results }} 条结果 (用时 {{ cost_time }} 秒)</p>
+    </div>
+
+    <!-- 结果列表区域 -->
+    <div class="results-list">
+        {% if results %}
+            {% for result in results %}
+            <!-- 单条结果卡片：标题/链接/摘要 -->
+            <a class="result-item-card card-animate" href="{{ result.url }}" target="_blank">
+                <h3 class="result-title">{{ result.title }}</h3>
+                <p class="url">{{ result.url }}</p>
+                <p class="snippet">{{ result.snippet }}·····</p>
+            </a>
+            {% endfor %}
+        {% else %}
+            <!-- 无结果提示块 -->
+            <div class="no-results">
+                <p>没有找到与"{{ keyword }}"相关的结果</p>
+                <p>建议：尝试使用不同的关键词或检查拼写</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- 分页区域：上一页 / 页码 / 下一页 -->
+    <div class="pagination">
+        {% if page > 1 %}
+            <a class="page-btn" href="{{ url_for('query', key=keyword, page=page-1) }}">上一页</a>
+        {% endif %}
+        {% for p in pagination %}
+            {% if p == '...' %}
+                <span class="page-btn">...</span>
+            {% elif p == page %}
+                <span class="page-btn current-page">{{ p }}</span>
+            {% else %}
+                <a class="page-btn" href="{{ url_for('query', key=keyword, page=p) }}">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page < total_pages %}
+            <a class="page-btn" href="{{ url_for('query', key=keyword, page=page+1) }}">下一页</a>
+        {% endif %}
+    </div>
+    
+    <!-- 返回首页链接 -->
+    <a class="back-link" href="{{ url_for('index') }}">返回首页</a>
+
+    <!-- 交互脚本：卡片进场动画、滚动显隐、悬停弹起 -->
+    <script>
+    // 卡片进场动画和滚动/悬停弹起效果
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card-animate');
+        // 进场：逐个淡入、上移
+        cards.forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(40px)';
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1)';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 120 + i * 80);
+        });
+
+        // 悬停：略微放大并上移
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                card.classList.add('card-hovering');
+                card.style.transform += ' scale(1.06) translateY(-6px)';
+                card.style.zIndex = '10';
+            });
+            card.addEventListener('mouseleave', function() {
+                card.classList.remove('card-hovering');
+                card.style.zIndex = '';
+                // 恢复滚动动画 transform
+                handleScroll();
+            });
+        });
+
+        // 滚动：离开视窗淡出，进入视窗淡入
+        function handleScroll() {
+            const windowHeight = window.innerHeight;
+            cards.forEach(card => {
+                if (card.classList.contains('card-hovering')) {
+                    // 悬停时不覆盖 transform
+                    card.style.opacity = '1';
+                    return;
+                }
+                const rect = card.getBoundingClientRect();
+                if (rect.bottom < 0) {
+                    // 上方滑出
+                    card.style.transform = 'translateY(-60px)';
+                    card.style.opacity = '0.3';
+                } else if (rect.top > windowHeight) {
+                    // 下方滑出
+                    card.style.transform = 'translateY(60px)';
+                    card.style.opacity = '0.3';
+                } else {
+                    // 可视区滑入
+                    card.style.transform = 'translateY(0)';
+                    card.style.opacity = '1';
+                }
+            });
+        }
+        window.addEventListener('scroll', handleScroll);
+        // 首次触发一次
+        handleScroll();
+    });
+    </script>
+</body>
+</html>

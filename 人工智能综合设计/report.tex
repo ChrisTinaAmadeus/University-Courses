@@ -1,0 +1,1260 @@
+\documentclass{ctexart}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\setlength{\headheight}{21pt}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{amsmath}
+% 代码高亮与着色
+\usepackage{xcolor}
+\usepackage{listings}
+% 子图支持：用于界面截图两列排版
+\usepackage{subcaption}
+% 字体设置：中文宋体，英文字体 Times New Roman
+\setmainfont{Times New Roman}
+\setCJKmainfont{宋体}
+\lstdefinestyle{mypython}{
+	language=Python,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue!70!black},
+	commentstyle=\color{green!50!black},
+	stringstyle=\color{orange!70!black},
+	numbers=left,
+	numberstyle=\tiny, 
+	numbersep=6pt,
+	stepnumber=1,
+	showstringspaces=false,
+	breaklines=true,
+	columns=fullflexible,
+	frame=single,
+	framerule=0.5pt,
+	rulecolor=\color{black!20},
+	tabsize=4,
+	xleftmargin=1em,
+	framexleftmargin=1em,
+	keepspaces=true
+}
+% 让超链接中的 URL 更易断行
+\PassOptionsToPackage{hyphens}{url}
+% 超链接显示设置
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
+% 增强 URL 的断行点：/ . - _ ? = & : #
+\Urlmuskip=0mu plus 1mu
+\def\UrlBreaks{\do\/\do\.\do\-\do\_\do\?\do\=\do\&\do\:\do\#}
+\usepackage{tikz}
+% 使用 calc 与 arrows.meta，避免旧版环境对 right=of 语法不兼容
+\usetikzlibrary{calc,arrows.meta,positioning}
+
+\fancyhf{}
+\fancyhead[L]{
+    \includegraphics[height=6mm]{中国人民大学高瓴人工智能学院.png}
+}
+\pagestyle{fancy}
+
+\title{实验报告}
+\author{王松宸 \\ 2024201594}
+
+\begin{document}
+
+\maketitle
+
+
+\section{整体介绍}
+本次实验主要采取倒排索引的方式实现了一个简单的搜索引擎。在实验的过程中，
+我们先利用网络爬虫对中国人民大学科研处（\url{http://keyan.ruc.edu.cn/}）和
+党委学生工作处（\url{http://xsc.ruc.edu.cn/}）进
+行了 html 文件和 url 的爬取。随后我们提取了 html 文件正文并利用 jieba
+将文档进行了分词处理，建立了文档分词的倒排索引字典。最终利用BM25
+的加权方式以及特殊的加分规则将每个 query 的结果进行返回
+并设计完成了 Web 前端及接口。
+
+\section{实现流程}
+\begin{center}
+\begin{tikzpicture}[>=Stealth,auto,node distance=10mm]
+% 统一块样式；使用内边距保证中文不挤
+\tikzset{block/.style={draw,rounded corners,inner xsep=6pt,inner ysep=4pt,minimum height=1.2em,align=center}}
+\node[block] (A) {网页爬虫};
+% 使用 positioning 库的相对定位，保证各块之间空隙一致
+\node[block, right=of A] (B) {倒排索引};
+\node[block, right=of B] (C) {赋分排序};
+\node[block, right=of C] (D) {Web UI};
+\draw[->] (A) -- (B);
+\draw[->] (B) -- (C);
+\draw[->] (C) -- (D);
+\end{tikzpicture}
+\end{center}
+
+\subsection{网页爬虫}
+程序首先从初始种子 URL 开始，通过解析 HTML 文档中的超链接标签获取潜在目标 URL。
+对于相对路径的链接，使用 \texttt{urllib.parse.urljoin} 将其转换为绝对 URL。
+所有获取的 URL 均经过 \texttt{url\_normalize} 库进行标准化处理，
+确保同一网页的不同形式 URL 能够被正确识别和去重。
+接着，我将 \url{http://keyan.ruc.edu.cn} 与 \url{http://xsc.ruc.edu.cn} 
+添加至 keywords 列表，
+并设置黑名单存储需要过滤掉的文件类型后缀。
+黑名单中的文件类型包括常见的.png、.jpg、.pdf、.docx等格式，确保只抓取真正的网页内容。
+对所有潜在目标 URL 进行筛选，最终爬虫得到了 6526 个 HTML 文件，
+并建立起一个编号与 URL 对应的文本文件。
+
+为提高效率，我采用多线程设计程序，最多同时运行 24 个抓取线程。
+每个线程独立从共享队列中获取 URL 任务，进行内容抓取和解析。
+程序通过维护已发现 URL 集合 (all\_urlset) 和
+已抓取 URL 集合 (used\_urlset) 来避免重复抓取。
+每当发现新 URL 时，首先检查是否已存在于集合中，仅当 URL 未被处理过时才加入抓取队列。
+
+所有抓取的网页内容以 HTML 格式保存，
+文件名采用自增编号（\texttt{1.html}、\texttt{2.html} 等）。
+同时，程序建立了编号与原始 URL 的映射关系，
+保存于 \texttt{url\_map(plus).txt}，便于后续分析和使用。
+
+\subsection{倒排索引}
+
+在完成网页抓取之后，我基于已保存的 HTML 文档构建检索所需的倒排索引。
+
+首先，程序顺序遍历所有爬取的 HTML 文件，
+并根据网页爬虫过程保存的编号与 URL 对应的文本文件建立 \texttt{docid\,$\to$\,URL} 的映射字典；
+同时解析每个页面的 \texttt{<title>}，
+形成 \texttt{doc\_title\_dict} 以便于UI页面的展示。
+
+随后，使用 \texttt{BeautifulSoup} 提取每篇文档的纯文本。
+为尽可能去除页面导航等噪声信息，我们优先选取正文中的第一个较长句作为起点，对其后的文本进行处理；
+再将花括号包裹的内容剔除，合并多余空白，并删除文末的无效字符。
+清洗后的正文被保存到 \texttt{doc\_text\_dict} 中。
+
+在文本清洗完成后，我采用 \texttt{jieba} 对正文进行中文分词。
+为提高检索质量，程序会过滤掉长度不超过 1 的短片段、空白符、英文标点以及停用词（使用百度停用词表）。
+每篇文档的有效分词数被统计为文档长度并记录在 \texttt{doc\_length\_dict} 中，
+同时将所有 \texttt{(term, docid)} 组合汇总并整体排序，为后续索引构建做准备。
+
+在索引构建阶段，我为每个词维护一条倒排表。
+倒排表的元素包含文章编号和词频 \texttt{tf} ，其中 \texttt{tf} 表示
+该词在指定文档中的出现次数。
+为便于遍历与边界处理，每条倒排表都以一个头结点 \texttt{Posting(-1, 0)} 开始。
+程序依次扫描排序后的 \texttt{(term, docid)} 序列：
+当遇到新的文档编号时向倒排表追加一个 \texttt{Posting}，
+若仍是同一文档则对该项的 \texttt{tf} 进行累加。
+最终得到的结构即为倒排索引表。
+
+索引构建完成后，我将关键数据对象序列化保存为.pkl格式的文件，
+以支持后续的 BM25 排序与结果展示工作。
+
+\subsection{赋分排序}
+
+这部分代码是构建搜索引擎的关键。
+我采用 BM25 作为底层排序算法，并在此基础上设计特殊的加分策略，
+使最终结果兼顾召回与精排。
+
+数据加载前，为了去除查询语句中的噪声信息，
+我先构建了查询停用词表，以提取准确的查询词条。
+
+在检索阶段，程序首先加载构建倒排索引时保存好的各类索引，
+包括倒排索引 \texttt{inverted\_index}、
+文档长度字典 \texttt{doc\_length\_dict}、
+编号到 URL 的映射 \texttt{url\_map}、
+排序后的 \texttt{term\_docid\_pairs} 以及
+清洗后的正文 \texttt{doc\_text\_dict}；
+同时读取查询停用词表 \texttt{query\_stopwords.txt}。
+
+针对输入查询，程序使用 \texttt{jieba} 进行中文分词并移除停用词。
+为凸显实体词与较长关键词的重要性，我对长度不小于 4 且不含数字的词进行“重复一次”的权重提升，
+相当于在后续打分时放大其贡献。经由分词与权重提升后，查询被表示为带权的词项计数。
+对实体词与较长关键词的加权操作尝试抓住用户查询中的侧重点，结果将更能
+反映用户的真实意图。
+
+每个文档的 BM25 得分遵循经典形式。对每个查询词 \(q\)，
+先根据其文档频次 \(df(q)\) 与文档总数 \(N\) 计算逆文档频率：
+\begin{equation}
+\label{eq:idf}
+	\mathrm{idf}(q) = \ln\!\left(1 + \frac{N - df(q) + 0.5}{df(q) + 0.5}\right).
+\end{equation}
+
+设文档 \(d\) 的长度为 \(dl(d)\)，
+全库平均长度为 \(\overline{dl}\)，
+词 \(q\) 在 \(d\) 中的词频为 \(tf(q,d)\)。
+单词项对文档的 BM25 贡献为：
+\begin{equation}
+\label{eq:bm25-term}
+	s_{\mathrm{BM25}}(q,d) = \mathrm{idf}(q)\cdot 
+	\frac{tf(q,d)\cdot (k_1+1)}{\,tf(q,d) + k_1\bigl(1-b + b\tfrac{dl(d)}{\overline{dl}}\bigr)\,}.
+\end{equation}
+
+考虑查询词权重，以词频为基础，将结果乘以0.8的缩放系数作为基础得分（对于已经进行
+加词频操作的实体词和长词，此时便能在计算基础得分时体现其重要性），
+则文档对查询的基础得分为：
+\begin{equation}
+\label{eq:base}
+	S_{\mathrm{base}}(d\mid Q) = \sum_{q\in Q} w(q)\cdot s_{\mathrm{BM25}}(q,d)\cdot0.8.
+\end{equation}
+
+在此基础上加入两类加分。
+其一，若原始查询串 \(\mathrm{str}(Q)\) 作为连续子串直接出现在正文
+ \(\mathrm{text}(d)\) 中，则给予精确匹配加分：
+\begin{equation}
+\label{eq:bonus-exact}
+	B_{\mathrm{exact}}(d\mid Q) = \begin{cases}
+		8, & \mathrm{str}(Q)\subseteq \mathrm{text}(d) \\
+		0, & \text{otherwise}
+	\end{cases}
+\end{equation}
+
+其二，统计查询分词在正文中的覆盖个数 \(m\) 与查询分词数 \(n\)，
+按照分段函数给予覆盖率加分：
+\begin{equation}
+\label{eq:bonus-cover}
+	B_{\mathrm{cover}}(d\mid Q) = \begin{cases}
+		5, & m = n,\\
+		2, & m = n-1,\\
+		1, & m = n-2,\\
+		0, & \text{otherwise.}
+	\end{cases}
+\end{equation}
+
+最终得分由基础得分与额外加分共同构成；
+整体结果取前 \(k\) 个：
+\begin{equation}
+\label{eq:final}
+	S(d\mid Q) = S_{\mathrm{base}}(d\mid Q)
+	+ B_{\mathrm{exact}}(d\mid Q) + B_{\mathrm{cover}}(d\mid Q).
+\end{equation}
+
+此外，我将用户的搜索分为模糊查询与精确查询，模糊查询
+通常为长句，关键词较为不明确，而精确查询一般较短，且具有明显的关键词。
+为了适配类型的查询，我按查询分词后的长度自适应 BM25 参数：
+当查询较短时，将其归类为精确查询，取 \(k_1{=}3,\ b{=}0.6\) 强调关键词区分；
+当查询较长时（长度超过10），将其归类为模糊查询，取 \(k_1{=}1,\ b{=}0.8\) 减弱词频影响并增强长度归一化。
+
+回顾整个过程，在基础 BM25 之上，我加入了两类直观而有效的加分：
+其一是“连续字符串匹配”加分——若原始查询作为完整子串直接出现在文档正文中，
+则一次性给予较高加分，用以嘉奖精确匹配；
+其二是“覆盖率”加分——统计查询分词在正文中出现的覆盖比例，
+若全部覆盖则追加较大加分，缺少 1 个或 2 个则给予较小加分，
+每篇文档至多触发一次，以鼓励多关键词共同出现的文档。
+
+综合上述基础得分与加分，程序对每篇命中文档累计总分，
+并按照分数降序返回前 \(k\) 个结果。
+对外接口提供仅返回 URL 列表的便捷评估接口，便于快速查看检索效果。
+同时经过一些调整可将文档编号、文档标题、 URL 与得分一并输出，用于
+Web UI结果页的显示。
+
+\subsection{Web UI}
+
+在界面层，我采用 Flask + Jinja2 构建了一个简洁的两页式 Web 界面：
+主页用于输入查询，结果页用于承载排序后的检索结果，
+并配以玻璃拟态风格的样式与轻量动画，保证可读性与沉浸感并重。
+
+后端路由方面，应用提供了两个 GET 接口：\texttt{/} 与 \texttt{/query}。
+主页路由仅渲染 \texttt{index.html}，当用户提交查询后，请求会以 GET 方式到达 \texttt{/query}。
+在这个路由中，程序解析 \texttt{key}（查询关键词）与 \texttt{page}（页码，默认 1），
+对空查询给出即时提示；随后调用检索模块的接口进行查询，同时记录耗时。
+若检索过程中出现异常，系统会回到首页显示错误信息。
+为便于阅读与跳转，我在后端实现了一个内嵌的分页页码生成器 \texttt{get\_pagination}
+（靠前/靠后/中间三种情形分别生成页码区间并带省略号），将结果按每页 5 条进行切片，
+并将页码数组与统计信息一并传入模板。
+
+功能与数据方面，\texttt{index.html} 提供一个居中的搜索框与提交按钮，
+回填已有关键词，并在出现输入错误时展示提示（5 秒自动消隐）。
+\texttt{results.html} 在顶部展示检索信息条（关键词、结果总数与用时），
+主体区域按卡片样式逐条渲染检索结果。每条结果包含标题、URL 与正文摘要片段，点击后在新标签页打开。
+底部提供“上一页/下一页”与页码跳转，并附“返回首页”链接。
+
+样式与交互方面，\texttt{static/style.css} 使用 CSS 变量定义主题色与阴影半径，
+结合半透明背景与模糊（glassmorphism）营造清爽观感。
+结果卡片在悬停时略微放大与上浮，滚动中根据可视区位置自动淡入/淡出。
+背景图采用一张精美的天空图，兼顾层次与对比度。
+页面在移动端通过媒体查询进行响应式适配，控制标题字号、卡片内边距与输入框宽度。
+
+综合来看，Web UI 在不牺牲性能的前提下，提供了直观的检索反馈、稳定的分页跳转与清晰的结果预览，
+能够有效承载排序检索模块的输出并服务于最终用户。
+
+\section{代码细节}
+
+\subsection{网页爬虫}
+
+get\_url.py的目的为完成多线程网页爬虫。
+
+\begin{lstlisting}[style=mypython,caption={多线程网页爬虫实现（get\_url.py）},label={lst:get_url_py}]
+from urllib.parse import urljoin, urlparse  # 用于URL拼接和解析
+from bs4 import BeautifulSoup  # 用于解析HTML文档
+import requests  # 用于发送HTTP请求
+import time  # 用于设置等待时间
+from url_normalize import url_normalize  # 用于标准化URL
+import os  # 用于文件和目录操作
+import hashlib  # 用于生成内容哈希（未使用）
+import threading  # 用于多线程
+import queue  # 用于线程安全队列
+
+def crawl_all_urls(html_doc, url):
+	"""
+	从HTML文档中提取所有链接,并标准化为绝对URL。
+	:param html_doc: 网页的HTML内容
+	:param url: 当前页面的URL(用于相对路径拼接)
+	:return: 所有标准化后的URL集合
+	"""
+	all_links = set()
+	try:
+		soup = BeautifulSoup(html_doc, "html.parser")
+	except:
+		print("Fail to parse the html document!")
+		return all_links
+	for anchor in soup.find_all("a"):
+		href = anchor.attrs.get("href")
+		if href != "" and href != None:
+			if not href.startswith("http"):
+				# 如果是相对路径，拼接为绝对路径
+				href = urljoin(url, href)
+			all_links.add(url_normalize(href))
+	return all_links
+
+
+def filter_urls(urls, keywords, blacklist):
+	"""
+	过滤URL,只保留域名在keywords中的且不以黑名单后缀结尾的URL。
+	"""
+	filter_url = [url for url in urls if urlparse(url).netloc in keywords]
+	filter_url = [
+		url for url in filter_url if not any(url.endswith(black) for black in blacklist)
+	]
+	return filter_url
+
+
+keywords = ["keyan.ruc.edu.cn", "xsc.ruc.edu.cn"]  # 允许爬取的域名
+blacklist = [  # 不爬取的文件类型后缀
+	".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".webp", ".doc",
+	".docx", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx", ".txt", ".rtf", ".mp4", ".avi",
+	".mov", ".wmv", ".flv", ".mkv", ".webm", ".mp3", ".wav", ".aac", ".flac", ".ogg",
+	".m4a", ".zip", ".rar", ".7z", ".tar", ".gz", ".exe", ".msi", ".apk", ".bat",
+	".sh", ".js", ".css", ".iso", ".dmg", ".bin",
+]
+
+# 输入种子urls，作为爬虫的起点
+input_urls = ["http://keyan.ruc.edu.cn/", "http://xsc.ruc.edu.cn/"]
+
+
+def get_html(uri, headers={}, timeout=None):
+	"""
+	从指定URL获取HTML文档内容。
+	:param uri: 目标URL
+	:param headers: 请求头
+	:param timeout: 超时时间
+	:return: HTML文本或None
+	"""
+	try:
+		r = requests.get(uri, headers=headers, timeout=timeout)
+		print(f"请求URL: {uri} | HTTP状态码: {r.status_code}")
+		r.raise_for_status()
+		r.encoding = "UTF-8"
+		return r.text
+	except:
+		return None
+
+# 多线程爬虫相关参数和数据结构
+headers = {"user-agent": "my-app/0.0.1"}        # 请求头，伪装为浏览器
+url_queue = queue.Queue()                       # 待爬取URL队列
+all_urlset = set()                              # 所有已发现的URL集合（防止重复）
+used_urlset = set()                              # 已爬取过的URL集合
+url_map = {}                                    # 网页编号到URL的映射
+content_hash_set = set()                        # 网页内容哈希集合（未使用）
+lock = threading.Lock()                         # 线程锁，保证数据安全
+wait_time = 1                                   # 每次爬取间隔时间（秒）
+max_threads = 24                                 # 最大线程数
+output_dir = r"D:\Desktop\编程集训\day2\URL内容(plus)"  # 网页保存目录
+os.makedirs(output_dir, exist_ok=True)         # 创建保存目录
+
+# 初始化队列和集合，将种子URL加入队列
+for url in input_urls:
+	url_queue.put(url)
+	all_urlset.add(url)
+
+page_counter = 0  # 网页计数器
+def worker():
+	"""
+	爬虫线程工作函数：从队列获取URL，下载网页，提取新URL并保存网页。
+	"""
+	global page_counter
+	while True:
+		try:
+			url = url_queue.get(timeout=10)  # 超时则退出
+		except queue.Empty:
+			break
+		html_doc = get_html(url, headers=headers)
+		if html_doc is None:
+			url_queue.task_done()
+			continue
+		with lock:
+			used_urlset.add(url)
+
+		# 提取并过滤新URL
+		url_sets = crawl_all_urls(html_doc, url)
+		url_sets = filter_urls(url_sets, keywords, blacklist)
+		with lock:
+			for new_url in url_sets:
+				if new_url not in all_urlset:
+					url_queue.put(new_url)
+					all_urlset.add(new_url)
+
+		if wait_time > 0:
+			print(f"等待{wait_time}秒后开始抓取")
+			time.sleep(wait_time)
+		# 保存当前网页内容到本地文件
+		with lock:
+			page_counter += 1
+			print(f"已爬取网页总数: {page_counter}", end=' | ')
+			print(f"剩余URL数量: {url_queue.qsize()}")
+			path = os.path.join(output_dir, f"{page_counter}.html")
+			with open(path, "w", encoding="utf-8") as f:
+				f.write(html_doc)
+			url_map[page_counter] = url
+		url_queue.task_done()
+
+# 启动多线程爬虫
+threads = []
+for _ in range(max_threads):
+	t = threading.Thread(target=worker)
+	t.start()
+	threads.append(t)
+
+for t in threads:
+	t.join()
+
+# 保存网页编号与URL的映射关系到txt文件
+with open("url_map(plus).txt", "w", encoding="utf-8") as f:
+	for idx, url in url_map.items():
+		f.write(f"{idx}\t{url}\n")
+print("爬取完成！")
+\end{lstlisting}
+
+\subsection{倒排索引}
+
+save\_data.py涵盖正文抽取、中文分词、停用词过滤、倒排表构造以及序列化保存等步骤。
+
+\begin{lstlisting}[style=mypython,caption={倒排索引与数据持久化（save\_data.py）},label={lst:save_data_py}]
+import jieba
+import os
+import string
+from collections import defaultdict
+import dill as pickle
+from bs4 import BeautifulSoup
+import re
+
+
+# 获取所有 html 文件名
+collections = [file for file in os.listdir('URL内容(plus)') if os.path.splitext(file)[1] == '.html']
+# 按编号从小到大排序
+collections.sort(key=lambda x: int(os.path.splitext(x)[0]))
+
+# 读取url_map(plus).txt，建立文件编号到URL的映射
+# 注意：原始文件中的索引作为字符串读入，后续可按需转换为int
+url_map = {}
+with open('url_map(plus).txt', encoding='utf-8') as f:
+	for line in f:
+		parts = line.strip().split('\t')
+		if len(parts) == 2:
+			idx, url = parts
+			url_map[idx] = url
+
+doc_title_dict = {}
+
+for filename in collections:
+	docid = int(os.path.splitext(filename)[0])
+	with open(os.path.join('URL内容(plus)', filename), encoding='utf-8') as fin:
+		html_content = fin.read()
+		soup = BeautifulSoup(html_content, 'html.parser')
+		# 提取<title>标签内容，如果没有则为空字符串
+		title_tag = soup.find('title')
+		title = title_tag.get_text(strip=True) if title_tag else ""
+		doc_title_dict[docid] = title
+
+# 加载停用词表
+with open('百度停用词表.txt', encoding='utf-8') as f:
+	stopwords = set(line.strip() for line in f if line.strip()) # 读取停用词并去除空行
+
+# 依次打开每个保存正文信息的文本文件，分词，构造term_docid_pairs,计算文档长度
+term_docid_pairs = []
+doc_length_dict = {}
+doc_text_dict = {}
+
+for filename in collections:
+	docid = int(os.path.splitext(filename)[0])  # 直接用文件名数字作为 docid
+	with open(os.path.join('URL内容(plus)', filename), encoding='utf-8') as fin:
+		html_content = fin.read()
+		soup = BeautifulSoup(html_content, 'html.parser')
+		# 提取全文（去除标签，仅保留文本）
+		full_text = soup.get_text(separator=' ', strip=True)
+		match = re.search(r'([^\s。！？]{2,}?[。！？])', full_text)  # 使用正则查找第一个较长的句子作为标题起点
+		if match:
+			# 以第一个长句为标题起点
+			title = match.group(1)
+			start_idx = full_text.index(title)
+			text = full_text[start_idx:]
+		else:
+			text = full_text  # 如果没有长句则用全文
+		text = re.sub(r'{{.*?}}', '', text) # 去除花括号内容
+		text = re.sub(r'\s+', ' ', text)  # 将多个空格替换为一个空格
+		if len(text) > 100:
+			text = text[:-100] #去掉最后100个字符，过滤无用信息
+		doc_text_dict[docid] = text  # 添加到字典
+		terms = [] # 存储当前文档的有效分词
+		for term in jieba.cut(text):
+			term=term.strip()
+			# 过滤掉长度小于等于1、空白、标点和停用词
+			if (len(term) <= 1 or term.isspace() or term in string.punctuation or term in stopwords):
+				continue
+			terms.append(term)
+			term_docid_pairs.append((term, docid))# 保存分词和文档id
+
+		doc_length_dict[docid] = len(terms)  # 保存文档分词数作为文档长度
+
+# 排序
+term_docid_pairs = sorted(term_docid_pairs)
+
+# 构造倒排索引
+# postings list中每一项为一个Posting类对象
+class Posting(object):
+	special_doc_id = -1
+	def __init__(self, docid, tf=0):
+		self.docid = docid  # 文档id
+		self.tf = tf        # 词频
+	def __repr__(self):
+		return "<docid: %d, tf: %d>" % (self.docid, self.tf)
+
+#在每个postings list开头加上了一个用来标记开头的Posting(special_doc_id=-1, 0)
+# （正常docid从0编号）
+inverted_index = defaultdict(lambda: [Posting(Posting.special_doc_id, 0)])
+
+for term, docid in term_docid_pairs:
+	postings_list = inverted_index[term]
+	if docid != postings_list[-1].docid:
+		postings_list.append(Posting(docid, 1))
+	else:  # 如果相同，说明该词在同一文档出现多次，词频加1
+		postings_list[-1].tf += 1
+
+inverted_index = dict(inverted_index)
+
+#保存所有后续需要使用的文件
+with open('./inverted_index.pkl', 'wb') as f:
+	pickle.dump(inverted_index, f)
+with open('./doc_length_dict.pkl', 'wb') as f:
+	pickle.dump(doc_length_dict, f)
+with open('./url_map.pkl', 'wb') as f:
+	pickle.dump(url_map, f)
+with open('doc_title_dict.pkl', 'wb') as f:
+	pickle.dump(doc_title_dict, f)
+with open('./term_docid_pairs.pkl', 'wb') as f:
+	pickle.dump(term_docid_pairs, f)
+with open('./doc_text_dict.pkl', 'wb') as f:
+	pickle.dump(doc_text_dict, f)
+\end{lstlisting}
+
+\subsection{赋分排序}
+search\_engine.py包含查询清洗、关键词加权、BM25 计算、加分策略与检索接口。
+
+\begin{lstlisting}[style=mypython,caption={BM25 赋分与检索实现（search\_engine.py）},label={lst:search_engine_py}]
+import dill as pickle
+import jieba
+from collections import Counter, defaultdict
+import numpy as np
+import os
+import re
+# 切换工作目录到当前文件所在目录，保证相对路径正确
+os.chdir(os.path.dirname(__file__))
+
+
+# 加载搜索停用词表（用于过滤查询中的无意义词）
+with open('query_stopwords.txt', 'r', encoding='utf-8') as f:
+	query_stopwords = [line.strip() for line in f]
+    
+
+# 加载所有必要的索引和参数（倒排索引、文档长度、URL映射、分词-文档对、文档正文）
+with open("./inverted_index.pkl", "rb") as f:
+	inverted_index = pickle.load(f)
+with open("./doc_length_dict_len.pkl", "rb") as f:
+	doc_length_dict = pickle.load(f)
+with open("./url_map.pkl", "rb") as f:
+	url_map = pickle.load(f)
+with open("./term_docid_pairs.pkl", "rb") as f:
+	term_docid_pairs = pickle.load(f)
+with open('./doc_text_dict.pkl', 'rb') as f:
+	doc_text_dict = pickle.load(f)
+
+
+# 对查询进行分词并去除停用词
+def clean_query(query):
+	terms = jieba.cut(query)
+	terms = [term for term in terms if term not in query_stopwords]
+	return ''.join(terms)
+
+
+# 对分词结果中的核心词进行权重提升（如实体、长词）
+def identify_and_boost_keywords(terms):
+	boosted_terms = []
+	for term in terms:
+		# 如果是较长的词（很可能是实体或重要概念），重复它来提升权重
+		if len(term) >= 4 and not re.search(r'[0-9]', term):  # 排除纯数字
+			boosted_terms.extend([term, term])  # 重复一次，相当于权重×2
+		else:
+			boosted_terms.append(term)
+	return boosted_terms
+
+
+# 获取某个分词的倒排列表（去除开头的特殊标记）
+def get_postings_list(inverted_index, query_term):
+	try:
+		return inverted_index[query_term][1:]
+	except KeyError:
+		return []
+
+
+# 计算所有文档的 BM25 分数，返回得分最高的前 k 个文档
+def bm25_scores(inverted_index, doc_length_dict, query, k=20, k1=2, b=1):
+	scores = defaultdict(float)
+	terms = jieba.cut(query)
+	# 过滤停用词后提升核心词权重
+	filtered_terms = [term for term in terms if term not in query_stopwords]
+	boosted_terms = identify_and_boost_keywords(filtered_terms)
+	query_terms = Counter(boosted_terms)  # 使用提升后的词频
+
+	N = len(doc_length_dict)  # 文档总数
+	avgdl = np.mean(list(doc_length_dict.values()))  # 平均文档长度
+	df_dict = Counter(term for term, docid in term_docid_pairs)  # 每个分词的文档频率
+	added_bonus_docids = set()  # 连续字符串加分的文档集合
+	added_all_terms_bonus_docids = set()  # 所有分词都出现加分的文档集合
+	for q in query_terms:
+		postings_list = get_postings_list(inverted_index, q)
+		df = df_dict.get(q, 0)
+        
+		# 计算 BM25 的 idf
+		idf = np.log(1 + (N - df + 0.5) / (df + 0.5)) if df > 0 else 0.0
+		for posting in postings_list:
+			tf = posting.tf  # 词频
+			dl = doc_length_dict.get(posting.docid, 0)  # 文档长度
+			denom = tf + k1 * (1 - b + b * dl / avgdl)  # 分母
+			score = idf * (tf * (k1 + 1)) / denom if denom > 0 else 0  # BM25得分
+			# 连续字符串加分逻辑：如果原始query作为字符串出现在正文中，额外加分
+			if doc_text_dict is not None:
+				text = doc_text_dict.get(posting.docid, "")
+			if query in text and posting.docid not in added_bonus_docids:
+				score += 8  # 基于精确搜索，因此加分偏多
+				added_bonus_docids.add(posting.docid)
+			# 所有分词都出现加分逻辑：如果很多分词都在正文中，额外加分
+			if posting.docid not in added_all_terms_bonus_docids:
+				present_terms = [term for term in query_terms if term in text]
+				m = len(present_terms)
+				n = len(query_terms)
+				bonus = 0
+				#设置非线性加分规则，奖励更多匹配分词的网页
+				if m == n:
+					bonus = 5
+				elif m == n - 1:
+					bonus = 2
+				elif m == n - 2:
+					bonus = 1
+				# 其余情况不加分
+				if bonus > 0:
+					score += bonus
+					added_all_terms_bonus_docids.add(posting.docid)
+
+			scores[posting.docid] += score * query_terms[q]*0.8  # 按词频加权
+	results = []
+	for docid, score in scores.items():
+		results.append((docid, score))
+	results.sort(key=lambda x: -x[1])  # 按得分降序排序
+	return results[:k]
+
+
+# 根据查询长度和标点调整 BM25 参数（长句降低词频影响，增强长度归一化）
+def get_bm25_params(query):
+	terms = jieba.cut(query)
+	terms = [term for term in terms if term not in query_stopwords]
+	query_str = ''.join(terms)
+	# 长度大于10认为是长句
+	# 降低k1值，使词频影响变小
+	# 增加b值，使文档长度归一化更强，避免长文档因包含更多词而得分过高
+	if len(query_str) > 10: #长句词频分布更均匀
+		return {'k1': 1, 'b': 0.8}
+	else: #短查询词频影响大
+		return {'k1': 3, 'b': 0.6}
+
+# 检索接口：根据 BM25 算法返回相关性最高的文档及分数
+def retrieval_by_bm25(inverted_index, url_map, query, k=20):
+	params = get_bm25_params(query)
+	top_scores = bm25_scores(inverted_index, doc_length_dict, query, k=k, k1=params['k1'], b=params['b'])
+	results = [
+		(url_map[str(docid)], score, docid)
+		for docid, score in top_scores
+		if str(docid) in url_map
+	]
+	return results
+
+
+# 评估接口：输入查询，返回相关的 URL 列表
+def evaluate(query):
+	results = retrieval_by_bm25(inverted_index, url_map, query)
+	url_list = [url for url, score, docid in results]
+	return url_list
+\end{lstlisting}
+
+\subsection{Web UI}
+本节给出 Web 界面与后端路由的完整实现，顺序为：后端应用 `app.py` → 首页模板 `templates/index.html` → 结果模板 `templates/results.html` → 全站样式 `static/style.css`。
+
+\begin{lstlisting}[style=mypython,caption={Flask 后端与分页路由（app.py）},label={lst:app_py}]
+from flask import Flask, render_template, request
+from search_engine_UI import evaluate
+import time
+
+# Flask 应用初始化（模板目录与静态资源采用默认结构：templates/ 与 static/）
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+	"""显示搜索首页：仅渲染首页模板"""
+	return render_template('index.html')
+
+@app.route('/query')
+
+def query():
+	# 内嵌分页页码生成器：根据当前页与总页数返回页码序列（含省略号）
+	def get_pagination(page, total_pages):
+		pages = []
+		if total_pages <= 5:
+			# 总页数较少：直接展示所有页码
+			pages = list(range(1, total_pages + 1))
+		else:
+			if page <= 3:
+				# 当前页靠前：展示前 5 页 + 末页
+				pages = [1, 2, 3, 4, 5, '...', total_pages]
+			elif page >= total_pages - 2:
+				# 当前页靠后：展示首页 + 最后 5 页
+				pages = [1, '...', total_pages - 4, total_pages - 3, total_pages - 2, total_pages - 1, total_pages]
+			else:
+				# 当前页在中间：展示 首页/末页 + 当前页前后各 1 页
+				pages = [1, '...', page - 1, page, page + 1, '...', total_pages]
+		return pages
+
+	"""处理搜索请求：解析参数 -> 调用检索 -> 分页整理 -> 渲染结果页"""
+	# 1) 解析查询参数（key 为关键词，page 为页码，默认第 1 页）
+	keyword = request.args.get('key', '')
+	page = int(request.args.get('page', 1))
+
+	# 2) 关键词为空则返回首页并提示
+	if not keyword:
+		return render_template('index.html', error="请输入搜索关键词")
+    
+	# 3) 调用搜索引擎：记录耗时并捕获异常
+	try:
+		start_time = time.time()  # 记录开始时间
+		results_list = evaluate(keyword)  # 根据关键词检索，返回结果列表
+		end_time = time.time()  # 记录结束时间
+		cost_time = round(end_time - start_time, 3)  # 计算检索耗时（秒）
+	except Exception as e:
+		# 检索过程出错：回到首页显示错误信息
+		return render_template('index.html', error=f"搜索出错: {str(e)}")
+    
+	# 4) 结果分页：确定总数/总页数/当前页数据切片
+	page_size = 5  # 每页显示条目数
+	total_results = len(results_list)  # 总结果数
+	total_pages = (total_results + page_size - 1) // page_size  # 向上取整计算总页数
+	start = (page - 1) * page_size  # 当前页起始下标
+	end = start + page_size  # 当前页结束下标（开区间）
+	results = results_list[start:end]  # 当前页数据
+	pagination = get_pagination(page, total_pages)  # 生成分页页码
+
+	# 5) 渲染结果页模板
+	return render_template(
+		'results.html',
+		keyword=keyword,            # 原始查询关键词
+		results=results,            # 当前页结果列表
+		cost_time=cost_time,        # 检索耗时（秒）
+		page=page,                  # 当前页码
+		total_pages=total_pages,    # 总页数
+		total_results=total_results,# 总结果数
+		pagination=pagination       # 页码数组（含省略号）
+	)
+
+if __name__ == '__main__':
+	# 本地启动配置：
+	# debug=True    启用调试（代码改动自动重载，便于开发）
+	# port=2616     监听端口（需在 0~65535，推荐 >1024）
+	# host='0.0.0.0' 绑定所有网卡，允许局域网访问；若仅本机访问可改为 '127.0.0.1'
+	app.run(debug=True, port=2616, host='0.0.0.0')
+\end{lstlisting}
+
+\begin{lstlisting}[style=mypython,caption={首页模板（templates/index.html）},label={lst:index_html}]
+<!DOCTYPE html>
+<!-- 首页模板：搜索首页 -->
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8"> <!-- 元信息：字符编码为 UTF-8 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 自适应移动端视口 -->
+	<title>Luminous - Illuminated Search</title> <!-- 页面标题 -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- 引入全站样式 -->
+    
+</head>
+<body class="home-body"> <!-- 首页主体容器（背景与居中布局） -->
+	<!-- 首页标题 -->
+	<div class="home-title" style="margin-bottom: 38px;">Luminous</div>
+
+	<!-- 搜索表单：GET 方式提交到 /query -->
+	<form class="home-search-box" action="/query" method="get">
+		<!-- 搜索输入框：回填 keyword（若存在） -->
+		<input type="text" name="key" placeholder="请输入搜索内容" value="{{ keyword if keyword }}">
+        
+		<!-- 提交按钮：带箭头图标 -->
+		<button type="submit" class="search-btn" aria-label="搜索">
+			<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+				<path d="M3 25L25 14L3 3V11L19 14L3 17V25Z" fill="#6dd8eb"/>
+			</svg>
+		</button>
+	</form>
+
+	<!-- 宣传语/副标题描述 -->
+	<div class="home-desc" style="margin-top: 38px; font-size: 1.25rem; color: #6dd8eb; text-align: center;">于无垠信息中，做您的光芒 —— 露米</div>
+
+	<!-- 错误提示：5 秒后自动隐藏 -->
+	{% if error %}
+	<div class="error-message" id="error-message">
+		{{ error }}
+	</div>
+	<script>
+	setTimeout(function() {
+		var err = document.getElementById('error-message');
+		if (err) err.style.display = 'none';
+	}, 5000);
+	</script>
+	{% endif %}
+</body>
+</html>
+\end{lstlisting}
+
+\begin{lstlisting}[style=mypython,caption={结果模板（templates/results.html）},label={lst:results_html}]
+<!DOCTYPE html>
+<!-- 结果页模板：展示搜索结果、分页及交互动画 -->
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8"> <!-- 元信息：字符编码 UTF-8 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 自适应移动端视口 -->
+	<title>Luminous - Illuminated Search</title> <!-- 页面标题 -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- 引入全站样式 -->
+</head>
+<body class="results-body"> <!-- 结果页主体容器（背景与布局） -->
+	<!-- 结果页标题 -->
+	<div class="results-title">Luminous</div>
+
+	<!-- 搜索信息条：展示关键词、结果数量与用时 -->
+	<div class="results-info">
+		<p>搜索"{{ keyword }}"结果：找到约 {{ total_results }} 条结果 (用时 {{ cost_time }} 秒)</p>
+	</div>
+
+	<!-- 结果列表区域 -->
+	<div class="results-list">
+		{% if results %}
+			{% for result in results %}
+			<!-- 单条结果卡片：标题/链接/摘要 -->
+			<a class="result-item-card card-animate" href="{{ result.url }}" target="_blank">
+				<h3 class="result-title">{{ result.title }}</h3>
+				<p class="url">{{ result.url }}</p>
+				<p class="snippet">{{ result.snippet }}·····</p>
+			</a>
+			{% endfor %}
+		{% else %}
+			<!-- 无结果提示块 -->
+			<div class="no-results">
+				<p>没有找到与"{{ keyword }}"相关的结果</p>
+				<p>建议：尝试使用不同的关键词或检查拼写</p>
+			</div>
+		{% endif %}
+	</div>
+
+	<!-- 分页区域：上一页 / 页码 / 下一页 -->
+	<div class="pagination">
+		{% if page > 1 %}
+			<a class="page-btn" href="{{ url_for('query', key=keyword, page=page-1) }}">上一页</a>
+		{% endif %}
+		{% for p in pagination %}
+			{% if p == '...' %}
+				<span class="page-btn">...</span>
+			{% elif p == page %}
+				<span class="page-btn current-page">{{ p }}</span>
+			{% else %}
+				<a class="page-btn" href="{{ url_for('query', key=keyword, page=p) }}">{{ p }}</a>
+			{% endif %}
+		{% endfor %}
+		{% if page < total_pages %}
+			<a class="page-btn" href="{{ url_for('query', key=keyword, page=page+1) }}">下一页</a>
+		{% endif %}
+	</div>
+    
+	<!-- 返回首页链接 -->
+	<a class="back-link" href="{{ url_for('index') }}">返回首页</a>
+
+	<!-- 交互脚本：卡片进场动画、滚动显隐、悬停弹起 -->
+	<script>
+	// 卡片进场动画和滚动/悬停弹起效果
+	document.addEventListener('DOMContentLoaded', function() {
+		const cards = document.querySelectorAll('.card-animate');
+		// 进场：逐个淡入、上移
+		cards.forEach((card, i) => {
+			card.style.opacity = '0';
+			card.style.transform = 'translateY(40px)';
+			setTimeout(() => {
+				card.style.transition = 'opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1)';
+				card.style.opacity = '1';
+				card.style.transform = 'translateY(0)';
+			}, 120 + i * 80);
+		});
+
+		// 悬停：略微放大并上移
+		cards.forEach(card => {
+			card.addEventListener('mouseenter', function() {
+				card.classList.add('card-hovering');
+				card.style.transform += ' scale(1.06) translateY(-6px)';
+				card.style.zIndex = '10';
+			});
+			card.addEventListener('mouseleave', function() {
+				card.classList.remove('card-hovering');
+				card.style.zIndex = '';
+				// 恢复滚动动画 transform
+				handleScroll();
+			});
+		});
+
+		// 滚动：离开视窗淡出，进入视窗淡入
+		function handleScroll() {
+			const windowHeight = window.innerHeight;
+			cards.forEach(card => {
+				if (card.classList.contains('card-hovering')) {
+					// 悬停时不覆盖 transform
+					card.style.opacity = '1';
+					return;
+				}
+				const rect = card.getBoundingClientRect();
+				if (rect.bottom < 0) {
+					// 上方滑出
+					card.style.transform = 'translateY(-60px)';
+					card.style.opacity = '0.3';
+				} else if (rect.top > windowHeight) {
+					// 下方滑出
+					card.style.transform = 'translateY(60px)';
+					card.style.opacity = '0.3';
+				} else {
+					// 可视区滑入
+					card.style.transform = 'translateY(0)';
+					card.style.opacity = '1';
+				}
+			});
+		}
+		window.addEventListener('scroll', handleScroll);
+		// 首次触发一次
+		handleScroll();
+	});
+	</script>
+</body>
+</html>
+\end{lstlisting}
+
+\begin{lstlisting}[style=mypython,caption={全站样式（static/style.css）},label={lst:style_css}]
+/* ========== 基础与主题变量 ========== */
+:root { /* 页面主题变量 */
+	--brand: #6dd8eb;
+	--brand-2: #4f8cff;
+	--text: #f3f6fa;
+	--bg-card: rgba(255,255,255,0.18);
+	--bg-card-hover: rgba(255,255,255,0.32);
+	--glass-blur: 24px;
+	--shadow-sm: 0 2px 8px rgba(40,60,120,0.12);
+	--shadow-md: 0 4px 24px rgba(40,60,120,0.12);
+	--shadow-lg: 0 12px 36px rgba(79,140,255,0.22);
+	--radius-sm: 8px;
+	--radius-md: 20px;
+	--radius-lg: 24px;
+	--container-w: 700px;
+} /* 页面主题变量 */
+
+/* 全局重置 */
+* { /* 全局重置 */
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+} /* 全局重置 */
+
+/* 背景与排版 */
+body { /* 页面背景与排版 */
+	font-family: 'Segoe UI', Arial, sans-serif;
+	line-height: 1.6;
+	color: var(--text);
+	background: url('../static/天空.png') no-repeat center center fixed;
+	background-size: cover;
+	min-height: 100vh;
+} /* 页面背景与排版 */
+
+/* 工具类 */
+.container { /* 工具类：容器宽度与内边距 */
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+} /* 工具类：容器宽度与内边距 */
+
+header { /* 页眉容器 */
+	text-align: center;
+	margin-bottom: 30px;
+} /* 页眉容器 */
+
+header h1 { /* 页眉标题 */
+	color: var(--brand-2);
+	margin-bottom: 20px;
+	font-size: 2.5rem;
+	letter-spacing: 2px;
+	font-weight: bold;
+} /* 页眉标题 */
+
+/* 首页 */
+.home-body { /* 首页：主体布局容器 */
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+} /* 首页：主体布局容器 */
+
+.home-title { /* 首页：标题文字 */
+	font-size: 3rem;
+	font-weight: bold;
+	color: var(--brand);
+	margin-bottom: 40px;
+	letter-spacing: 2px;
+} /* 首页：标题文字 */
+
+.home-search-box { /* 首页：搜索框容器 */
+	display: flex;
+	align-items: center;
+	background: var(--bg-card);
+	backdrop-filter: blur(var(--glass-blur));
+	border-radius: 30px;
+	box-shadow: var(--shadow-md);
+	padding: 16px 32px;
+	gap: 16px;
+} /* 首页：搜索框容器 */
+
+.home-search-box input[type="text"] { /* 首页：搜索输入框 */
+	border: none;
+	outline: none;
+	font-size: 1.2rem;
+	padding: 10px 20px;
+	border-radius: var(--radius-md);
+	width: 300px;
+	background: #f3f6fa;
+	color: #1a1a1a;
+} /* 首页：搜索输入框 */
+
+.home-search-box button { /* 首页：搜索按钮 */
+	background: transparent;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform .2s;
+} /* 首页：搜索按钮 */
+
+.home-search-box button:hover { /* 首页：搜索按钮（悬停） */
+	transform: scale(1.05);
+} /* 首页：搜索按钮（悬停） */
+
+/* 通用状态 */
+.error-message { /* 通用：错误提示 */
+	color: #d93025;
+	text-align: center;
+	margin: 20px 0;
+} /* 通用：错误提示 */
+
+/* 结果页 */
+.results-body { /* 结果页：主体布局容器 */
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+} /* 结果页：主体布局容器 */
+
+.results-title { /* 结果页：页面标题 */
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: var(--brand);
+	margin-top: 40px;
+	margin-bottom: 20px;
+	letter-spacing: 2px;
+} /* 结果页：页面标题 */
+
+.results-info { /* 结果页：搜索信息条 */
+	margin-bottom: 20px;
+	color: var(--brand);
+} /* 结果页：搜索信息条 */
+
+.no-results { /* 结果页：无结果提示 */
+	text-align: center;
+	color: #cbd5e1;
+	margin-top: 32px;
+} /* 结果页：无结果提示 */
+
+.results-list { /* 结果页：结果列表容器 */
+	list-style: none;
+	padding: 0;
+	margin: 0;
+} /* 结果页：结果列表容器 */
+
+.result-item-card { /* 结果卡片 */
+	display: block;
+	margin-bottom: 28px;
+	border-bottom: 1px solid rgba(255,255,255,0.12);
+	background: var(--bg-card);
+	backdrop-filter: blur(var(--glass-blur));
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-md);
+	padding: 32px 40px;
+	width: var(--container-w);
+	max-width: 95vw;
+	text-decoration: none;
+	color: #ffffff;
+	transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s cubic-bezier(.4,0,.2,1), opacity 0.6s cubic-bezier(.4,0,.2,1);
+	cursor: pointer;
+} /* 结果卡片 */
+
+.result-item-card:hover { /* 结果卡片（悬停） */
+	transform: scale(1.06) translateY(-6px);
+	box-shadow: var(--shadow-lg);
+	background: var(--bg-card-hover);
+	z-index: 10;
+	opacity: 1 !important;
+} /* 结果卡片（悬停） */
+
+.result-item-card .result-title { /* 结果卡片：标题 */
+	color: var(--brand);
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-bottom: 2px;
+	transition: color 0.2s;
+} /* 结果卡片：标题 */
+
+.result-item-card:hover .result-title { /* 结果卡片：标题（悬停） */
+	color: #ffb6b9;
+} /* 结果卡片：标题（悬停） */
+
+/* 分页 */
+.pagination { /* 分页容器 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 6px;
+	margin: 32px 0 0 0;
+	flex-wrap: wrap;
+} /* 分页容器 */
+
+.page-btn { /* 分页按钮 */
+	display: inline-block;
+	min-width: 36px;
+	padding: 8px 14px;
+	margin: 0 2px;
+	background: var(--bg-card);
+	backdrop-filter: blur(var(--glass-blur));
+	color: var(--brand);
+	border: none;
+	border-radius: var(--radius-sm);
+	font-size: 1.05rem;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+	box-shadow: var(--shadow-sm);
+} /* 分页按钮 */
+
+.page-btn:hover { /* 分页按钮（悬停） */
+	background: rgba(255,255,255,0.28);
+	color: var(--brand);
+} /* 分页按钮（悬停） */
+
+.current-page { /* 分页：当前页 */
+	background: rgba(255,255,255,0.28);
+	color: var(--brand);
+	font-weight: bold;
+	cursor: default;
+	box-shadow: 0 2px 8px rgba(40,60,120,0.18);
+} /* 分页：当前页 */
+
+/* 返回链接 */
+.back-link { /* 返回首页链接 */
+	display: inline-block;
+	margin-top: 16px;
+	padding: 8px 24px;
+	background: var(--bg-card);
+	backdrop-filter: blur(var(--glass-blur));
+	color: var(--brand);
+	border-radius: var(--radius-md);
+	text-decoration: none;
+	font-size: 1.1rem;
+	transition: background 0.2s, box-shadow 0.2s;
+	box-shadow: var(--shadow-sm);
+} /* 返回首页链接 */
+
+.back-link:hover { /* 返回首页链接（悬停） */
+	background: rgba(255,255,255,0.28);
+	color: var(--brand);
+} /* 返回首页链接（悬停） */
+
+/* 响应式优化 */
+@media (max-width: 480px) { /* 移动端自适应 */
+	.home-title { font-size: 2.2rem; } /* 移动端：首页标题 */
+	.home-search-box input[type="text"] { width: 64vw; } /* 移动端：搜索输入框宽度 */
+	.result-item-card { padding: 24px; } /* 移动端：结果卡片内边距 */
+	.results-title { font-size: 2rem; } /* 移动端：结果页标题 */
+} /* 移动端自适应 */
+\end{lstlisting}
+
+\section{界面展示}
+
+本节依次展示 Web 前端的关键界面。
+其中图1为首页展示，图2、图3、图4为结果页展示。
+
+\begin{figure}[htbp]
+	\centering
+	% 首页
+	\includegraphics[width=0.85\linewidth]{index.png}
+	\caption*{图1：初始页面展示}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+	% 结果卡片
+	\IfFileExists{result-origin.png}{\includegraphics[width=0.85\linewidth]{result-origin.png}}{\fbox{\parbox[c][0.35\linewidth][c]{0.8\linewidth}{\centering 缺少图片：result-origin.png}}}
+	\caption*{图2：结果条目卡片的玻璃拟态风格，展示标题、URL 与正文摘要。}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+	% 结果列表
+	\IfFileExists{result-click.png}{\includegraphics[width=0.85\linewidth]{result-click.png}}{\fbox{\parbox[c][0.35\linewidth][c]{0.8\linewidth}{\centering 缺少图片：result-click.png}}}
+	\caption*{图3：结果页鼠标悬停时的动画效果。}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+	% 分页区
+	\IfFileExists{result-page.png}{\includegraphics[width=0.85\linewidth]{result-page.png}}{\fbox{\parbox[c][0.35\linewidth][c]{0.8\linewidth}{\centering 缺少图片：result-page.png}}}
+	\caption*{图4：底部页码区，含上一页、下一页、页码跳转与“返回首页”按钮。}
+\end{figure}
+
+
+\section{实验感想}
+一开始听说要靠自己去做出一个完整的搜索引擎时，我认为对于现在的我来说是不可能的。
+我总是会去习惯性地觉得某样科技产物对于现在的我来说是多么的遥不可及。
+
+直到真正在课上学到了如何去实现爬虫，如何建立倒排索引，如何给搜索结果赋分排序，
+如何构建前端，如何使用LaTeX，我才一步一步将这项工程解密，知道再高端的搜索引擎，
+也是按照这套流程工作的。科技高墙顷刻间坍塌，我也感受到了自己的一些强大。
+
+或许这门课的意义并不只是让我们做出一个搜索引擎，而是给予我们挑战的勇气。
+即使看上去再困难的产品，也是能通过我们的脑洞与努力，慢慢做出来的。
+以后的课程中，我想我并不会在一开始被“吓到”了。
+
+感谢老师与助教们的辛勤付出，感谢同学们的互相帮助。未来相信
+我还能够做出很多更好的作品。
+\end{document}

@@ -1,0 +1,257 @@
+/* ========== 基础与主题变量 ========== */
+:root { /* 页面主题变量 */
+    --brand: #6dd8eb;
+    --brand-2: #4f8cff;
+    --text: #f3f6fa;
+    --bg-card: rgba(255,255,255,0.18);
+    --bg-card-hover: rgba(255,255,255,0.32);
+    --glass-blur: 24px;
+    --shadow-sm: 0 2px 8px rgba(40,60,120,0.12);
+    --shadow-md: 0 4px 24px rgba(40,60,120,0.12);
+    --shadow-lg: 0 12px 36px rgba(79,140,255,0.22);
+    --radius-sm: 8px;
+    --radius-md: 20px;
+    --radius-lg: 24px;
+    --container-w: 700px;
+} /* 页面主题变量 */
+
+/* 全局重置 */
+* { /* 全局重置 */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} /* 全局重置 */
+
+/* 背景与排版 */
+body { /* 页面背景与排版 */
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: url('../static/天空.png') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+} /* 页面背景与排版 */
+
+/* 工具类 */
+.container { /* 工具类：容器宽度与内边距 */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+} /* 工具类：容器宽度与内边距 */
+
+header { /* 页眉容器 */
+    text-align: center;
+    margin-bottom: 30px;
+} /* 页眉容器 */
+
+header h1 { /* 页眉标题 */
+    color: var(--brand-2);
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+} /* 页眉标题 */
+
+/* 首页 */
+.home-body { /* 首页：主体布局容器 */
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} /* 首页：主体布局容器 */
+
+.home-title { /* 首页：标题文字 */
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--brand);
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+} /* 首页：标题文字 */
+
+.home-search-box { /* 首页：搜索框容器 */
+    display: flex;
+    align-items: center;
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    border-radius: 30px;
+    box-shadow: var(--shadow-md);
+    padding: 16px 32px;
+    gap: 16px;
+} /* 首页：搜索框容器 */
+
+.home-search-box input[type="text"] { /* 首页：搜索输入框 */
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    width: 300px;
+    background: #f3f6fa;
+    color: #1a1a1a;
+} /* 首页：搜索输入框 */
+
+.home-search-box button { /* 首页：搜索按钮 */
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s;
+} /* 首页：搜索按钮 */
+
+.home-search-box button:hover { /* 首页：搜索按钮（悬停） */
+    transform: scale(1.05);
+} /* 首页：搜索按钮（悬停） */
+
+/* 通用状态 */
+.error-message { /* 通用：错误提示 */
+    color: #d93025;
+    text-align: center;
+    margin: 20px 0;
+} /* 通用：错误提示 */
+
+/* 结果页 */
+.results-body { /* 结果页：主体布局容器 */
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+} /* 结果页：主体布局容器 */
+
+.results-title { /* 结果页：页面标题 */
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--brand);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+} /* 结果页：页面标题 */
+
+.results-info { /* 结果页：搜索信息条 */
+    margin-bottom: 20px;
+    color: var(--brand);
+} /* 结果页：搜索信息条 */
+
+.no-results { /* 结果页：无结果提示 */
+    text-align: center;
+    color: #cbd5e1;
+    margin-top: 32px;
+} /* 结果页：无结果提示 */
+
+.results-list { /* 结果页：结果列表容器 */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+} /* 结果页：结果列表容器 */
+
+.result-item-card { /* 结果卡片 */
+    display: block;
+    margin-bottom: 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 32px 40px;
+    width: var(--container-w);
+    max-width: 95vw;
+    text-decoration: none;
+    color: #ffffff;
+    transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s cubic-bezier(.4,0,.2,1), opacity 0.6s cubic-bezier(.4,0,.2,1);
+    cursor: pointer;
+} /* 结果卡片 */
+
+.result-item-card:hover { /* 结果卡片（悬停） */
+    transform: scale(1.06) translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-card-hover);
+    z-index: 10;
+    opacity: 1 !important;
+} /* 结果卡片（悬停） */
+
+.result-item-card .result-title { /* 结果卡片：标题 */
+    color: var(--brand);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    transition: color 0.2s;
+} /* 结果卡片：标题 */
+
+.result-item-card:hover .result-title { /* 结果卡片：标题（悬停） */
+    color: #ffb6b9;
+} /* 结果卡片：标题（悬停） */
+
+/* 分页 */
+.pagination { /* 分页容器 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 32px 0 0 0;
+    flex-wrap: wrap;
+} /* 分页容器 */
+
+.page-btn { /* 分页按钮 */
+    display: inline-block;
+    min-width: 36px;
+    padding: 8px 14px;
+    margin: 0 2px;
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    color: var(--brand);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.05rem;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: var(--shadow-sm);
+} /* 分页按钮 */
+
+.page-btn:hover { /* 分页按钮（悬停） */
+    background: rgba(255,255,255,0.28);
+    color: var(--brand);
+} /* 分页按钮（悬停） */
+
+.current-page { /* 分页：当前页 */
+    background: rgba(255,255,255,0.28);
+    color: var(--brand);
+    font-weight: bold;
+    cursor: default;
+    box-shadow: 0 2px 8px rgba(40,60,120,0.18);
+} /* 分页：当前页 */
+
+/* 返回链接 */
+.back-link { /* 返回首页链接 */
+    display: inline-block;
+    margin-top: 16px;
+    padding: 8px 24px;
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    color: var(--brand);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: var(--shadow-sm);
+} /* 返回首页链接 */
+
+.back-link:hover { /* 返回首页链接（悬停） */
+    background: rgba(255,255,255,0.28);
+    color: var(--brand);
+} /* 返回首页链接（悬停） */
+
+/* 响应式优化 */
+@media (max-width: 480px) { /* 移动端自适应 */
+    .home-title { font-size: 2.2rem; } /* 移动端：首页标题 */
+    .home-search-box input[type="text"] { width: 64vw; } /* 移动端：搜索输入框宽度 */
+    .result-item-card { padding: 24px; } /* 移动端：结果卡片内边距 */
+    .results-title { font-size: 2rem; } /* 移动端：结果页标题 */
+} /* 移动端自适应 */
