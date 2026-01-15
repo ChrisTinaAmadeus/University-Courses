@@ -1,0 +1,73 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+\begin{enumerate}[label=({\arabic*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+    \item $!\,(\sim x)$
+    \item $!\,x$
+    \item $!\,((x \& 0xFF)\,\char`^\,0xFF)$
+    \item $!\,(\sim((x \& 0xFF000000)\,|\,0xFFFFFF))$
+\end{enumerate}
+
+\section*{题目2}
+\begin{enumerate}[label=({\alph*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+    \item 恒为1。dx是x的精确表示，因此float(x)与float(dx)均为将x表示为float格式，且舍入方式相同。
+    \item 不恒为1。x为INT\_MAX，y=-1时x-y会溢出，结果为INT\_MIN。而dx-dy为INT\_MAX+1。
+    \item 恒为1。int转为double可以实现精确表示，而且double的frac位数大，满足结合律。
+    \item 不恒为1。double的frac位数为53位，而三个32位整型的乘积可能会造成舍入，因此不满足结合律。
+    \item 不恒为1。x=0的时候，dx/dx结果为NaN，该表达式恒为0。
+\end{enumerate}
+
+\section*{题目3}
+%添加一段代码
+\begin{verbatim}
+float_bits float_absval (float_bits f) {
+    float_bits exp = (f >> 23) & 0xFF;
+    float_bits frac = f & 0x7FFFFF;
+    if (exp == 0xFF && frac != 0) return f;
+    else return (f & 0x7FFFFFFF);
+}
+\end{verbatim}
+
+\section*{题目4}
+\begin{verbatim}
+float_bits float_twice(float_bits f) {
+    float_bits s = (f >> 31) << 31;
+    float_bits exp = (f >> 23) & 0xFF;
+    float_bits frac = f & 0x7FFFFF;
+    if (exp == 0xFF) return f;
+    if (exp != 0){ // 规格化数
+        exp = exp + 1;
+        if (exp == 0xFF) // 溢出为无穷
+            frac = 0;
+    }
+    else { // 非规格化数
+        frac = frac << 1;
+        if (frac & 100000){
+            exp = 0;
+            frac = frac & 0x7FFFFF;
+        }
+    }
+    return (s | (exp << 23) | frac);
+}
+\end{verbatim}
+\end{document}

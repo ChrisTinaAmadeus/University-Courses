@@ -1,0 +1,110 @@
+\documentclass[fleqn]{ctexart}
+\usepackage{graphicx}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+
+结构体成员偏移量分析：
+\begin{itemize}
+\item \texttt{a}: 偏移0，占1字节，补齐1字节
+\item \texttt{b}: 偏移2，占4字节，补齐2字节
+\item \texttt{c}: 偏移8，占4字节
+\item \texttt{p}: 偏移12，占4字节
+\item \texttt{d}: 偏移16，占1字节，补齐3字节
+\end{itemize}
+结构体总大小为20字节(0x14)
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+        Variable & Start address \\
+        \hline
+        d[0] & 0x8049600\\
+        \hline
+        d[1] & 0x8049614 \\
+        \hline
+        d[0].a & 0x8049600 \\
+        \hline
+        d[0].b[1] & 0x8049604 \\
+		\hline
+        d[0].c & 0x8049608 \\
+		\hline
+        d[0].p.y & 0x804960C \\
+		\hline
+        d[0].p.z & 0x804960C \\
+		\hline
+        d[0].d & 0x8049610 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\section*{题目2}
+do you want a midterm exam?
+
+yes!
+
+
+第一句话要注意“\textbackslash 0”到底在哪里
+
+第二句话，char **按指针（大小为4个字节）移动，char *和ans的表意一致，直接找索引即可
+
+\section*{题目3}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+& \multicolumn{4}{c|}{Offset of each field} & Total size & Alignment \\
+\hline
+A & i:0 & c:4 & j:8 & d:16 & 24 & 8 \\
+\hline
+B & l:0 & c:8 & d:9 & j:12 & 16 & 8 \\
+\hline
+C & \multicolumn{2}{c|}{w:0} & \multicolumn{2}{c|}{c:8}  & 32 & 8 \\
+\hline
+D & \multicolumn{2}{c|}{a:0} & \multicolumn{2}{c|}{p:48}  & 56 & 8 \\
+\hline
+E & \multicolumn{2}{c|}{w:0} & \multicolumn{2}{c|}{c:6}  & 10 & 2 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{题目4}
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|}
+		\hline
+        ret add \\
+        \hline
+        ebp \\
+        \hline
+           \\
+        \hline
+        username  \\
+        \hline
+        password  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+根据栈帧，username前20字节可以输入任意值，之后的4个字节需要依照小端序输入0xda、0x13、0x40、0x80对应的字符
+\end{document}

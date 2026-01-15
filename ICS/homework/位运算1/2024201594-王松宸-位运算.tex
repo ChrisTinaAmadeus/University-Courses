@@ -1,0 +1,65 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+%制作一个6×4的表格
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Binary & Octal & Decimal & Hexadecimal \\
+		\hline
+		101 0101 0110 & 2526 & 1366 & 0x556 \\
+		\hline
+		1 1111 1111 & 777 & 511 & 0x1FF \\
+		\hline
+		1 1100 0101 & 705 & 453 & 0x1C5 \\
+		\hline
+		111 1101 1111 & 3737 & 2015 & 0x7DF \\
+		\hline
+		100 0000 1101 & 2015 & 1037 & 0x40D \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\section*{题目2}
+将$A$与$B$转化为二进制形式，得到$01111111$和$10111010$
+\begin{enumerate}[label=({\alph*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item $A\&B=00111010=0x3A$
+\item $A|B=11111111=0xFF$
+\item $A\mathbin{\char`\^}B=11000101=0xC5$
+\item $\sim A|\sim B=10000000|01000101=11000101=0xC5$
+\item $A\&\&B=true$
+\item $A||B=true$
+\end{enumerate}
+
+\section*{题目3}
+\begin{enumerate}[label=({\alph*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item ! ($\sim x$)
+\item ! $x$
+\item ! ($(x \& 0xFF)\mathbin{\char`\^}0xFF$)
+\item ! $(x \& 0xFF)$
+\end{enumerate}
+
+\section*{题目4}
+$(x|0xFFFF0000) \& (y|0xFFFF)$
+\end{document}

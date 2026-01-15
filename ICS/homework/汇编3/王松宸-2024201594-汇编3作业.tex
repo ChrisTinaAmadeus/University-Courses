@@ -1,0 +1,102 @@
+\documentclass[fleqn]{ctexart}
+\usepackage{graphicx}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+阅读汇编代码，根据唯一的减法可以得到x与c分别被放置在edx和eax寄存器里，从而可以由指令后的l与swl得知它们的大小与
+所在地址。接着根据改变内存的这一行可以得到p和d的大小与所在地址。
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+        参数 & 大小（字节） & 地址 \\
+        \hline
+        c &2& ebp+8\\
+        \hline
+        x &4& ebp+20 \\
+        \hline
+        d &1& ebp+12 \\
+        \hline
+        p &4& ebp+16 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+因为参数从右向左入栈，所以函数原型为func(int x, char *p, char d, short c)
+\section*{题目2}
+（1）
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+        寄存器 & value \\
+        \hline
+        esp & 0x7FFFFFC0\\
+        \hline
+        ebp &0x7FFFFFF4\\
+        \hline
+	\end{tabular}
+\end{table}
+
+（2）
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+        寄存器 & value \\
+        \hline
+        esp & 0x7FFFFFC0\\
+        \hline
+        ebp &0x7FFFFFC0\\
+        \hline
+	\end{tabular}
+\end{table}
+
+（3）
+\begin{center}
+	\begin{tabular}{|c|c|}
+		\hline
+        寄存器 & value \\
+        \hline
+        esp & 0x7FFFFFC4\\
+        \hline
+        ebp &0x7FFFFFC4\\
+        \hline
+	\end{tabular}
+\end{center}
+
+\section*{题目3}
+\begin{verbatim}
+int main{
+    int a,b;
+    scanf("%d %d",&a,&b);
+    int c = a ^ b;
+    printf("%d %d %d\n",c,b,a);
+    return 0;
+}
+\end{verbatim}
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{image.jpg}
+\end{center}
+
+\end{document}

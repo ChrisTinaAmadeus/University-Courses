@@ -1,0 +1,107 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+        \%eax & 0x10000000 \\
+        \hline
+        \%ecx & 22 \\
+        \hline
+        \$0x10000004 & 268435460 \\
+        \hline
+        0x10000012 & 0x50000 \\
+        \hline
+        0xFFFFFF8 & None \\
+		\hline
+        (\%eax, \%ecx, 8) & 44 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\section*{题目2}
+\begin{verbatim}
+    int dw_loop(int x,int y,int n){
+        do{
+            x += n;
+            y *= n;
+            n --;
+        }while(n > 0 && y < n);
+        return x;
+    }
+\end{verbatim}
+
+\section*{题目3}
+假设参数 x 和 y 分别存放在寄存器 \%edi 和 \%esi 中
+\begin{verbatim}
+    movl  %edi, %eax      # 将 x 复制到 %eax
+    imull %esi, %eax      # %eax = x * y（计算第一个表达式）
+    movl  %edi, %ecx      # 将 x 复制到 %ecx
+    addl  %esi, %ecx      # %ecx = x + y
+    imull %esi, %ecx      # %ecx = (x + y) * y（计算第二个表达式）
+    cmpl  %esi, %edi      # 比较 x 和 y（设置条件码）
+    cmovge %ecx, %eax     # 如果 x >= y，则将 %ecx 的值移动到 %eax（否则 %eax 保持 x * y）
+    ret                   # 返回
+\end{verbatim}
+
+编译器未使用cmov指令可能是由于在这个过程中，浪费的计算所需的性能大于由于分支预测错误所造成的性能处罚，
+特别是这个例子中，x*y 和 (x+y)*y 的计算均涉及乘法指令，计算开销较大。
+
+\section*{题目4}
+假设参数x和result分别存放在寄存器\%rsi和\%rax中
+\begin{verbatim}
+    .section .rodata
+    .align 8
+.L1:
+    .quad .L2   #case 24
+    .quad .L6   #case 25
+    .quad .L4   #case 26
+    .quad .L3   #case 27
+    .quad .L3   #case 28
+    .quad .L5   #case 29
+    .quad .L5   #case 30
+switch:
+    subq $24, %rsi
+    cmpq $6, %rsi
+    ja .L6
+    jmp *.L1(,%rsi,8)
+.L2:                        #case 24
+    leaq (,%rsi,2),%rax
+    jmp .L7
+.L3:                        #case 27,28
+    leaq 10(%rsi),%rax
+    jmp .L7
+.L4:                        #case 26
+    leaq (,%rsi,2),%rax
+    jmp .L5
+.L5:                        #case 29,30 
+    addq $5, %rax
+    jmp .L7
+.L6:                        #default
+    movq $3, %rax
+    jmp .L7
+.L7:                        #exit   
+    ret
+\end{verbatim}
+\end{document}

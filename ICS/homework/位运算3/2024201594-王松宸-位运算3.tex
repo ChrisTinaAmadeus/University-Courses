@@ -1,0 +1,113 @@
+\documentclass[fleqn]{ctexart}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+         & little-endian & big-endian \\
+        \hline
+        show\_bytes(valp,1) & 0x33 & 0x14\\
+        \hline
+        show\_bytes(valp,2) & 0x3302 & 0x140A\\
+        \hline
+        show\_bytes(valp,4) & 0x33020A14 & 0x140A0233\\
+        \hline
+	\end{tabular}
+\end{table}
+
+\section*{题目2}
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+        Fractional value & Binary representation & Decimal representation \\
+        \hline
+        $\frac{1}{8}$ & 0.001 & 0.125\\
+        \hline
+        $\frac{3}{4}$ & 0.110 & 0.75\\
+        \hline
+        $\frac{43}{16}$ & 10.1011 & 2.6875\\
+        \hline
+        $\frac{25}{16}$ & 1.1001 & 1.5625\\
+        \hline
+        $\frac{51}{16}$ & 11.0011 & 3.1875\\
+        \hline
+	\end{tabular}
+\end{table}
+
+\section*{题目3}
+\begin{enumerate}[label=({\alph*}), leftmargin=*, itemsep=0.2em, parsep=0pt, topsep=0.4em]
+\item $5 = 101 b = 2^2 × 1.01b$
+
+$\therefore \text{位表示为} s =0, exp = 2 +bias = 1 + 2^{k-1},frac = 0.25 $
+
+即 $0\,\,10...01\,\,0100...0$
+
+\item 最大奇数整数的$E = min(n,2^{k-1} -1), V = 2^{E+1} -1, M =2-2^{-E},f = 1 - 2^{-E}$
+
+\medskip
+$\therefore \text{位表示为} s = 0, exp = E + bias = \begin{cases}
+n + 2^{k-1} -1 &  E = n \\
+2^k -2 & E = 2^{k-1} -1 \\
+\end{cases} $
+
+\medskip
+$\quad frac = 11...100...0b(\text{前E位为1，后n-E位为0})$
+
+\item 最小正规范化值为$2^{1-bias}$
+
+$\therefore \text{其倒数的}E = bias - 1 ,M = 1, f = 0, V =2^(bias-1)$
+
+$\therefore \text{位表示为} s = 0, exp = E + bias = 2^k -3, frac = 0$
+
+即 $0\,\,11...101\,\,00...0$
+\end{enumerate}
+
+\newpage
+\section*{题目4}
+\begin{table}[htbp]
+        \centering
+        % 使用两组合并表头：Format A (两列) 和 Format B (两列)
+        \begin{tabular}{|c|c|c|c|}
+                \hline
+                \multicolumn{2}{|c|}{Format A} & \multicolumn{2}{c|}{Format B} \\
+                \hline
+                Bits & Value & Bits & Value \\
+                \hline
+                	1 01110 001 & $-\frac{9}{16}$ & 1 0110 0010 & $-\frac{9}{16}$ \\
+                \hline
+                	0 10110 101 & 208 & 0 1110 1010 & 208 \\
+                \hline
+                	1 00111 110 & $-\frac{7}{1024}$ & 1 0000 0111 & $-\frac{7}{1024}$ \\
+                \hline
+                	0 00000 101 & $\frac{5}{131072}$ & 0 0000 0001 & $\frac{1}{1024}$ \\
+                \hline
+                	1 11011 000 & -4096 & 1 1110 1111 & -248 \\
+                \hline
+                	0 11000 100 & 768 & 0 1111 0000 & $+\infty$ \\
+                \hline
+        \end{tabular}
+\end{table}
+\end{document}
