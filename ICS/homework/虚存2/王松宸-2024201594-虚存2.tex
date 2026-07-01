@@ -1,0 +1,237 @@
+\documentclass[fleqn]{ctexart}
+\usepackage{graphicx}
+\usepackage{xcolor}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% verbatim 环境支持（用于直接粘贴源码与输出）
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+	frame=single,
+	framesep=2mm,
+	breaklines=true,
+	breakanywhere=true
+}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+
+\noindent\textbf{Address translation}
+
+\begin{center}
+\begin{tabular}{|p{0.42\textwidth}|p{0.48\textwidth}|}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+VPN & 0x0F\\
+\hline
+TLB index & 0x3\\
+\hline
+TLB tag & 0x3\\
+\hline
+TLB hit? & Y\\
+\hline
+Page fault? & N\\
+\hline
+PPN & 0x0D\\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{6mm}
+
+\noindent\textbf{Physical memory reference}
+
+\begin{center}
+\begin{tabular}{|p{0.42\textwidth}|p{0.48\textwidth}|}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+Byte offset & 0x0 \\
+\hline
+Cache index & 0xF \\
+\hline
+Cache tag & 0xD\\
+\hline
+Cache hit? & N\\
+\hline
+Cache byte returned & -\\
+\hline
+\end{tabular}
+\end{center}
+
+\section*{题目2}
+
+\noindent\textbf{需要 6 级的多级页表。}
+
+\noindent 虚拟地址 64 位，page size = 2048B = $2^{11}$，页内偏移为 11 位，因此 VPN 为 $64-11=53$ 位。页表项（PTE）为 4B，所以一张页表占用一页时可容纳 $2048/4=512=2^9$ 个表项，即每一层最多用 9 位做索引。要覆盖 53 位 VPN，至少需要 $\lceil 53/9 \rceil=6$ 层；其中最高层只需使用 8 位（256 项即可覆盖剩余位数），但该一级页表仍按“一整页”分配。
+
+\vspace{2mm}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} & \textbf{Offset} \\
+\hline
+8 & 9 & 9 & 9 & 9 & 9 & 11 \\
+\hline
+\end{tabular}
+\end{center}
+
+\section*{题目3}
+
+\noindent\textbf{已知：}虚拟空间 1MB $\Rightarrow$ VA 共 20 位；最高 2 位标记段（4 段），其余 18 位为段内偏移。
+
+\vspace{1mm}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{VA[19:18]} & \textbf{VA[17:0]} \\
+\hline
+segment(2 bits) & offset(18 bits) \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1mm}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{segment} & \textbf{base} & \textbf{size} & \textbf{positive} \\
+\hline
+code  & 4MB & 4KB   & 1 \\
+\hline
+data  & 2MB & 2KB   & 1 \\
+\hline
+heap  & 7MB & 8KB   & 1 \\
+\hline
+stack & 1MB & 256KB & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\textbf{(1)}
+
+\noindent 本程序的指令在 \textbf{code} 段；全局变量 \texttt{a,b} 在 \textbf{data} 段；局部变量 \texttt{idx} 与局部数组 \texttt{s[ARRAY\_LEN]} 在 \textbf{stack} 段；程序未使用 \textbf{heap}（无 \texttt{malloc/new}）。
+
+\vspace{1mm}
+\begin{center}
+\begin{tabular}{|p{0.22\textwidth}|p{0.68\textwidth}|}
+\hline
+\textbf{段} & \textbf{本程序中的内容} \\
+\hline
+code  & 代码/指令 \\
+\hline
+data  & 全局变量：\texttt{int a=0; int b=1;} \\
+\hline
+heap  & 无 \\
+\hline
+stack & \texttt{idx}、\texttt{s[ARRAY\_LEN]}（\texttt{read} 写入该缓冲区） \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\textbf{(2) 地址转换（VA $\rightarrow$ PA）}
+
+\noindent 先取段号 $\text{seg}=\text{VA}[19:18]$ 与段内偏移 $\text{off}=\text{VA}[17:0]$。若 \textbf{positive=1}，则 $\text{PA}=\text{base}+\text{off}$；若 \textbf{positive=0}（栈向低地址增长），则 $\text{PA}=\text{base}-\text{off}$。并需满足 $\text{off}<\text{size}$，否则越界（无有效 PA）。
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{$s=0x\mathrm{C}1300$：}最高两位为 \texttt{11} $\Rightarrow$ \textbf{stack} 段，$\text{off}=0x1300$。因为反向增长，所以取反$\text{off}$得到$0x3ED00$,满足 $0x3ED00<0x40000$，合法，$\text{PA}=1\text{MB}-0x3\matcrm{ED}00=0x\matcrm{C}1300$。
+\item \textbf{$\text{VA}=258\text{K}$：}$258\times1024=0x40800$，段号 \texttt{01} $\Rightarrow$ \textbf{data} 段，$\text{off}=0x800=2\text{KB}$；但 data 段大小为 2KB，$\text{off}<\text{size}$ 不满足（越界），因此 \textbf{无有效 PA}。
+\item \textbf{$\text{VA}=514\text{K}$：}$514\times1024=0x80800$，段号 \texttt{10} $\Rightarrow$ \textbf{heap} 段，$\text{off}=0x800=2\text{KB}$；$2\text{KB}<8\text{KB}$，合法，$\text{PA}=7\text{MB}+2\text{KB}=0x700800$。
+\end{itemize}
+
+\section*{题目4}
+
+\noindent\textbf{系统参数（用于拆分 VA）：}16-bit VA，page size = 64B $=2^6$，两级页表且每级表 64B、每项 2B $\Rightarrow$ 每级 32 项 $=2^5$。
+因此：$\text{VA} = \text{PDI}(5) \;|\; \text{PTI}(5) \;|\; \text{Offset}(6)$，即 VA[15:11] 为页目录索引，VA[10:6] 为页表索引，VA[5:0] 为页内偏移。
+
+\vspace{1mm}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{VA[15:11]} & \textbf{VA[10:6]} & \textbf{VA[5:0]} \\
+\hline
+PDI (5) & PTI (5) & Offset (6) \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\textbf{规则：}PDE/PTE 中 P=1 才 present；写操作需 W=1；用户态访问需 U=1（内核态不要求 U=1）。题干给出：Process 1 为 user mode，PD base=0x0100；Process 2 为 kernel mode，PD base=0x0180。
+
+\vspace{2mm}
+\noindent\textbf{Process 1（user）对 VA=0xC1B2 的写：}
+
+\noindent 拆分：PDI=0x18，PTI=0x06，Offset=0x32。查内存转储：PDE@0x0130=0x2101（present），得到二级页表基址 0x2100；PTE@0x210C=0x3A47（U=1,W=1,P=1），因此写入成功，PA=0x3A40+0x32=0x3A72。
+
+\begin{center}
+\begin{tabular}{|p{0.36\textwidth}|p{0.54\textwidth}|}
+\hline
+\textbf{字段} & \textbf{值} \\
+\hline
+VA & 0xC1B2 \\
+\hline
+PDI / PTI / Offset & 0x18 / 0x06 / 0x32 \\
+\hline
+PDE address & 0x0130 \\
+\hline
+PDE contents & 0x2101 $\Rightarrow$ PT base = 0x2100 \\
+\hline
+PTE address & 0x210C \\
+\hline
+PTE contents & 0x3A47 (U=1,W=1,P=1) \\
+\hline
+PA (if any) & 0x3A72 \\
+\hline
+Result & success \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{2mm}
+\noindent\textbf{Process 2（kernel）对 VA=0x728F 的写：}
+
+\noindent 拆分：PDI=0x0E，PTI=0x0A，Offset=0x0F。查内存转储：PDE@0x019C=0x1201（present），得到二级页表基址 0x1200；PTE@0x1214=0x27C1（P=1 但 W=0），因此写操作因 \textbf{page not writable} 失败（无最终 PA）。
+
+\begin{center}
+\begin{tabular}{|p{0.36\textwidth}|p{0.54\textwidth}|}
+\hline
+\textbf{字段} & \textbf{值} \\
+\hline
+VA & 0x728F \\
+\hline
+PDI / PTI / Offset & 0x0E / 0x0A / 0x0F \\
+\hline
+PDE address & 0x019C \\
+\hline
+PDE contents & 0x1201 $\Rightarrow$ PT base = 0x1200 \\
+\hline
+PTE address & 0x1214 \\
+\hline
+PTE contents & 0x27C1 (U=0,W=0,P=1) \\
+\hline
+PA (if any) & NONE \\
+\hline
+Result & page not writable (fault at PTE@0x1214) \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{document}

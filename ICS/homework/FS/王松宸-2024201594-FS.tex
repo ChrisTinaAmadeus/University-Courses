@@ -1,0 +1,166 @@
+\documentclass[fleqn]{ctexart}
+\usepackage{graphicx}
+\usepackage{xcolor}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% verbatim 环境支持（用于直接粘贴源码与输出）
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{float}
+\usepackage{fvextra}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+	frame=single,
+	framesep=2mm,
+	breaklines=true,
+	breakanywhere=true
+}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+
+文件5\,MB，均分5段每段1\,MB在磁盘上连续存放。固定块方案块大小4\,KB，每个指针8\,B；extent方案每个extent的size域4\,B。
+
+总块数 $=\frac{5\times1024}{4}=1280$ 块，每段 $=256$ 块，每间接块可存 $\frac{4096}{8}=512$ 个指针。
+
+\subsection*{固定大小Data Block}
+
+inode含12个直接指针、2个间接指针、1个双重间接指针。1280块按层级分配：
+
+\begin{table}[H]
+\centering
+\caption{块分配}\label{tab:alloc}
+\begin{tabular}{c|c|c|c}
+\hline
+指针 & 范围 & 块数 & 间接块 \\
+\hline
+12直接指针       & 0--11    & 12   & 0 \\
+间接指针\#1     & 12--523  & 512  & 1 \\
+间接指针\#2     & 524--1035 & 512  & 1 \\
+双重间接        & 1036--1279 & 244 & 1+1 \\
+\hline
+合计            &          & 1280 & 4 \\
+\hline
+\end{tabular}
+\end{table}
+
+双重间接用了一个一级块和一个二级块覆盖剩余244块。元数据由间接块和inode内指针组成：
+
+\begin{table}[H]
+\centering
+\caption{元数据}
+\begin{tabular}{l|c}
+\hline
+4个间接块 $\times$ 4\,KB & 16384\,B \\
+15个指针 $\times$ 8\,B   & 120\,B \\
+\hline
+合计                     & 16504\,B $\approx$ 16.1\,KB \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Extent}
+
+5段连续，每段一个extent。每个extent含起始指针8\,B和长度4\,B共12\,B，全部在inode内。$\;5\times12=60$\,B。
+
+\subsection*{对比}
+
+\begin{table}[H]
+\centering
+\caption{两种方案开销对比}
+\begin{tabular}{l|c|c}
+\hline
+& 固定块 & Extent \\
+\hline
+额外间接块 & 4块\,/\,16\,KB & 0 \\
+inode内占用 & 120\,B & 60\,B \\
+\hline
+总计 & 16504\,B & 60\,B \\
+\hline
+\end{tabular}
+\end{table}
+
+Extent方案60\,B，固定块方案约16.1\,KB，差距约275倍。
+
+\section*{题目2}
+
+VSFS布局：superblock、inode bitmap、data bitmap、inodes、data blocks。inode含12直接+2间接+1双重间接指针，指针4\,B，块大小4\,KB。每文件/目录至少分1块。操作独立，初始无缓存，访问一次即缓存。修改文件时该文件及其所在目录的访问/修改时间均更新，再上层不受影响，所有修改立刻落盘。
+
+每间接块可存 $\frac{4096}{4}=1024$ 个指针。
+
+\subsection*{操作1：/foo/bar追加1\,MB，原文件100\,KB}
+
+原100\,KB占 $100/4=25$ 块，其中12块由直接指针覆盖，13块经间接指针。追加1\,MB即256块，共281块。间接块需要 $13+256=269<1024$ 个指针，不需要新间接块。
+
+路径遍历需6次读：superblock $\to$ / inode $\to$ / 数据块 $\to$ foo inode $\to$ foo 数据块 $\to$ bar inode。
+
+追加过程：读bar的间接块和data bitmap各1次；写256个数据块；写回data bitmap、间接块、bar inode和foo inode。
+
+\begin{table}[H]
+\centering
+\caption{操作1 I/O汇总}
+\begin{tabular}{c|c|l}
+\hline
+类型 & 次数 & 明细 \\
+\hline
+读 & 8 & 遍历6 + bar间接块 + data bitmap \\
+写 & 260 & 数据块256 + bitmap + 间接块 + bar inode + foo inode \\
+\hline
+总计 & 268 & \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{操作2：mv /foo/bar /foo/bar2}
+
+同目录重命名，路径遍历同上：superblock $\to$ / inode $\to$ / 数据块 $\to$ foo inode $\to$ foo 数据块，5次读。另需读bar inode以更新时间戳。修改阶段：写foo数据块将目录项bar改为bar2；写foo inode和bar inode更新mtime。不涉及bitmap和数据块。
+
+\begin{table}[H]
+\centering
+\caption{操作2 I/O汇总}
+\begin{tabular}{c|c|l}
+\hline
+类型 & 次数 & 明细 \\
+\hline
+读 & 6 & 遍历5 + bar inode \\
+写 & 3 & foo数据块 + foo inode + bar inode \\
+\hline
+总计 & 9 & \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{对比}
+
+\begin{table}[H]
+\centering
+\caption{两个操作I/O对比}
+\begin{tabular}{l|c|c|c}
+\hline
+操作 & 读 & 写 & 总计 \\
+\hline
+追加1\,MB & 8 & 260 & 268 \\
+mv重命名 & 6 & 3 & 9 \\
+\hline
+\end{tabular}
+\end{table}
+
+追加写入的I/O主要由数据块写入主导，元数据部分仅12次；同目录重命名不涉及数据块读写，仅9次I/O完成。
+
+\end{document}

@@ -1,0 +1,75 @@
+\documentclass[fleqn]{ctexart}
+\usepackage{graphicx}
+\usepackage{xcolor}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% verbatim 环境支持（用于直接粘贴源码与输出）
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+	frame=single,
+	framesep=2mm,
+	breaklines=true,
+	breakanywhere=true
+}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+
+\section*{第一题}
+\begin{verbatim}
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <stddef.h>
+
+// fd 必须拥有读写权限以应对 PROT_READ | PROT_WRITE
+int fd = open("a.txt", O_RDWR);
+size_t ARRAY_LEN = 100 * 1024; // 100K 
+
+char *sbuf = (char *)mmap(NULL, ARRAY_LEN, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+char *pbuf = (char *)mmap(NULL, ARRAY_LEN, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);
+\end{verbatim}
+
+\section*{第二题}
+总共会产生 50 次 page fault exception，其中 \textbf{25 次}会执行 COW。
+
+\textbf{原因：}
+数组总大小为 $100\text{KB}$，Page大小为 $4\text{KB}$，因此总共有 $\lceil 100\text{K} / 4\text{K} \rceil = 25$ 个页面。
+\begin{itemize}
+    \item 对于 \textbf{\texttt{sbuf}}（共享映射），程序首次访问这 25 个页面中的每一个时（按需调页过程），会产生缺页异常以将文件内容读入物理内存，共计产生 \textbf{25 次}常规的 page fault。
+    \item 对于 \textbf{\texttt{pbuf}}（私有映射），其调页映射初步为指向同一文件的物理页但置为只读。当第一次尝试对其每个页面进行写操作（即 \texttt{pbuf[idx] + 1}）时，会触发写保护类型的违规异常，从而由操作系统介入执行 Copy-On-Write (COW)。这 25 个页面共计产生 \textbf{25 次} COW 的 page fault。
+\end{itemize}
+
+\section*{第三题}
+结果如下：
+\begin{itemize}
+    \item \texttt{sbuf[0] = '1'}
+    \item \texttt{sbuf[1] = '1'}
+    \item \texttt{pbuf[0] = '2'}
+    \item \texttt{pbuf[1] = '1'}
+\end{itemize}
+
+\textbf{分析：}
+\begin{itemize}
+    \item \textbf{当 idx = 0 时：} \texttt{sbuf[0]} 首先被访问并修改，当前所属物理页的首个字节变为 \texttt{'1'}。紧接着，程序执行 \texttt{pbuf[0]} 的写入。这会立刻在同一页上触发 \texttt{pbuf} 的 COW 机制。在复制物理页用作私有拷贝的瞬间，原有共享页的第 $0$ 个字节的值\textbf{已经被改为了 \texttt{'1'}}，故 \texttt{pbuf} 私有页中的第 $0$ 个字节带着 \texttt{'1'} 被复制了过来。随后，程序继续对它 \texttt{+1}，最终 \texttt{pbuf[0]} 变为 \textbf{\texttt{'2'}}。
+    \item \textbf{当 idx = 1 时：} \texttt{sbuf[1]} 正常在共享内存递增，由于初始全是 \texttt{'0'}，它会变成 \textbf{\texttt{'1'}}。而对 \texttt{pbuf[1]} 来说，由于其所在的第 1 个页面在刚才 \texttt{idx = 0} 时已经脱离共享、完成了私有性质的 COW 深拷贝，且拷贝的那一瞬间 \texttt{sbuf[1]} 尚未更改（保持为 \texttt{'0'}），故此时 \texttt{pbuf[1]} 在其私有页内的原始值为 \texttt{'0'}。执行后变成 \textbf{\texttt{'1'}}。
+\end{itemize}
+
+\end{document}

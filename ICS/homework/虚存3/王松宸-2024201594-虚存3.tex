@@ -1,0 +1,71 @@
+\documentclass[fleqn]{ctexart}
+\usepackage{graphicx}
+\usepackage{xcolor}
+% 数学支持（提供 \mathbb、\dfrac 等）
+\usepackage{amsmath,amssymb}
+% 页面与版式设置：更小的页边距与顶部空白
+\usepackage[a4paper,top=15mm,bottom=20mm,left=12mm,right=12mm]{geometry}
+% 自动换行与字偶距优化
+\usepackage{microtype}
+\microtypesetup{tracking=true,protrusion=true,final}
+% 在需要时放宽断行以避免溢出（数值可按需调整）
+\setlength{\emergencystretch}{2em}
+% 列表控制，便于让(1)后直接跟内容
+\usepackage{enumitem}
+% verbatim 环境支持（用于直接粘贴源码与输出）
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+	frame=single,
+	framesep=2mm,
+	breaklines=true,
+	breakanywhere=true
+}
+% 使章节标题左对齐（同时保留 ctex 默认样式）
+\ctexset{section={format+=\raggedright}}
+%1.3倍行距
+\renewcommand{\baselinestretch}{1.3}
+% 数学左对齐缩进为0
+\setlength{\mathindent}{0pt}
+% 增大矩阵的行距
+\renewcommand{\arraystretch}{1.3}
+\pagestyle{empty}
+\begin{document}
+\section*{题目1}
+
+已知每格4B、双字对齐(8B)，并采用边界标记(头/尾各4B)，故块开销为8B，块大小按8B向上取整。
+初始堆(从左到右)：\texttt{[32/F]\,[16/A(p1)]\,[16/F]\,[16/A(p2)]\,[24/F]}，其中16B已分配块的payload为$16-8=8$B。
+
+\subsection*{(1) First fit}
+请求大小换算：$malloc(4)\Rightarrow 16$B块；$malloc(10)\Rightarrow 24$B块；$malloc(16)\Rightarrow 24$B块。
+\begin{enumerate}[leftmargin=*]
+	\item $P3=malloc(4)$：命中首个\texttt{32/F}并分裂
+	\\ \texttt{[16/A(p3)]\,[16/F]\,[16/A(p1)]\,[16/F]\,[16/A(p2)]\,[24/F]}
+	\item $P4=malloc(10)$：前两块\texttt{16/F}不够，命中末尾\texttt{24/F}
+	\\ \texttt{[16/A(p3)]\,[16/F]\,[16/A(p1)]\,[16/F]\,[16/A(p2)]\,[24/A(p4)]}
+	\item $free(P1)$：与前后相邻两个\texttt{16/F}合并(三块16B合并为48B)
+	\\ \texttt{[16/A(p3)]\,[48/F]\,[16/A(p2)]\,[24/A(p4)]}
+	\item $P5=malloc(16)$：命中\texttt{48/F}并分裂
+	\\ \texttt{[16/A(p3)]\,[24/A(p5)]\,[24/F]\,[16/A(p2)]\,[24/A(p4)]}
+\end{enumerate}
+
+\subsection*{(2) Best fit}
+\begin{enumerate}[leftmargin=*]
+	\item $P3=malloc(4)$：命中最小可用\texttt{16/F}(恰好)
+	\\ \texttt{[32/F]\,[16/A(p1)]\,[16/A(p3)]\,[16/A(p2)]\,[24/F]}
+	\item $P4=malloc(10)$：命中\texttt{24/F}(恰好)
+	\\ \texttt{[32/F]\,[16/A(p1)]\,[16/A(p3)]\,[16/A(p2)]\,[24/A(p4)]}
+	\item $free(P1)$：与左侧\texttt{32/F}合并为\texttt{48/F}
+	\\ \texttt{[48/F]\,[16/A(p3)]\,[16/A(p2)]\,[24/A(p4)]}
+	\item $P5=malloc(16)$：仅\texttt{48/F}可用，分裂
+	\\ \texttt{[24/A(p5)]\,[24/F]\,[16/A(p3)]\,[16/A(p2)]\,[24/A(p4)]}
+\end{enumerate}
+
+\subsection*{峰值利用率}
+堆总大小不变：$32+16+16+16+24=104$B。
+各已分配块payload：16B块为8B，24B块为16B。
+最大同时占用payload出现在语句4之后：$8(p2)+4(p3)+10(p4)+16(p5)=38$B，
+$$U_{\max}=\frac{38}{104}\approx 0.365\;(36.5\%).$$
+
+\end{document}
