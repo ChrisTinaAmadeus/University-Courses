@@ -1,0 +1,31 @@
+track throughput
+score throughput_makespan
+role leaderboard
+scenario_weight = 1.0
+workers 4
+cpu_rate 16
+switch_cost 4
+migration_cost 15
+
+# h03 variant: Even shorter compute bursts to stress-test wakeup placement
+# With switch_cost=4, context switches are cheap, making preemption more viable
+# This tests whether selective preemption can help when switch_cost is low
+
+device disk0 fifo rate=6 parallel=2
+
+phase main at 0us:
+  # Very short I/O bursts — compute is shorter than baseline quantum (20us)
+  group io_tiny * 24 arrival stagger 30us:
+    repeat 12:
+      compute 10 jitter=5
+      call disk0 5
+
+  # Medium I/O bursts
+  group io_med * 12 arrival stagger 60us:
+    repeat 6:
+      compute 30 jitter=15
+      call disk0 10
+
+  # Pure CPU tasks that block I/O tasks
+  group cpu_heavy * 4:
+    compute 1200

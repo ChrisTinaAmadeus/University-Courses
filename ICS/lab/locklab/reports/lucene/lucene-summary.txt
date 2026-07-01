@@ -1,0 +1,3 @@
+lucene_fixed_status=0
+lucene_buggy_precompile_status=0
+lucene_buggy_status=124

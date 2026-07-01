@@ -1,0 +1,18 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 4
+cpu_rate 14
+switch_cost 7
+migration_cost 6
+
+phase asym_block at 0us:
+  group continuous * 14 weight=3:
+    repeat 12:
+      compute 50
+  group blocking * 8 weight=1 arrival burst 2 every 100us:
+    repeat 5:
+      compute 50
+      sleep 40us
+      compute 18

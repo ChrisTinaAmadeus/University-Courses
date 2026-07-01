@@ -1,0 +1,2 @@
+zap_buggy_status=1
+zap_fixed_status=0

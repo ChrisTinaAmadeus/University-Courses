@@ -1,0 +1,20 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 6
+cpu_rate 20
+switch_cost 5
+migration_cost 11
+
+phase cyclic at 0us:
+  group light_cyclic * 12 weight=4:
+    repeat 6:
+      compute 61
+      sleep 195us
+      compute 71
+  group heavy_cyclic * 6 weight=1:
+    repeat 6:
+      compute 122
+      sleep 585us
+      compute 76

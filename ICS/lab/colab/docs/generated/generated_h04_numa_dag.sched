@@ -1,0 +1,55 @@
+track throughput
+score throughput_makespan
+role leaderboard
+scenario_weight = 1.0
+workers 8
+cpu_rate 16
+switch_cost 12
+node socket0 0-3
+node socket1 4-7
+migration_cost local=12 remote=60
+
+# h04-like: High-switch NUMA DAG — ordering-sensitive
+# Models the hidden h04 pattern: NUMA topology with DAG dependencies
+# where non-FIFO pick_next/steal ordering destroys critical path progress.
+#
+# Two independent hot/cold chains like steal_or_starve but with
+# different group size asymmetries to test ordering sensitivity.
+
+group hot_seeds * 4:
+  compute 80
+
+group cold_seeds * 2:
+  compute 80
+
+# Hot chain: mem=high tasks with sleep (NUMA-sensitive)
+group hot_wave1 * 24 after fanout(hot_seeds):
+  repeat 2:
+    compute 100 mem=high
+    sleep 15us
+    compute 80 mem=high
+
+group hot_wave2 * 48 after fanout(hot_wave1):
+  compute 60 mem=high
+
+# Cold chain: pure compute (steal-friendly)
+group cold_wave1 * 8 after fanout(cold_seeds):
+  compute 150
+
+group cold_wave2 * 16 after cold_wave1:
+  compute 100
+
+# Mixed tail that tests ordering sensitivity
+# If ordering is wrong, tail tasks from the faster chain wait unnecessarily
+group tail_hot * 12 after hot_wave2:
+  compute 300
+
+group tail_cold * 8 after join(cold_wave2):
+  compute 200
+
+# Small noise groups to test "fewer-remaining" group-aware trap
+group noise_a * 4:
+  compute 120
+
+group noise_b * 4:
+  compute 120

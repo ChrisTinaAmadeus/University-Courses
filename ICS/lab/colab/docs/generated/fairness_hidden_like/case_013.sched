@@ -1,0 +1,21 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 8
+cpu_rate 23
+switch_cost 3
+migration_cost 11
+
+phase storm at 0us:
+  group anchor * 7 weight=5:
+    repeat 11:
+      compute 54
+  group storm_a * 24 weight=2 arrival burst 8 every 330us:
+    repeat 6:
+      compute 24
+      sleep 125us
+  group storm_b * 16 weight=4 arrival burst 4 every 500us:
+    repeat 4:
+      compute 35
+      sleep 215us

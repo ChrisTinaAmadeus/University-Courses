@@ -1,0 +1,19 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 16
+cpu_rate 23
+switch_cost 4
+node n0 0-7
+node n1 8-15
+migration_cost local=4 remote=16
+
+phase topo at 0us:
+  group local_pressure * 8 weight=1 arrival stagger 231us:
+    repeat 5:
+      compute 115
+  group remote_heavy * 5 weight=5 arrival delay 790us:
+    repeat 6:
+      compute 144
+      sleep 80us

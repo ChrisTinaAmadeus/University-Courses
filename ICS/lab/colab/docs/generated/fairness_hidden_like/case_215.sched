@@ -1,0 +1,16 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 8
+cpu_rate 30
+switch_cost 4
+migration_cost 18
+
+phase parallel at 0us:
+  group scarce_heavy * 4 weight=4:
+    repeat 11:
+      compute 292
+  group abundant_light * 100 weight=1 arrival stagger 179us:
+    repeat 3:
+      compute 78

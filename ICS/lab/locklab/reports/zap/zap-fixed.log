@@ -1,0 +1,8 @@
+=== zap fixed verification ===
+2026-06-19T17:20:57+08:00
+repo: sources/zap-fixed
+commit: 3ffa0c00594205c2c623aa9493847217982b558d
+go: go version go1.26.4 linux/amd64
+command: go test ./zapcore -run "^TestBufferWriter$/^stop_race_with_flush$" -count=1000 -timeout=5s
+ok  	go.uber.org/zap/zapcore	0.126s
+exit_code=0

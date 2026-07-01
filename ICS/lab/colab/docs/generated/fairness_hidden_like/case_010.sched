@@ -1,0 +1,18 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 8
+cpu_rate 24
+switch_cost 3
+migration_cost 10
+
+phase solo at 0us:
+  group solo_first * 16 weight=7:
+    repeat 9:
+      compute 60
+
+phase challenger at 500us:
+  group challenger * 32 weight=1 arrival burst 8 every 5us:
+    repeat 4:
+      compute 35

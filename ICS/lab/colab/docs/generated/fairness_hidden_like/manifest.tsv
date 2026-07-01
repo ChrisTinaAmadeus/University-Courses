@@ -1,0 +1,301 @@
+name	family	note
+case_000	two_group_stagger_no_block	ratio=3, low_count=6, high_count=2
+case_001	inverse_stagger_no_block	ratio=5, high_count=3, low_count=18
+case_002	sleepy_reactivation	steady_w=1, sleeper_w=5
+case_003	device_wakeup	io_parallel=4
+case_004	many_group_microburst	groups=4
+case_005	parallelism_mismatch	ratio=4, high_count=2, low_count=30
+case_006	phase_churn	t1=1040, t2=2490
+case_007	topology_churn	workers=12
+case_008	late_heavyweight	ratio=12, delay=1900
+case_009	cyclic_reactivation	light_w=6, heavy_w=1, cycles=7
+case_010	window_decay_race	ratio=7, phase2_delay=500
+case_011	weight_transition	workers=12
+case_012	asymmetric_blocking	ratio=3
+case_013	bursty_reactivation_storm	workers=8
+case_014	two_group_stagger_no_block	ratio=5, low_count=48, high_count=6
+case_015	inverse_stagger_no_block	ratio=4, high_count=5, low_count=50
+case_016	sleepy_reactivation	steady_w=1, sleeper_w=3
+case_017	device_wakeup	io_parallel=3
+case_018	many_group_microburst	groups=3
+case_019	parallelism_mismatch	ratio=15, high_count=4, low_count=100
+case_020	phase_churn	t1=480, t2=1930
+case_021	topology_churn	workers=10
+case_022	late_heavyweight	ratio=10, delay=700
+case_023	cyclic_reactivation	light_w=4, heavy_w=1, cycles=6
+case_024	window_decay_race	ratio=3, phase2_delay=200
+case_025	weight_transition	workers=8
+case_026	asymmetric_blocking	ratio=7
+case_027	bursty_reactivation_storm	workers=12
+case_028	two_group_stagger_no_block	ratio=8, low_count=30, high_count=5
+case_029	inverse_stagger_no_block	ratio=12, high_count=3, low_count=18
+case_030	sleepy_reactivation	steady_w=1, sleeper_w=6
+case_031	device_wakeup	io_parallel=2
+case_032	many_group_microburst	groups=5
+case_033	parallelism_mismatch	ratio=10, high_count=2, low_count=30
+case_034	phase_churn	t1=1180, t2=2630
+case_035	topology_churn	workers=8
+case_036	late_heavyweight	ratio=8, delay=1500
+case_037	cyclic_reactivation	light_w=1, heavy_w=8, cycles=5
+case_038	window_decay_race	ratio=7, phase2_delay=1100
+case_039	weight_transition	workers=12
+case_040	asymmetric_blocking	ratio=3
+case_041	bursty_reactivation_storm	workers=8
+case_042	two_group_stagger_no_block	ratio=3, low_count=20, high_count=4
+case_043	inverse_stagger_no_block	ratio=9, high_count=5, low_count=50
+case_044	sleepy_reactivation	steady_w=3, sleeper_w=1
+case_045	device_wakeup	io_parallel=1
+case_046	many_group_microburst	groups=4
+case_047	parallelism_mismatch	ratio=8, high_count=4, low_count=100
+case_048	phase_churn	t1=620, t2=2070
+case_049	topology_churn	workers=20
+case_050	late_heavyweight	ratio=6, delay=300
+case_051	cyclic_reactivation	light_w=1, heavy_w=6, cycles=4
+case_052	window_decay_race	ratio=3, phase2_delay=800
+case_053	weight_transition	workers=8
+case_054	asymmetric_blocking	ratio=7
+case_055	bursty_reactivation_storm	workers=12
+case_056	two_group_stagger_no_block	ratio=5, low_count=12, high_count=3
+case_057	inverse_stagger_no_block	ratio=7, high_count=3, low_count=18
+case_058	sleepy_reactivation	steady_w=1, sleeper_w=5
+case_059	device_wakeup	io_parallel=5
+case_060	many_group_microburst	groups=3
+case_061	parallelism_mismatch	ratio=6, high_count=2, low_count=30
+case_062	phase_churn	t1=1320, t2=2770
+case_063	topology_churn	workers=16
+case_064	late_heavyweight	ratio=16, delay=1100
+case_065	cyclic_reactivation	light_w=1, heavy_w=4, cycles=3
+case_066	window_decay_race	ratio=7, phase2_delay=500
+case_067	weight_transition	workers=12
+case_068	asymmetric_blocking	ratio=3
+case_069	bursty_reactivation_storm	workers=8
+case_070	two_group_stagger_no_block	ratio=8, low_count=6, high_count=2
+case_071	inverse_stagger_no_block	ratio=5, high_count=5, low_count=50
+case_072	sleepy_reactivation	steady_w=1, sleeper_w=3
+case_073	device_wakeup	io_parallel=4
+case_074	many_group_microburst	groups=5
+case_075	parallelism_mismatch	ratio=4, high_count=4, low_count=100
+case_076	phase_churn	t1=760, t2=2210
+case_077	topology_churn	workers=12
+case_078	late_heavyweight	ratio=12, delay=1900
+case_079	cyclic_reactivation	light_w=6, heavy_w=1, cycles=7
+case_080	window_decay_race	ratio=3, phase2_delay=200
+case_081	weight_transition	workers=8
+case_082	asymmetric_blocking	ratio=7
+case_083	bursty_reactivation_storm	workers=12
+case_084	two_group_stagger_no_block	ratio=3, low_count=48, high_count=6
+case_085	inverse_stagger_no_block	ratio=4, high_count=3, low_count=18
+case_086	sleepy_reactivation	steady_w=1, sleeper_w=6
+case_087	device_wakeup	io_parallel=3
+case_088	many_group_microburst	groups=4
+case_089	parallelism_mismatch	ratio=15, high_count=2, low_count=30
+case_090	phase_churn	t1=200, t2=1650
+case_091	topology_churn	workers=10
+case_092	late_heavyweight	ratio=10, delay=700
+case_093	cyclic_reactivation	light_w=4, heavy_w=1, cycles=6
+case_094	window_decay_race	ratio=7, phase2_delay=1100
+case_095	weight_transition	workers=12
+case_096	asymmetric_blocking	ratio=3
+case_097	bursty_reactivation_storm	workers=8
+case_098	two_group_stagger_no_block	ratio=5, low_count=30, high_count=5
+case_099	inverse_stagger_no_block	ratio=12, high_count=5, low_count=50
+case_100	sleepy_reactivation	steady_w=3, sleeper_w=1
+case_101	device_wakeup	io_parallel=2
+case_102	many_group_microburst	groups=3
+case_103	parallelism_mismatch	ratio=10, high_count=4, low_count=100
+case_104	phase_churn	t1=900, t2=2350
+case_105	topology_churn	workers=8
+case_106	late_heavyweight	ratio=8, delay=1500
+case_107	cyclic_reactivation	light_w=1, heavy_w=8, cycles=5
+case_108	window_decay_race	ratio=3, phase2_delay=800
+case_109	weight_transition	workers=8
+case_110	asymmetric_blocking	ratio=7
+case_111	bursty_reactivation_storm	workers=12
+case_112	two_group_stagger_no_block	ratio=8, low_count=20, high_count=4
+case_113	inverse_stagger_no_block	ratio=9, high_count=3, low_count=18
+case_114	sleepy_reactivation	steady_w=1, sleeper_w=5
+case_115	device_wakeup	io_parallel=1
+case_116	many_group_microburst	groups=5
+case_117	parallelism_mismatch	ratio=8, high_count=2, low_count=30
+case_118	phase_churn	t1=340, t2=1790
+case_119	topology_churn	workers=20
+case_120	late_heavyweight	ratio=6, delay=300
+case_121	cyclic_reactivation	light_w=1, heavy_w=6, cycles=4
+case_122	window_decay_race	ratio=7, phase2_delay=500
+case_123	weight_transition	workers=12
+case_124	asymmetric_blocking	ratio=3
+case_125	bursty_reactivation_storm	workers=8
+case_126	two_group_stagger_no_block	ratio=3, low_count=12, high_count=3
+case_127	inverse_stagger_no_block	ratio=7, high_count=5, low_count=50
+case_128	sleepy_reactivation	steady_w=1, sleeper_w=3
+case_129	device_wakeup	io_parallel=5
+case_130	many_group_microburst	groups=4
+case_131	parallelism_mismatch	ratio=6, high_count=4, low_count=100
+case_132	phase_churn	t1=1040, t2=2490
+case_133	topology_churn	workers=16
+case_134	late_heavyweight	ratio=16, delay=1100
+case_135	cyclic_reactivation	light_w=1, heavy_w=4, cycles=3
+case_136	window_decay_race	ratio=3, phase2_delay=200
+case_137	weight_transition	workers=8
+case_138	asymmetric_blocking	ratio=7
+case_139	bursty_reactivation_storm	workers=12
+case_140	two_group_stagger_no_block	ratio=5, low_count=6, high_count=2
+case_141	inverse_stagger_no_block	ratio=5, high_count=3, low_count=18
+case_142	sleepy_reactivation	steady_w=1, sleeper_w=6
+case_143	device_wakeup	io_parallel=4
+case_144	many_group_microburst	groups=3
+case_145	parallelism_mismatch	ratio=4, high_count=2, low_count=30
+case_146	phase_churn	t1=480, t2=1930
+case_147	topology_churn	workers=12
+case_148	late_heavyweight	ratio=12, delay=1900
+case_149	cyclic_reactivation	light_w=6, heavy_w=1, cycles=7
+case_150	window_decay_race	ratio=7, phase2_delay=1100
+case_151	weight_transition	workers=12
+case_152	asymmetric_blocking	ratio=3
+case_153	bursty_reactivation_storm	workers=8
+case_154	two_group_stagger_no_block	ratio=8, low_count=48, high_count=6
+case_155	inverse_stagger_no_block	ratio=4, high_count=5, low_count=50
+case_156	sleepy_reactivation	steady_w=3, sleeper_w=1
+case_157	device_wakeup	io_parallel=3
+case_158	many_group_microburst	groups=5
+case_159	parallelism_mismatch	ratio=15, high_count=4, low_count=100
+case_160	phase_churn	t1=1180, t2=2630
+case_161	topology_churn	workers=10
+case_162	late_heavyweight	ratio=10, delay=700
+case_163	cyclic_reactivation	light_w=4, heavy_w=1, cycles=6
+case_164	window_decay_race	ratio=3, phase2_delay=800
+case_165	weight_transition	workers=8
+case_166	asymmetric_blocking	ratio=7
+case_167	bursty_reactivation_storm	workers=12
+case_168	two_group_stagger_no_block	ratio=3, low_count=30, high_count=5
+case_169	inverse_stagger_no_block	ratio=12, high_count=3, low_count=18
+case_170	sleepy_reactivation	steady_w=1, sleeper_w=5
+case_171	device_wakeup	io_parallel=2
+case_172	many_group_microburst	groups=4
+case_173	parallelism_mismatch	ratio=10, high_count=2, low_count=30
+case_174	phase_churn	t1=620, t2=2070
+case_175	topology_churn	workers=8
+case_176	late_heavyweight	ratio=8, delay=1500
+case_177	cyclic_reactivation	light_w=1, heavy_w=8, cycles=5
+case_178	window_decay_race	ratio=7, phase2_delay=500
+case_179	weight_transition	workers=12
+case_180	asymmetric_blocking	ratio=3
+case_181	bursty_reactivation_storm	workers=8
+case_182	two_group_stagger_no_block	ratio=5, low_count=20, high_count=4
+case_183	inverse_stagger_no_block	ratio=9, high_count=5, low_count=50
+case_184	sleepy_reactivation	steady_w=1, sleeper_w=3
+case_185	device_wakeup	io_parallel=1
+case_186	many_group_microburst	groups=3
+case_187	parallelism_mismatch	ratio=8, high_count=4, low_count=100
+case_188	phase_churn	t1=1320, t2=2770
+case_189	topology_churn	workers=20
+case_190	late_heavyweight	ratio=6, delay=300
+case_191	cyclic_reactivation	light_w=1, heavy_w=6, cycles=4
+case_192	window_decay_race	ratio=3, phase2_delay=200
+case_193	weight_transition	workers=8
+case_194	asymmetric_blocking	ratio=7
+case_195	bursty_reactivation_storm	workers=12
+case_196	two_group_stagger_no_block	ratio=8, low_count=12, high_count=3
+case_197	inverse_stagger_no_block	ratio=7, high_count=3, low_count=18
+case_198	sleepy_reactivation	steady_w=1, sleeper_w=6
+case_199	device_wakeup	io_parallel=5
+case_200	many_group_microburst	groups=5
+case_201	parallelism_mismatch	ratio=6, high_count=2, low_count=30
+case_202	phase_churn	t1=760, t2=2210
+case_203	topology_churn	workers=16
+case_204	late_heavyweight	ratio=16, delay=1100
+case_205	cyclic_reactivation	light_w=1, heavy_w=4, cycles=3
+case_206	window_decay_race	ratio=7, phase2_delay=1100
+case_207	weight_transition	workers=12
+case_208	asymmetric_blocking	ratio=3
+case_209	bursty_reactivation_storm	workers=8
+case_210	two_group_stagger_no_block	ratio=3, low_count=6, high_count=2
+case_211	inverse_stagger_no_block	ratio=5, high_count=5, low_count=50
+case_212	sleepy_reactivation	steady_w=3, sleeper_w=1
+case_213	device_wakeup	io_parallel=4
+case_214	many_group_microburst	groups=4
+case_215	parallelism_mismatch	ratio=4, high_count=4, low_count=100
+case_216	phase_churn	t1=200, t2=1650
+case_217	topology_churn	workers=12
+case_218	late_heavyweight	ratio=12, delay=1900
+case_219	cyclic_reactivation	light_w=6, heavy_w=1, cycles=7
+case_220	window_decay_race	ratio=3, phase2_delay=800
+case_221	weight_transition	workers=8
+case_222	asymmetric_blocking	ratio=7
+case_223	bursty_reactivation_storm	workers=12
+case_224	two_group_stagger_no_block	ratio=5, low_count=48, high_count=6
+case_225	inverse_stagger_no_block	ratio=4, high_count=3, low_count=18
+case_226	sleepy_reactivation	steady_w=1, sleeper_w=5
+case_227	device_wakeup	io_parallel=3
+case_228	many_group_microburst	groups=3
+case_229	parallelism_mismatch	ratio=15, high_count=2, low_count=30
+case_230	phase_churn	t1=900, t2=2350
+case_231	topology_churn	workers=10
+case_232	late_heavyweight	ratio=10, delay=700
+case_233	cyclic_reactivation	light_w=4, heavy_w=1, cycles=6
+case_234	window_decay_race	ratio=7, phase2_delay=500
+case_235	weight_transition	workers=12
+case_236	asymmetric_blocking	ratio=3
+case_237	bursty_reactivation_storm	workers=8
+case_238	two_group_stagger_no_block	ratio=8, low_count=30, high_count=5
+case_239	inverse_stagger_no_block	ratio=12, high_count=5, low_count=50
+case_240	sleepy_reactivation	steady_w=1, sleeper_w=3
+case_241	device_wakeup	io_parallel=2
+case_242	many_group_microburst	groups=5
+case_243	parallelism_mismatch	ratio=10, high_count=4, low_count=100
+case_244	phase_churn	t1=340, t2=1790
+case_245	topology_churn	workers=8
+case_246	late_heavyweight	ratio=8, delay=1500
+case_247	cyclic_reactivation	light_w=1, heavy_w=8, cycles=5
+case_248	window_decay_race	ratio=3, phase2_delay=200
+case_249	weight_transition	workers=8
+case_250	asymmetric_blocking	ratio=7
+case_251	bursty_reactivation_storm	workers=12
+case_252	two_group_stagger_no_block	ratio=3, low_count=20, high_count=4
+case_253	inverse_stagger_no_block	ratio=9, high_count=3, low_count=18
+case_254	sleepy_reactivation	steady_w=1, sleeper_w=6
+case_255	device_wakeup	io_parallel=1
+case_256	many_group_microburst	groups=4
+case_257	parallelism_mismatch	ratio=8, high_count=2, low_count=30
+case_258	phase_churn	t1=1040, t2=2490
+case_259	topology_churn	workers=20
+case_260	late_heavyweight	ratio=6, delay=300
+case_261	cyclic_reactivation	light_w=1, heavy_w=6, cycles=4
+case_262	window_decay_race	ratio=7, phase2_delay=1100
+case_263	weight_transition	workers=12
+case_264	asymmetric_blocking	ratio=3
+case_265	bursty_reactivation_storm	workers=8
+case_266	two_group_stagger_no_block	ratio=5, low_count=12, high_count=3
+case_267	inverse_stagger_no_block	ratio=7, high_count=5, low_count=50
+case_268	sleepy_reactivation	steady_w=3, sleeper_w=1
+case_269	device_wakeup	io_parallel=5
+case_270	many_group_microburst	groups=3
+case_271	parallelism_mismatch	ratio=6, high_count=4, low_count=100
+case_272	phase_churn	t1=480, t2=1930
+case_273	topology_churn	workers=16
+case_274	late_heavyweight	ratio=16, delay=1100
+case_275	cyclic_reactivation	light_w=1, heavy_w=4, cycles=3
+case_276	window_decay_race	ratio=3, phase2_delay=800
+case_277	weight_transition	workers=8
+case_278	asymmetric_blocking	ratio=7
+case_279	bursty_reactivation_storm	workers=12
+case_280	two_group_stagger_no_block	ratio=8, low_count=6, high_count=2
+case_281	inverse_stagger_no_block	ratio=5, high_count=3, low_count=18
+case_282	sleepy_reactivation	steady_w=1, sleeper_w=5
+case_283	device_wakeup	io_parallel=4
+case_284	many_group_microburst	groups=5
+case_285	parallelism_mismatch	ratio=4, high_count=2, low_count=30
+case_286	phase_churn	t1=1180, t2=2630
+case_287	topology_churn	workers=12
+case_288	late_heavyweight	ratio=12, delay=1900
+case_289	cyclic_reactivation	light_w=6, heavy_w=1, cycles=7
+case_290	window_decay_race	ratio=7, phase2_delay=500
+case_291	weight_transition	workers=12
+case_292	asymmetric_blocking	ratio=3
+case_293	bursty_reactivation_storm	workers=8
+case_294	two_group_stagger_no_block	ratio=3, low_count=48, high_count=6
+case_295	inverse_stagger_no_block	ratio=4, high_count=5, low_count=50
+case_296	sleepy_reactivation	steady_w=1, sleeper_w=3
+case_297	device_wakeup	io_parallel=3
+case_298	many_group_microburst	groups=4
+case_299	parallelism_mismatch	ratio=15, high_count=4, low_count=100

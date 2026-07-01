@@ -1,0 +1,81 @@
+=== zap buggy reproduction ===
+2026-06-19T17:20:49+08:00
+repo: sources/zap-buggy
+commit: b15585bc7a2b383592004f75df35fa2088db5481
+go: go version go1.26.4 linux/amd64
+command: go test ./zapcore -run "^TestBufferWriter$/^stop_race_with_flush$" -count=10000 -timeout=3s
+go: downloading github.com/stretchr/testify v1.8.1
+go: downloading go.uber.org/multierr v1.10.0
+go: downloading go.uber.org/goleak v1.3.0
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading github.com/pmezard/go-difflib v1.0.0
+go: downloading github.com/davecgh/go-spew v1.1.1
+panic: test timed out after 3s
+	running tests:
+		TestBufferWriter (3s)
+		TestBufferWriter/stop_race_with_flush (3s)
+
+goroutine 82 [running]:
+testing.(*M).startAlarm.func1()
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2802 +0x354
+created by time.goFunc
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/time/sleep.go:215 +0x2d
+
+goroutine 1 [chan receive]:
+testing.(*T).Run(0x23bc70d1d448, {0x7b355a?, 0x0?}, 0x7cf548)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2109 +0x4e5
+testing.runTests.func1(0x23bc70d1d448)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2585 +0x3e
+testing.tRunner(0x23bc70d1d448, 0x23bc70ae5bb0)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2036 +0xea
+testing.runTests({0x7b2e9d, 0xf}, {0x7b6ec4, 0x17}, 0x23bc709d04b0, {0xaac220, 0x52, 0x52}, {0xc285605e44130f84, 0xb2d53bef, ...})
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2583 +0x505
+testing.(*M).Run(0x23bc70aa70e0)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2443 +0x6ac
+go.uber.org/goleak.VerifyTestMain({0x7d5a20?, 0x23bc70aa70e0?}, {0x0, 0x0, 0x0})
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/go/pkg/mod/go.uber.org/goleak@v1.3.0/testmain.go:53 +0x5a
+go.uber.org/zap/zapcore.TestMain(...)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/leak_test.go:30
+main.main()
+	_testmain.go:238 +0xb7
+
+goroutine 29 [chan receive]:
+testing.(*T).Run(0x23bc70d1d688, {0x7b5699?, 0x51e9f3?}, 0x7cfa48)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2109 +0x4e5
+go.uber.org/zap/zapcore.TestBufferWriter(0x23bc70d1d688)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/buffered_write_syncer_test.go:56 +0x69
+testing.tRunner(0x23bc70d1d688, 0x7cf548)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2036 +0xea
+created by testing.(*T).Run in goroutine 1
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2101 +0x4c5
+
+goroutine 66 [chan receive]:
+go.uber.org/zap/zapcore.(*BufferedWriteSyncer).Stop.func1(0x23bc7100e060, 0x7d35b0?)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/buffered_write_syncer.go:210 +0xbb
+go.uber.org/zap/zapcore.(*BufferedWriteSyncer).Stop(0x23bc7100e060)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/buffered_write_syncer.go:211 +0x25
+go.uber.org/zap/zapcore.TestBufferWriter.func3(0x23bc7101a008)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/buffered_write_syncer_test.go:60 +0x131
+testing.tRunner(0x23bc7101a008, 0x7cfa48)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2036 +0xea
+created by testing.(*T).Run in goroutine 29
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/testing/testing.go:2101 +0x4c5
+
+goroutine 67 [sync.Mutex.Lock]:
+internal/sync.runtime_SemacquireMutex(0x60?, 0x1?, 0x85363f?)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/runtime/sema.go:95 +0x25
+internal/sync.(*Mutex).lockSlow(0x23bc7100e090)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/internal/sync/mutex.go:149 +0x15d
+internal/sync.(*Mutex).Lock(...)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/internal/sync/mutex.go:70
+sync.(*Mutex).Lock(...)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/go/src/sync/mutex.go:46
+go.uber.org/zap/zapcore.(*BufferedWriteSyncer).Sync(0x23bc7100e060)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/buffered_write_syncer.go:159 +0x4d
+go.uber.org/zap/zapcore.(*BufferedWriteSyncer).flushLoop(0x23bc7100e060)
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/buffered_write_syncer.go:181 +0x59
+created by go.uber.org/zap/zapcore.(*BufferedWriteSyncer).initialize in goroutine 66
+	/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/zap-buggy/zapcore/buffered_write_syncer.go:132 +0x267
+FAIL	go.uber.org/zap/zapcore	3.007s
+FAIL
+exit_code=1

@@ -1,0 +1,301 @@
+name	family	score	student_quality	baseline_quality	max_share_skew	share_balance_ratio	worst_group	worst_group_severity	note
+case_081	weight_transition	0.536913	0.536913	1.000000	1.862500	3.047979	heavy_exit	1.862499	workers=8
+case_231	topology_churn	0.645181	0.441220	0.683871	2.266442	2.537406	remote_heavy	1.722030	workers=10
+case_077	topology_churn	0.649505	0.324752	0.500000	3.079268	2.677148	local_pressure	1.944872	workers=12
+case_132	phase_churn	0.671825	0.359128	0.534557	2.784520	8.053671	join_d	5.720993	t1=1040, t2=2490
+case_100	sleepy_reactivation	0.679130	0.442647	0.651786	2.259136	1.461377	sleeper	1.246040	steady_w=3, sleeper_w=1
+case_140	two_group_stagger_no_block	0.693167	0.314834	0.454196	3.176278	6.683384	high_stagger	2.999085	ratio=5, low_count=6, high_count=2
+case_295	inverse_stagger_no_block	0.693615	0.638643	0.920746	1.565819	1.190614	high_anchor	1.129672	ratio=4, high_count=5, low_count=50
+case_275	cyclic_reactivation	0.695369	0.413424	0.594539	2.418824	2.375728	heavy_cyclic	1.824691	light_w=1, heavy_w=4, cycles=3
+case_287	topology_churn	0.739595	0.327597	0.442942	3.052527	3.196900	local_pressure	2.071659	workers=12
+case_048	phase_churn	0.742492	0.453745	0.611111	2.203881	3.187846	join_c	2.324673	t1=620, t2=2070
+case_236	asymmetric_blocking	0.742500	0.561892	0.756757	1.779703	1.445771	blocking	1.341094	ratio=3
+case_004	many_group_microburst	0.748768	0.574171	0.766821	1.741640	1.404301	g3	1.201164	groups=4
+case_188	phase_churn	0.785797	0.152979	0.194680	6.536842	12.725134	join_d	6.283759	t1=1320, t2=2770
+case_147	topology_churn	0.866733	0.531097	0.612757	1.882897	2.200205	local_pressure	1.761923	workers=12
+case_007	topology_churn	0.889662	0.770732	0.866319	1.297468	1.598967	local_pressure	1.317360	workers=12
+case_006	phase_churn	0.900066	0.421553	0.468358	2.372180	4.739998	join_d	2.241180	t1=1040, t2=2490
+case_160	phase_churn	0.906525	0.234524	0.258706	4.263959	2.137939	join_d	2.018349	t1=1180, t2=2630
+case_161	topology_churn	0.913043	0.434783	0.476190	2.300000	3.442503	remote_heavy	2.095557	workers=10
+case_021	topology_churn	0.915014	0.504224	0.551056	1.983244	1.570583	remote_heavy	1.281925	workers=10
+case_049	topology_churn	0.921336	0.689099	0.747934	1.451171	1.718993	local_pressure	1.528069	workers=20
+case_228	many_group_microburst	0.928111	0.719530	0.775263	1.389796	1.925887	g1	1.457633	groups=3
+case_226	sleepy_reactivation	0.938410	0.302831	0.322707	3.302169	3.280276	steady	1.989496	steady_w=1, sleeper_w=5
+case_126	two_group_stagger_no_block	0.941714	0.941714	1.000000	1.061893	2.525752	low_bulk	1.707854	ratio=3, low_count=12, high_count=3
+case_074	many_group_microburst	0.944940	0.230585	0.244021	4.336795	7.966125	g1	3.166541	groups=5
+case_125	bursty_reactivation_storm	0.950457	0.878828	0.924638	1.137879	1.357415	anchor	1.188287	workers=8
+case_191	cyclic_reactivation	0.962921	0.685469	0.711864	1.458855	2.165232	heavy_cyclic	1.643078	light_w=1, heavy_w=6, cycles=4
+case_105	topology_churn	0.966787	0.443044	0.458265	2.257110	4.573158	local_pressure	2.182295	workers=8
+case_133	topology_churn	0.967259	0.808232	0.835590	1.237269	1.666500	local_pressure	1.322789	workers=16
+case_203	topology_churn	0.976501	0.576337	0.590206	1.735096	2.597192	local_pressure	1.827561	workers=16
+case_088	many_group_microburst	0.980618	0.750809	0.765649	1.331897	7.979040	g2	2.928301	groups=4
+case_035	topology_churn	0.982143	0.396825	0.404040	2.520000	5.956254	remote_heavy	2.473503	workers=8
+case_181	bursty_reactivation_storm	0.983051	0.813559	0.827586	1.229167	1.156526	storm_b	1.096826	workers=8
+case_159	parallelism_mismatch	0.984321	0.485637	0.493373	2.059152	2.027602	scarce_heavy	1.845328	ratio=15, high_count=4, low_count=100
+case_060	many_group_microburst	0.988344	0.718294	0.726765	1.392188	1.516413	g0	1.436920	groups=3
+case_044	sleepy_reactivation	0.991634	0.692142	0.697981	1.444790	1.315832	sleeper	1.151821	steady_w=3, sleeper_w=1
+case_205	cyclic_reactivation	0.995300	0.697526	0.700820	1.433639	1.516258	heavy_cyclic	1.278622	light_w=1, heavy_w=4, cycles=3
+case_067	weight_transition	0.995440	0.589890	0.592593	1.695231	2.303171	mid_stay	1.622142	workers=12
+case_259	topology_churn	0.997672	0.788118	0.789957	1.268846	1.618378	local_pressure	1.410322	workers=20
+case_009	cyclic_reactivation	0.998522	0.995126	0.996599	1.004898	1.083823	heavy_cyclic	1.044705	light_w=6, heavy_w=1, cycles=7
+case_001	inverse_stagger_no_block	1.000000	1.000000	1.000000	1.000000	1.596952	high_anchor	1.342433	ratio=5, high_count=3, low_count=18
+case_019	parallelism_mismatch	1.000000	1.000000	1.000000	1.000000	2.263417	scarce_heavy	2.153659	ratio=15, high_count=4, low_count=100
+case_025	weight_transition	1.000000	1.000000	1.000000	1.000000	2.558674	heavy_exit	1.713056	workers=8
+case_030	sleepy_reactivation	1.000000	1.000000	1.000000	1.000000	1.398673	steady	1.235705	steady_w=1, sleeper_w=6
+case_036	late_heavyweight	1.000000	1.000000	1.000000	1.000000	1.000000	light_flood	1.000000	ratio=8, delay=1500
+case_043	inverse_stagger_no_block	1.000000	1.000000	1.000000	1.000000	1.000000	high_anchor	1.000000	ratio=9, high_count=5, low_count=50
+case_047	parallelism_mismatch	1.000000	1.000000	1.000000	1.000000	1.523953	scarce_heavy	1.435709	ratio=8, high_count=4, low_count=100
+case_057	inverse_stagger_no_block	1.000000	1.000000	1.000000	1.000000	1.705002	high_anchor	1.521824	ratio=7, high_count=3, low_count=18
+case_063	topology_churn	1.000000	1.000000	1.000000	1.000000	1.000000	local_pressure	1.000000	workers=16
+case_091	topology_churn	1.000000	1.000000	1.000000	1.000000	1.159641	local_pressure	1.079493	workers=10
+case_103	parallelism_mismatch	1.000000	1.000000	1.000000	1.000000	1.392371	scarce_heavy	1.321727	ratio=10, high_count=4, low_count=100
+case_117	parallelism_mismatch	1.000000	1.000000	1.000000	1.000000	2.563735	scarce_heavy	2.190125	ratio=8, high_count=2, low_count=30
+case_119	topology_churn	1.000000	1.000000	1.000000	1.000000	1.025774	local_pressure	1.020047	workers=20
+case_150	window_decay_race	1.000000	1.000000	1.000000	1.000000	1.000000	solo_first	1.000000	ratio=7, phase2_delay=1100
+case_162	late_heavyweight	1.000000	1.000000	1.000000	1.000000	1.392891	heavy_late	1.213573	ratio=10, delay=700
+case_169	inverse_stagger_no_block	1.000000	1.000000	1.000000	1.000000	1.000000	high_anchor	1.000000	ratio=12, high_count=3, low_count=18
+case_173	parallelism_mismatch	1.000000	0.477184	0.477184	2.095628	2.907851	scarce_heavy	2.000504	ratio=10, high_count=2, low_count=30
+case_175	topology_churn	1.000000	1.000000	1.000000	1.000000	1.335097	remote_heavy	1.178318	workers=8
+case_189	topology_churn	1.000000	1.000000	1.000000	1.000000	1.000000	local_pressure	1.000000	workers=20
+case_210	two_group_stagger_no_block	1.000000	1.000000	1.000000	1.000000	2.791921	high_stagger	2.037697	ratio=3, low_count=6, high_count=2
+case_211	inverse_stagger_no_block	1.000000	1.000000	1.000000	1.000000	1.313121	high_anchor	1.207862	ratio=5, high_count=5, low_count=50
+case_217	topology_churn	1.000000	1.000000	1.000000	1.000000	1.779301	local_pressure	1.565495	workers=12
+case_243	parallelism_mismatch	1.000000	1.000000	1.000000	1.000000	1.767665	scarce_heavy	1.648989	ratio=10, high_count=4, low_count=100
+case_246	late_heavyweight	1.000000	1.000000	1.000000	1.000000	1.000000	light_flood	1.000000	ratio=8, delay=1500
+case_271	parallelism_mismatch	1.000000	1.000000	1.000000	1.000000	1.073263	scarce_heavy	1.058839	ratio=6, high_count=4, low_count=100
+case_288	late_heavyweight	1.000000	1.000000	1.000000	1.000000	1.000000	light_flood	1.000000	ratio=12, delay=1900
+case_000	two_group_stagger_no_block	1.003650	0.510949	0.509091	1.957143	2.814192	high_stagger	1.957142	ratio=3, low_count=6, high_count=2
+case_186	many_group_microburst	1.005313	0.764746	0.760704	1.307624	1.332674	g0	1.235697	groups=3
+case_037	cyclic_reactivation	1.007149	0.860021	0.853916	1.162763	1.097922	heavy_cyclic	1.048254	light_w=1, heavy_w=8, cycles=5
+case_273	topology_churn	1.008435	0.614341	0.609202	1.627760	2.167856	local_pressure	1.690926	workers=16
+case_245	topology_churn	1.009243	0.592883	0.587452	1.686675	1.464050	local_pressure	1.210932	workers=8
+case_089	parallelism_mismatch	1.011704	0.074186	0.073327	13.479720	62.155677	abundant_light	13.590183	ratio=15, high_count=2, low_count=30
+case_285	parallelism_mismatch	1.015253	0.443754	0.437087	2.253502	2.100636	scarce_heavy	1.475592	ratio=4, high_count=2, low_count=30
+case_083	bursty_reactivation_storm	1.018802	0.620821	0.609364	1.610769	1.708288	storm_a	1.390882	workers=12
+case_018	many_group_microburst	1.019656	0.227522	0.223136	4.395181	6.029662	g0	3.644025	groups=3
+case_292	asymmetric_blocking	1.024215	0.716094	0.699164	1.396464	1.171540	blocking	1.121280	ratio=3
+case_102	many_group_microburst	1.026237	0.745372	0.726316	1.341612	1.565154	g0	1.374072	groups=3
+case_219	cyclic_reactivation	1.041741	0.722841	0.693878	1.383431	1.316302	heavy_cyclic	1.168694	light_w=6, heavy_w=1, cycles=7
+case_284	many_group_microburst	1.045150	0.256438	0.245360	3.899571	5.861555	g2	2.662121	groups=5
+case_033	parallelism_mismatch	1.061478	0.122913	0.115794	8.135820	25.483607	abundant_light	8.250000	ratio=10, high_count=2, low_count=30
+case_214	many_group_microburst	1.062908	0.329466	0.309967	3.035213	3.421549	g1	1.976189	groups=4
+case_229	parallelism_mismatch	1.065539	0.279634	0.262434	3.576109	3.826669	scarce_heavy	2.985378	ratio=15, high_count=2, low_count=30
+case_124	asymmetric_blocking	1.076661	0.703244	0.653171	1.421981	1.084297	blocking	1.056418	ratio=3
+case_144	many_group_microburst	1.088506	0.548411	0.503820	1.823450	1.966557	g0	1.799949	groups=3
+case_121	cyclic_reactivation	1.096504	0.879983	0.802535	1.136386	1.323255	heavy_cyclic	1.162241	light_w=1, heavy_w=6, cycles=4
+case_111	bursty_reactivation_storm	1.106961	0.776822	0.701761	1.287297	1.242988	anchor	1.117286	workers=12
+case_093	cyclic_reactivation	1.111408	0.756656	0.680808	1.321605	1.240998	heavy_cyclic	1.137713	light_w=4, heavy_w=1, cycles=6
+case_258	phase_churn	1.113743	0.641399	0.575895	1.559091	1.826753	join_c	1.560362	t1=1040, t2=2490
+case_182	two_group_stagger_no_block	1.115824	0.242088	0.216959	4.130737	9.300287	low_bulk	3.374361	ratio=5, low_count=20, high_count=4
+case_257	parallelism_mismatch	1.117917	0.147157	0.131635	6.795468	16.470489	abundant_light	4.831994	ratio=8, high_count=2, low_count=30
+case_055	bursty_reactivation_storm	1.132335	0.939450	0.829657	1.064453	1.375218	storm_a	1.199209	workers=12
+case_072	sleepy_reactivation	1.134812	0.707228	0.623211	1.413972	1.425342	sleeper	1.222168	steady_w=1, sleeper_w=3
+case_170	sleepy_reactivation	1.135802	0.339095	0.298551	2.949029	1.332701	sleeper	1.211892	steady_w=1, sleeper_w=5
+case_164	window_decay_race	1.136710	0.389234	0.342421	2.569149	1.251328	solo_first	1.145773	ratio=3, phase2_delay=800
+case_163	cyclic_reactivation	1.139093	0.973545	0.854667	1.027174	1.048827	light_cyclic	1.025850	light_w=4, heavy_w=1, cycles=6
+case_201	parallelism_mismatch	1.142512	0.241249	0.211157	4.145098	8.913178	abundant_light	4.200000	ratio=6, high_count=2, low_count=30
+case_268	sleepy_reactivation	1.145157	0.650682	0.568204	1.536848	1.220125	sleeper	1.149616	steady_w=3, sleeper_w=1
+case_130	many_group_microburst	1.145383	0.237311	0.207189	4.213879	5.476771	g1	3.030344	groups=4
+case_041	bursty_reactivation_storm	1.151194	1.000000	0.868664	1.000000	1.138696	anchor	1.079771	workers=8
+case_195	bursty_reactivation_storm	1.162485	0.707918	0.608970	1.412593	1.284553	storm_a	1.163401	workers=12
+case_216	phase_churn	1.162930	0.403532	0.346996	2.478116	3.536928	join_d	2.455270	t1=200, t2=1650
+case_012	asymmetric_blocking	1.163835	0.983217	0.844808	1.017069	1.092500	continuous	1.050957	ratio=3
+case_289	cyclic_reactivation	1.165168	0.881276	0.756351	1.134718	1.207270	light_cyclic	1.107963	light_w=6, heavy_w=1, cycles=7
+case_068	asymmetric_blocking	1.168773	0.763946	0.653631	1.308993	1.232813	blocking	1.162356	ratio=3
+case_265	bursty_reactivation_storm	1.171654	1.000000	0.853495	1.000000	1.105304	storm_a	1.056858	workers=8
+case_085	inverse_stagger_no_block	1.188936	0.538485	0.452914	1.857061	1.532087	high_anchor	1.290956	ratio=4, high_count=3, low_count=18
+case_061	parallelism_mismatch	1.191728	0.474531	0.398187	2.107345	1.831353	abundant_light	1.375269	ratio=6, high_count=2, low_count=30
+case_282	sleepy_reactivation	1.197409	0.649027	0.542026	1.540769	1.567245	steady	1.313428	steady_w=1, sleeper_w=5
+case_215	parallelism_mismatch	1.210563	0.829426	0.685157	1.205654	1.092751	scarce_heavy	1.057970	ratio=4, high_count=4, low_count=100
+case_293	bursty_reactivation_storm	1.214828	0.696266	0.573140	1.436233	1.434185	storm_b	1.222399	workers=8
+case_247	cyclic_reactivation	1.215987	0.918928	0.755705	1.088224	1.109629	heavy_cyclic	1.053732	light_w=1, heavy_w=8, cycles=5
+case_097	bursty_reactivation_storm	1.223561	0.837838	0.684753	1.193548	1.173462	storm_a	1.088139	workers=8
+case_051	cyclic_reactivation	1.226070	0.607016	0.495091	1.647403	2.633647	heavy_cyclic	1.705123	light_w=1, heavy_w=6, cycles=4
+case_270	many_group_microburst	1.226313	0.634244	0.517196	1.576681	1.693214	g0	1.591080	groups=3
+case_046	many_group_microburst	1.231553	0.277431	0.225269	3.604501	5.479198	g1	3.825952	groups=4
+case_040	asymmetric_blocking	1.235554	0.985598	0.797697	1.014612	1.005361	blocking	1.004044	ratio=3
+case_005	parallelism_mismatch	1.242401	0.443754	0.357174	2.253502	2.202726	abundant_light	1.490826	ratio=4, high_count=2, low_count=30
+case_027	bursty_reactivation_storm	1.247828	0.682839	0.547222	1.464474	2.114625	storm_b	1.499768	workers=12
+case_071	inverse_stagger_no_block	1.262900	0.394326	0.312239	2.535971	1.663139	low_wave	1.343881	ratio=5, high_count=5, low_count=50
+case_131	parallelism_mismatch	1.267807	0.498887	0.393504	2.004460	1.397590	scarce_heavy	1.210361	ratio=6, high_count=4, low_count=100
+case_078	late_heavyweight	1.271528	0.113713	0.089430	8.794045	1.199736	heavy_late	1.118712	ratio=12, delay=1900
+case_252	two_group_stagger_no_block	1.275530	0.479290	0.375758	2.086420	4.868005	low_bulk	2.374955	ratio=3, low_count=20, high_count=4
+case_062	phase_churn	1.292498	0.360039	0.278560	2.777478	2.478110	join_c	1.770689	t1=1320, t2=2770
+case_058	sleepy_reactivation	1.297704	0.378188	0.291429	2.644188	2.101837	steady	1.489929	steady_w=1, sleeper_w=5
+case_015	inverse_stagger_no_block	1.311494	0.503249	0.383722	1.987088	1.211538	high_anchor	1.126705	ratio=4, high_count=5, low_count=50
+case_237	bursty_reactivation_storm	1.313343	0.719640	0.547945	1.389583	1.410332	storm_b	1.231180	workers=8
+case_202	phase_churn	1.336407	0.373071	0.279159	2.680458	2.867702	join_d	2.094051	t1=760, t2=2210
+case_149	cyclic_reactivation	1.339369	0.511730	0.382068	1.954155	1.417197	heavy_cyclic	1.251893	light_w=6, heavy_w=1, cycles=7
+case_153	bursty_reactivation_storm	1.346227	0.783058	0.581669	1.277045	1.399416	storm_a	1.189682	workers=8
+case_212	sleepy_reactivation	1.355838	0.805505	0.594101	1.241458	1.131720	sleeper	1.064728	steady_w=3, sleeper_w=1
+case_223	bursty_reactivation_storm	1.372479	0.649819	0.473464	1.538889	1.902368	storm_a	1.524197	workers=12
+case_135	cyclic_reactivation	1.381579	1.000000	0.723810	1.000000	1.353638	heavy_cyclic	1.234568	light_w=1, heavy_w=4, cycles=3
+case_013	bursty_reactivation_storm	1.382646	0.788890	0.570565	1.267604	1.408378	storm_a	1.241644	workers=8
+case_042	two_group_stagger_no_block	1.386923	0.177811	0.128205	5.623961	11.677991	high_stagger	5.619651	ratio=3, low_count=20, high_count=4
+case_277	weight_transition	1.395241	0.568397	0.407383	1.759333	2.794824	heavy_exit	1.742221	workers=8
+case_108	window_decay_race	1.395833	0.572650	0.410256	1.746269	1.312541	solo_first	1.154588	ratio=3, phase2_delay=800
+case_118	phase_churn	1.408123	0.269805	0.191606	3.706385	5.050160	join_c	2.435573	t1=340, t2=1790
+case_244	phase_churn	1.426750	0.133282	0.093416	7.502913	15.049579	join_d	7.537823	t1=340, t2=1790
+case_023	cyclic_reactivation	1.433607	0.723009	0.504329	1.383108	1.213151	heavy_cyclic	1.136417	light_w=4, heavy_w=1, cycles=6
+case_086	sleepy_reactivation	1.449270	0.554478	0.382591	1.803499	1.662644	sleeper	1.351618	steady_w=1, sleeper_w=6
+case_090	phase_churn	1.450292	1.000000	0.689516	1.000000	2.826252	join_c	1.731359	t1=200, t2=1650
+case_156	sleepy_reactivation	1.460017	0.837045	0.573311	1.194680	1.177798	steady	1.088022	steady_w=3, sleeper_w=1
+case_114	sleepy_reactivation	1.466185	0.862530	0.588282	1.159379	1.087062	steady	1.048892	steady_w=1, sleeper_w=5
+case_038	window_decay_race	1.479289	0.258608	0.174819	3.866861	1.309633	solo_first	1.166793	ratio=7, phase2_delay=1100
+case_101	device_wakeup	1.487419	0.470945	0.316619	2.123390	2.409384	cpu_anchor	1.718004	io_parallel=2
+case_178	window_decay_race	1.488953	0.274884	0.184615	3.637904	1.630996	challenger	1.323333	ratio=7, phase2_delay=500
+case_096	asymmetric_blocking	1.489059	0.957818	0.643237	1.044040	1.092821	blocking	1.055511	ratio=3
+case_254	sleepy_reactivation	1.492252	0.841270	0.563758	1.188679	1.222150	steady	1.115905	steady_w=1, sleeper_w=6
+case_095	weight_transition	1.498231	0.544811	0.363636	1.835498	4.001271	light_stay	2.150257	workers=12
+case_240	sleepy_reactivation	1.504470	0.656085	0.436090	1.524194	1.225538	sleeper	1.150797	steady_w=1, sleeper_w=3
+case_239	inverse_stagger_no_block	1.509091	0.124376	0.082418	8.040161	2.972384	high_anchor	2.231734	ratio=12, high_count=5, low_count=50
+case_279	bursty_reactivation_storm	1.518490	0.572158	0.376794	1.747768	2.818974	storm_b	2.111357	workers=12
+case_248	window_decay_race	1.531766	0.526544	0.343750	1.899175	1.221328	solo_first	1.123053	ratio=3, phase2_delay=200
+case_152	asymmetric_blocking	1.533127	0.995537	0.649351	1.004483	1.040006	blocking	1.023172	ratio=3
+case_180	asymmetric_blocking	1.536602	1.000000	0.650787	1.000000	1.132052	continuous	1.064063	ratio=3
+case_167	bursty_reactivation_storm	1.552561	0.679245	0.437500	1.472222	1.961921	storm_a	1.505751	workers=12
+case_002	sleepy_reactivation	1.562016	0.802326	0.513648	1.246377	1.279030	sleeper	1.143924	steady_w=1, sleeper_w=5
+case_198	sleepy_reactivation	1.572331	0.460884	0.293122	2.169742	1.424791	steady	1.330537	steady_w=1, sleeper_w=6
+case_235	weight_transition	1.575367	0.353790	0.224576	2.826535	4.609152	light_stay	2.826535	workers=12
+case_208	asymmetric_blocking	1.580692	0.821571	0.519754	1.217180	1.187886	blocking	1.167362	ratio=3
+case_251	bursty_reactivation_storm	1.609869	0.892441	0.554356	1.120523	1.112720	storm_a	1.091755	workers=12
+case_256	many_group_microburst	1.610431	0.342829	0.212880	2.916908	4.612205	g1	2.741231	groups=4
+case_196	two_group_stagger_no_block	1.614636	0.205645	0.127363	4.862745	14.266521	high_stagger	4.807091	ratio=8, low_count=12, high_count=3
+case_233	cyclic_reactivation	1.614706	0.824701	0.510744	1.212560	1.011660	heavy_cyclic	1.007463	light_w=4, heavy_w=1, cycles=6
+case_039	weight_transition	1.624352	0.300000	0.184689	3.333333	4.325467	light_stay	2.797392	workers=12
+case_286	phase_churn	1.642276	0.430667	0.262238	2.321981	2.270598	join_d	1.648486	t1=1180, t2=2630
+case_075	parallelism_mismatch	1.645298	0.750855	0.456364	1.331814	1.382961	scarce_heavy	1.280362	ratio=4, high_count=4, low_count=100
+case_296	sleepy_reactivation	1.647634	0.543269	0.329727	1.840708	1.663950	sleeper	1.360352	steady_w=1, sleeper_w=3
+case_017	device_wakeup	1.648101	0.490506	0.297619	2.038710	1.954214	cpu_anchor	1.427736	io_parallel=3
+case_280	two_group_stagger_no_block	1.657051	0.452478	0.273062	2.210053	3.048399	high_stagger	2.210052	ratio=8, low_count=6, high_count=2
+case_158	many_group_microburst	1.670914	0.438576	0.262477	2.280108	3.952407	g2	2.165227	groups=5
+case_141	inverse_stagger_no_block	1.696091	0.629594	0.371203	1.588324	1.796021	low_wave	1.425442	ratio=5, high_count=3, low_count=18
+case_148	late_heavyweight	1.703126	0.119809	0.070346	8.346645	4.223093	heavy_late	2.695541	ratio=12, delay=1900
+case_070	two_group_stagger_no_block	1.708128	0.357548	0.209322	2.796826	4.598441	high_stagger	2.558356	ratio=8, low_count=6, high_count=2
+case_032	many_group_microburst	1.713964	0.356392	0.207934	2.805900	6.362153	g4	2.690515	groups=5
+case_298	many_group_microburst	1.759588	0.379276	0.215548	2.636600	9.026464	g1	3.528917	groups=4
+case_024	window_decay_race	1.762598	0.740411	0.420068	1.350601	1.191438	solo_first	1.105141	ratio=3, phase2_delay=200
+case_034	phase_churn	1.776510	0.261555	0.147230	3.823288	6.232914	join_d	3.034936	t1=1180, t2=2630
+case_238	two_group_stagger_no_block	1.795556	0.131510	0.073242	7.603960	20.782464	low_bulk	4.800021	ratio=8, low_count=30, high_count=5
+case_193	weight_transition	1.800491	0.962897	0.534797	1.038533	2.401771	heavy_exit	1.736388	workers=8
+case_264	asymmetric_blocking	1.804941	0.998804	0.553372	1.001198	1.061204	blocking	1.031652	ratio=3
+case_266	two_group_stagger_no_block	1.810557	0.360832	0.199293	2.771374	4.108603	high_stagger	2.910056	ratio=5, low_count=12, high_count=3
+case_138	asymmetric_blocking	1.827373	0.748067	0.409367	1.336779	1.205883	continuous	1.108108	ratio=7
+case_242	many_group_microburst	1.829141	0.345941	0.189127	2.890669	6.000570	g4	2.871789	groups=5
+case_107	cyclic_reactivation	1.833860	0.576801	0.314528	1.733701	1.677529	heavy_cyclic	1.379284	light_w=1, heavy_w=8, cycles=5
+case_028	two_group_stagger_no_block	1.865453	0.147560	0.079102	6.776892	15.974371	low_bulk	4.779938	ratio=8, low_count=30, high_count=5
+case_272	phase_churn	1.866688	0.492555	0.263866	2.030232	2.555713	join_d	2.021053	t1=480, t2=1930
+case_115	device_wakeup	1.887500	1.000000	0.529801	1.000000	1.046768	cpu_anchor	1.031941	io_parallel=1
+case_220	window_decay_race	1.890999	0.817857	0.432500	1.222707	1.851026	challenger	1.560432	ratio=3, phase2_delay=800
+case_276	window_decay_race	1.898612	0.805472	0.424242	1.241508	1.401578	challenger	1.209870	ratio=3, phase2_delay=800
+case_079	cyclic_reactivation	2.000874	0.927637	0.463616	1.078008	1.002705	light_cyclic	1.001535	light_w=6, heavy_w=1, cycles=7
+case_187	parallelism_mismatch	2.008974	0.288057	0.143385	3.471540	2.271180	scarce_heavy	1.943140	ratio=8, high_count=4, low_count=100
+case_128	sleepy_reactivation	2.011230	0.859420	0.427311	1.163575	1.086292	sleeper	1.047418	steady_w=1, sleeper_w=3
+case_112	two_group_stagger_no_block	2.011747	0.222156	0.110429	4.501339	6.853456	high_stagger	4.754275	ratio=8, low_count=20, high_count=4
+case_174	phase_churn	2.011857	0.304894	0.151549	3.279828	6.720397	join_d	3.263353	t1=620, t2=2070
+case_171	device_wakeup	2.025213	0.938578	0.463446	1.065442	1.163736	io_burst	1.086154	io_parallel=2
+case_241	device_wakeup	2.049020	1.000000	0.488038	1.000000	2.048151	cpu_anchor	1.839080	io_parallel=2
+case_136	window_decay_race	2.058741	0.775758	0.376812	1.289062	1.283136	challenger	1.168871	ratio=3, phase2_delay=200
+case_098	two_group_stagger_no_block	2.099464	0.134446	0.064038	7.437905	14.923931	high_stagger	7.437599	ratio=5, low_count=30, high_count=5
+case_052	window_decay_race	2.112777	0.792291	0.375000	1.262162	1.292229	challenger	1.162611	ratio=3, phase2_delay=800
+case_184	sleepy_reactivation	2.124813	0.750000	0.352972	1.333333	1.276748	sleeper	1.195963	steady_w=1, sleeper_w=3
+case_065	cyclic_reactivation	2.132583	0.717368	0.336384	1.393985	1.308708	heavy_cyclic	1.225651	light_w=1, heavy_w=4, cycles=3
+case_172	many_group_microburst	2.135160	0.240089	0.112446	4.165117	8.219339	g1	4.291797	groups=4
+case_080	window_decay_race	2.186003	0.860281	0.393541	1.162411	1.241579	challenger	1.131770	ratio=3, phase2_delay=200
+case_155	inverse_stagger_no_block	2.187776	0.781580	0.357249	1.279459	1.160681	high_anchor	1.104920	ratio=4, high_count=5, low_count=50
+case_267	inverse_stagger_no_block	2.207977	0.634921	0.287558	1.575000	1.201367	high_anchor	1.167119	ratio=7, high_count=5, low_count=50
+case_139	bursty_reactivation_storm	2.210299	0.648134	0.293234	1.542890	2.343731	storm_b	1.568155	workers=12
+case_076	phase_churn	2.217238	0.484959	0.218722	2.062030	1.764391	join_d	1.450904	t1=760, t2=2210
+case_204	late_heavyweight	2.233082	0.250884	0.112349	3.985900	3.358377	heavy_late	1.978369	ratio=16, delay=1100
+case_014	two_group_stagger_no_block	2.267055	0.213626	0.094231	4.681070	4.138236	high_stagger	2.898660	ratio=5, low_count=48, high_count=6
+case_066	window_decay_race	2.331629	0.480505	0.206081	2.081146	1.282930	challenger	1.147863	ratio=7, phase2_delay=500
+case_179	weight_transition	2.340687	0.553876	0.236630	1.805459	2.703006	heavy_exit	1.820035	workers=12
+case_185	device_wakeup	2.355815	0.540189	0.229300	1.851202	1.906430	io_burst	1.473247	io_parallel=1
+case_177	cyclic_reactivation	2.360068	0.891464	0.377728	1.121751	1.103389	heavy_cyclic	1.061191	light_w=1, heavy_w=8, cycles=5
+case_192	window_decay_race	2.368313	0.986797	0.416667	1.013380	1.112467	solo_first	1.055299	ratio=3, phase2_delay=200
+case_207	weight_transition	2.381165	0.397500	0.166935	2.515723	5.922770	light_stay	3.362822	workers=12
+case_094	window_decay_race	2.424006	0.448151	0.184880	2.231392	1.263028	challenger	1.126744	ratio=7, phase2_delay=1100
+case_151	weight_transition	2.426347	0.588113	0.242386	1.700353	1.993131	light_stay	1.481441	workers=12
+case_045	device_wakeup	2.436220	0.792616	0.325347	1.261645	1.283776	io_burst	1.187832	io_parallel=1
+case_291	weight_transition	2.444444	1.000000	0.409091	1.000000	3.199155	mid_stay	1.826392	workers=12
+case_026	asymmetric_blocking	2.449457	0.490346	0.200186	2.039376	1.487938	blocking	1.263774	ratio=7
+case_261	cyclic_reactivation	2.479592	1.000000	0.403292	1.000000	1.445761	heavy_cyclic	1.258731	light_w=1, heavy_w=6, cycles=4
+case_206	window_decay_race	2.484428	0.430634	0.173333	2.322156	1.267540	challenger	1.128166	ratio=7, phase2_delay=1100
+case_084	two_group_stagger_no_block	2.543785	0.152192	0.059829	6.570637	12.261468	high_stagger	4.732428	ratio=3, low_count=48, high_count=6
+case_016	sleepy_reactivation	2.550133	0.601210	0.235756	1.663312	1.530444	sleeper	1.351121	steady_w=1, sleeper_w=3
+case_069	bursty_reactivation_storm	2.566121	0.860185	0.335208	1.162540	1.441350	storm_a	1.261857	workers=8
+case_227	device_wakeup	2.567027	0.865290	0.337079	1.155682	1.478695	io_burst	1.288157	io_parallel=3
+case_299	parallelism_mismatch	2.569487	0.326884	0.127218	3.059191	2.949935	scarce_heavy	2.582011	ratio=15, high_count=4, low_count=100
+case_166	asymmetric_blocking	2.582263	0.801345	0.310327	1.247902	1.216736	blocking	1.145742	ratio=7
+case_255	device_wakeup	2.590855	0.773270	0.298462	1.293209	1.562929	cpu_anchor	1.279967	io_parallel=1
+case_294	two_group_stagger_no_block	2.597076	0.142696	0.054945	7.007882	7.834106	high_stagger	4.269053	ratio=3, low_count=48, high_count=6
+case_197	inverse_stagger_no_block	2.608902	0.407143	0.156059	2.456140	2.313008	high_anchor	1.631633	ratio=7, high_count=3, low_count=18
+case_263	weight_transition	2.616446	0.466355	0.178240	2.144289	4.513951	mid_stay	2.408537	workers=12
+case_054	asymmetric_blocking	2.628360	1.000000	0.380465	1.000000	1.081830	continuous	1.055857	ratio=7
+case_142	sleepy_reactivation	2.651026	0.581919	0.219507	1.718452	1.407814	sleeper	1.228224	steady_w=1, sleeper_w=6
+case_200	many_group_microburst	2.666958	0.354520	0.132931	2.820714	2.744941	g4	1.850081	groups=5
+case_225	inverse_stagger_no_block	2.693959	1.000000	0.371201	1.000000	1.252710	high_anchor	1.164264	ratio=4, high_count=3, low_count=18
+case_209	bursty_reactivation_storm	2.709787	0.770556	0.284360	1.297765	1.152499	storm_a	1.095764	workers=8
+case_029	inverse_stagger_no_block	2.732394	0.257476	0.094231	3.883864	10.464753	high_anchor	3.426195	ratio=12, high_count=3, low_count=18
+case_073	device_wakeup	2.748701	0.822554	0.299252	1.215726	1.356086	cpu_anchor	1.212654	io_parallel=4
+case_250	asymmetric_blocking	2.886538	0.980640	0.339729	1.019742	1.284641	blocking	1.145084	ratio=7
+case_168	two_group_stagger_no_block	2.970257	0.184679	0.062176	5.414795	7.183717	high_stagger	5.467498	ratio=3, low_count=30, high_count=5
+case_109	weight_transition	2.970279	0.544942	0.183465	1.835058	2.875554	light_stay	1.708969	workers=8
+case_137	weight_transition	2.988153	0.541145	0.181097	1.847935	3.432419	heavy_exit	1.949736	workers=8
+case_082	asymmetric_blocking	2.994989	0.930344	0.310633	1.074872	1.225209	blocking	1.147048	ratio=7
+case_129	device_wakeup	2.998161	0.657131	0.219178	1.521766	1.922726	cpu_anchor	1.398587	io_parallel=5
+case_269	device_wakeup	3.066964	0.431967	0.140845	2.314993	4.080822	cpu_anchor	2.786948	io_parallel=5
+case_022	late_heavyweight	3.093026	0.195634	0.063250	5.111588	5.058727	heavy_late	3.875158	ratio=10, delay=700
+case_110	asymmetric_blocking	3.102538	1.000000	0.322317	1.000000	1.109274	continuous	1.061726	ratio=7
+case_281	inverse_stagger_no_block	3.107744	1.000000	0.321777	1.000000	2.070779	low_wave	1.488127	ratio=5, high_count=3, low_count=18
+case_190	late_heavyweight	3.114145	0.209043	0.067127	4.783702	6.478449	heavy_late	4.945011	ratio=6, delay=300
+case_230	phase_churn	3.178911	0.647185	0.203587	1.545154	1.675793	join_d	1.324718	t1=900, t2=2350
+case_011	weight_transition	3.250000	1.000000	0.307692	1.000000	3.429380	light_stay	1.908051	workers=12
+case_123	weight_transition	3.279721	0.620636	0.189234	1.611250	3.119295	light_stay	1.805763	workers=12
+case_154	two_group_stagger_no_block	3.287513	0.368244	0.112013	2.715589	3.159480	high_stagger	2.379440	ratio=8, low_count=48, high_count=6
+case_262	window_decay_race	3.349533	0.628037	0.187500	1.592262	1.343487	challenger	1.191134	ratio=7, phase2_delay=1100
+case_146	phase_churn	3.349657	0.714074	0.213178	1.400415	2.053439	join_d	1.470058	t1=480, t2=1930
+case_222	asymmetric_blocking	3.481017	1.000000	0.287272	1.000000	1.053921	continuous	1.042018	ratio=7
+case_218	late_heavyweight	3.567308	0.130492	0.036580	7.663280	3.603505	heavy_late	2.612078	ratio=12, delay=1900
+case_224	two_group_stagger_no_block	3.599668	0.138283	0.038415	7.231571	9.124666	high_stagger	7.238090	ratio=5, low_count=48, high_count=6
+case_104	phase_churn	3.630481	0.512646	0.141206	1.950663	2.456952	join_c	2.125277	t1=900, t2=2350
+case_297	device_wakeup	3.639423	1.000000	0.274769	1.000000	1.948251	io_burst	1.584678	io_parallel=3
+case_053	weight_transition	3.652849	0.509091	0.139368	1.964286	3.077042	heavy_exit	1.954557	workers=8
+case_165	weight_transition	3.691369	1.000000	0.270902	1.000000	2.769785	heavy_exit	1.827499	workers=8
+case_020	phase_churn	3.754762	0.542857	0.144578	1.842105	1.669461	join_d	1.364200	t1=480, t2=1930
+case_145	parallelism_mismatch	3.948357	1.000000	0.253270	1.000000	2.093098	scarce_heavy	1.720276	ratio=4, high_count=2, low_count=30
+case_122	window_decay_race	3.995795	0.713535	0.178571	1.401473	1.206444	solo_first	1.106318	ratio=7, phase2_delay=500
+case_183	inverse_stagger_no_block	4.042838	0.475081	0.117512	2.104904	2.471319	high_anchor	1.768838	ratio=9, high_count=5, low_count=50
+case_194	asymmetric_blocking	4.100970	0.991920	0.241875	1.008146	1.190357	continuous	1.098572	ratio=7
+case_234	window_decay_race	4.393624	0.918644	0.209086	1.088561	1.115964	solo_first	1.065562	ratio=7, phase2_delay=500
+case_290	window_decay_race	4.523243	0.832559	0.184063	1.201115	1.195702	challenger	1.106747	ratio=7, phase2_delay=500
+case_249	weight_transition	4.652772	0.974239	0.209389	1.026442	2.391959	heavy_exit	1.866926	workers=8
+case_106	late_heavyweight	4.677791	0.311197	0.066526	3.213401	3.683483	heavy_late	3.033778	ratio=8, delay=1500
+case_010	window_decay_race	4.753379	0.951553	0.200185	1.050914	1.225887	challenger	1.148755	ratio=7, phase2_delay=500
+case_221	weight_transition	4.854288	0.922638	0.190067	1.083849	2.607566	heavy_exit	1.900382	workers=8
+case_064	late_heavyweight	5.024884	0.323130	0.064306	3.094727	4.466531	heavy_late	2.630873	ratio=16, delay=1100
+case_274	late_heavyweight	5.047308	0.315643	0.062537	3.168135	4.559113	heavy_late	3.161945	ratio=16, delay=1100
+case_008	late_heavyweight	5.066914	0.142576	0.028139	7.013828	6.931782	heavy_late	4.973269	ratio=12, delay=1900
+case_278	asymmetric_blocking	5.311346	0.848322	0.159719	1.178798	1.244794	continuous	1.117937	ratio=7
+case_232	late_heavyweight	5.323893	0.390419	0.073333	2.561352	2.891118	heavy_late	2.589024	ratio=10, delay=700
+case_056	two_group_stagger_no_block	5.345149	1.000000	0.187086	1.000000	4.608056	high_stagger	3.184521	ratio=5, low_count=12, high_count=3
+case_120	late_heavyweight	5.747764	1.000000	0.173981	1.000000	2.149606	heavy_late	1.857141	ratio=6, delay=300
+case_003	device_wakeup	5.807661	0.758180	0.130548	1.318947	1.191774	cpu_anchor	1.118056	io_parallel=4
+case_134	late_heavyweight	6.147294	0.211547	0.034413	4.727092	6.184910	heavy_late	4.731085	ratio=16, delay=1100
+case_199	device_wakeup	6.225705	0.911079	0.146341	1.097600	1.002659	cpu_anchor	1.001624	io_parallel=5
+case_127	inverse_stagger_no_block	6.387607	0.649351	0.101658	1.540000	1.590532	high_anchor	1.454000	ratio=7, high_count=5, low_count=50
+case_157	device_wakeup	6.568054	0.951892	0.144928	1.050539	1.522972	cpu_anchor	1.358392	io_parallel=3
+case_176	late_heavyweight	6.657800	0.209052	0.031400	4.783505	6.163182	heavy_late	4.788263	ratio=8, delay=1500
+case_092	late_heavyweight	6.678733	0.204072	0.030556	4.900222	6.425834	heavy_late	4.910964	ratio=10, delay=700
+case_116	many_group_microburst	6.796858	0.438430	0.064505	2.280867	2.599604	g4	2.323080	groups=5
+case_099	inverse_stagger_no_block	7.171053	0.356360	0.049694	2.806154	2.964414	high_anchor	2.510406	ratio=12, high_count=5, low_count=50
+case_059	device_wakeup	7.175446	0.606376	0.084507	1.649143	2.363027	cpu_anchor	1.615627	io_parallel=5
+case_213	device_wakeup	7.292929	0.767677	0.105263	1.302632	2.958617	cpu_anchor	2.462977	io_parallel=4
+case_113	inverse_stagger_no_block	7.357102	1.000000	0.135923	1.000000	2.089857	high_anchor	1.614815	ratio=9, high_count=3, low_count=18
+case_253	inverse_stagger_no_block	7.788834	1.000000	0.128389	1.000000	6.482095	high_anchor	2.638488	ratio=9, high_count=3, low_count=18
+case_031	device_wakeup	7.883333	1.000000	0.126850	1.000000	1.051492	cpu_anchor	1.042410	io_parallel=2
+case_143	device_wakeup	10.281704	0.876282	0.085227	1.141186	1.816346	cpu_anchor	1.596028	io_parallel=4
+case_283	device_wakeup	10.375000	1.000000	0.096386	1.000000	1.032990	cpu_anchor	1.025478	io_parallel=4
+case_087	device_wakeup	11.379878	0.748676	0.065789	1.335691	1.572609	cpu_anchor	1.371015	io_parallel=3
+case_050	late_heavyweight	29.047619	1.000000	0.034426	1.000000	5.182687	heavy_late	4.750707	ratio=6, delay=300
+case_260	late_heavyweight	31.959184	1.000000	0.031290	1.000000	5.019050	heavy_late	4.757148	ratio=6, delay=300

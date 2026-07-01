@@ -1,0 +1,184 @@
+=== netty fixed deterministic verification ===
+2026-06-19T17:24:23+08:00
+repo: sources/netty-fixed
+commit: 9380fdeb43fb841b567612947bdadad6ba3cddec
+java:
+openjdk version "1.8.0_492"
+OpenJDK Runtime Environment (Temurin)(build 1.8.0_492-b09)
+OpenJDK 64-Bit Server VM (Temurin)(build 25.492-b09, mixed mode)
+maven:
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/apache-maven-3.9.9
+Java version: 1.8.0_492, vendor: Temurin, runtime: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/opt/jdk8/jre
+Default locale: en, platform encoding: UTF-8
+OS name: "linux", version: "6.6.87.2-microsoft-standard-wsl2", arch: "amd64", family: "unix"
+command: mvn -pl common -Dtest=DefaultPromiseTest#testDeterministicSignalRace test
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: linux
+[INFO] os.detected.arch: x86_64
+[INFO] os.detected.version: 6.6
+[INFO] os.detected.version.major: 6
+[INFO] os.detected.version.minor: 6
+[INFO] os.detected.release: ubuntu
+[INFO] os.detected.release.version: 24.04
+[INFO] os.detected.release.like.ubuntu: true
+[INFO] os.detected.release.like.debian: true
+[INFO] os.detected.classifier: linux-x86_64
+[INFO] 
+[INFO] -----------------------< io.netty:netty-common >------------------------
+[INFO] Building Netty/Common 4.0.39.Final-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:1.2:enforce (enforce-maven) @ netty-common ---
+[INFO] 
+[INFO] --- enforcer:1.2:enforce (enforce-tools) @ netty-common ---
+[INFO] 
+[INFO] --- checkstyle:2.12.1:check (check-style) @ netty-common ---
+[INFO] Starting audit...
+Audit done.
+
+[INFO] 
+[INFO] --- xml:1.0.1:check-format (check-style) @ netty-common ---
+[INFO] 
+[INFO] --- dependency:2.10:get (get-jetty-alpn-agent) @ netty-common ---
+[INFO] Resolving org.mortbay.jetty.alpn:jetty-alpn-agent:jar:2.0.1 with transitive dependencies
+[INFO] 
+[INFO] --- build-helper:1.10:parse-version (parse-version) @ netty-common ---
+[INFO] 
+[INFO] --- antrun:1.8:run (write-version-properties) @ netty-common ---
+[INFO] Executing tasks
+
+main:
+     [echo] Current commit: 9380fdeb43 on 2016-07-12 09:59:01 +0200
+   [delete] Deleting: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/target/classes/META-INF/io.netty.versions.properties
+[propertyfile] Creating new property file: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/target/classes/META-INF/io.netty.versions.properties
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- resources:3.0.1:resources (default-resources) @ netty-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.5.1:compile (default-compile) @ netty-common ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- animal-sniffer:1.11:check (default) @ netty-common ---
+[INFO] Checking unresolved references to org.codehaus.mojo.signature:java16:1.1
+[INFO] 
+[INFO] >>> bundle:2.5.4:manifest (generate-manifest) > process-classes @ netty-common >>>
+[INFO] 
+[INFO] --- enforcer:1.2:enforce (enforce-maven) @ netty-common ---
+[INFO] 
+[INFO] --- enforcer:1.2:enforce (enforce-tools) @ netty-common ---
+[INFO] 
+[INFO] --- checkstyle:2.12.1:check (check-style) @ netty-common ---
+[INFO] Starting audit...
+Audit done.
+
+[INFO] 
+[INFO] --- xml:1.0.1:check-format (check-style) @ netty-common ---
+[INFO] 
+[INFO] --- dependency:2.10:get (get-jetty-alpn-agent) @ netty-common ---
+[INFO] Resolving org.mortbay.jetty.alpn:jetty-alpn-agent:jar:2.0.1 with transitive dependencies
+[INFO] 
+[INFO] --- build-helper:1.10:parse-version (parse-version) @ netty-common ---
+[INFO] 
+[INFO] --- antrun:1.8:run (write-version-properties) @ netty-common ---
+[INFO] Executing tasks
+
+main:
+     [echo] Current commit: 9380fdeb43 on 2016-07-12 09:59:01 +0200
+   [delete] Deleting: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/target/classes/META-INF/io.netty.versions.properties
+[propertyfile] Creating new property file: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/target/classes/META-INF/io.netty.versions.properties
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- resources:3.0.1:resources (default-resources) @ netty-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.5.1:compile (default-compile) @ netty-common ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- animal-sniffer:1.11:check (default) @ netty-common ---
+[INFO] Checking unresolved references to org.codehaus.mojo.signature:java16:1.1
+[INFO] 
+[INFO] <<< bundle:2.5.4:manifest (generate-manifest) < process-classes @ netty-common <<<
+[INFO] 
+[INFO] 
+[INFO] --- bundle:2.5.4:manifest (generate-manifest) @ netty-common ---
+[WARNING] Manifest io.netty:netty-common:jar:4.0.39.Final-SNAPSHOT : Unused Import-Package instructions: [sun.security.*] 
+[INFO] 
+[INFO] --- resources:3.0.1:testResources (default-testResources) @ netty-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.5.1:testCompile (default-testCompile) @ netty-common ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 29 source files to /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/target/test-classes
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[35,12] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[42,8] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[43,20] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[52,8] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[53,20] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[68,8] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[69,20] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[91,8] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[92,20] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[114,8] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseAggregatorTest.java:[115,20] [deprecation] PromiseAggregator in io.netty.util.concurrent has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[41,11] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[42,19] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[52,12] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[57,12] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[62,12] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[87,8] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[88,8] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[91,18] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[91,55] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[94,12] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[96,17] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[109,8] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[110,8] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[114,8] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/UniqueNameTest.java:[114,31] [deprecation] UniqueName in io.netty.util has been deprecated
+[WARNING] /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/netty-fixed/common/src/test/java/io/netty/util/concurrent/PromiseCombinerTest.java:[74,24] non-varargs call of varargs method with inexact argument type for last parameter;
+[INFO] 
+[INFO] --- surefire:2.19.1:test (default-test) @ netty-common ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+[jetty-alpn-agent] Using: alpn-boot-8.1.7.v20160121.jar
+Running io.netty.util.concurrent.DefaultPromiseTest
+17:24:27.949 [main] DEBUG i.n.u.i.l.InternalLoggerFactory - Using SLF4J as the default logging framework
+17:24:27.951 [main] DEBUG i.n.u.concurrent.DefaultPromiseTest - StackOverflowError depth: 19171
+17:24:27.957 [main] DEBUG i.n.util.internal.PlatformDependent0 - java.nio.Buffer.address: available
+17:24:27.957 [main] DEBUG i.n.util.internal.PlatformDependent0 - sun.misc.Unsafe.theUnsafe: available
+17:24:27.957 [main] DEBUG i.n.util.internal.PlatformDependent0 - sun.misc.Unsafe.copyMemory: available
+17:24:27.957 [main] DEBUG i.n.util.internal.PlatformDependent0 - java.nio.Bits.unaligned: true
+17:24:27.957 [main] DEBUG i.n.util.internal.PlatformDependent0 - java.nio.DirectByteBuffer.<init>(long, int): available
+17:24:27.958 [main] DEBUG i.n.util.internal.PlatformDependent - Java version: 8
+17:24:27.958 [main] DEBUG i.n.util.internal.PlatformDependent - -Dio.netty.noUnsafe: false
+17:24:27.958 [main] DEBUG i.n.util.internal.PlatformDependent - sun.misc.Unsafe: available
+17:24:27.958 [main] DEBUG i.n.util.internal.PlatformDependent - -Dio.netty.noJavassist: false
+17:24:27.996 [main] DEBUG i.n.util.internal.PlatformDependent - Javassist: available
+17:24:27.996 [main] DEBUG i.n.util.internal.PlatformDependent - -Dio.netty.tmpdir: /tmp (java.io.tmpdir)
+17:24:27.997 [main] DEBUG i.n.util.internal.PlatformDependent - -Dio.netty.bitMode: 64 (sun.arch.data.model)
+17:24:27.997 [main] DEBUG i.n.util.internal.PlatformDependent - -Dio.netty.noPreferDirect: false
+17:24:27.997 [main] DEBUG i.n.util.internal.PlatformDependent - io.netty.maxDirectMemory: 3661627392 bytes
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.134 sec - in io.netty.util.concurrent.DefaultPromiseTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.326 s
+[INFO] Finished at: 2026-06-19T17:24:28+08:00
+[INFO] ------------------------------------------------------------------------
+exit_code=0

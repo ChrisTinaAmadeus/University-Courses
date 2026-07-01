@@ -1,0 +1,70 @@
+track throughput
+score throughput_sustained_rate
+role leaderboard
+scenario_weight = 1.0
+workers 4
+cpu_rate 16
+switch_cost 8
+migration_cost 15
+
+device net0 fifo rate=10 parallel=4
+
+# h06-like: Sustained device + compute mix with group structure
+# Models the hidden h06 pattern: sustained throughput with device I/O
+# and multiple groups. v6 group-aware boosted h06 from 2.735x to 2.869x
+# but we couldn't isolate why. This tests various group-awareness signals.
+
+# Batch group: pure compute (long-running)
+group batch * 2:
+  repeat 60:
+    compute 200
+
+# I/O groups with staggered arrival and group structure
+phase req_phase0 at 0us:
+  group req0 * 12 arrival stagger 120us:
+    repeat 2:
+      compute 120 jitter=30
+      call net0 10
+    compute 100 jitter=20
+  group req1 * 12 arrival stagger 120us:
+    repeat 2:
+      compute 120 jitter=30
+      call net0 10
+    compute 100 jitter=20
+
+phase req_phase1 at 30us:
+  group req2 * 12 arrival stagger 120us:
+    repeat 2:
+      compute 120 jitter=30
+      call net0 10
+    compute 100 jitter=20
+  group req3 * 12 arrival stagger 120us:
+    repeat 2:
+      compute 120 jitter=30
+      call net0 10
+    compute 100 jitter=20
+
+phase req_phase2 at 60us:
+  group req4 * 12 arrival stagger 120us:
+    repeat 2:
+      compute 120 jitter=30
+      call net0 10
+    compute 100 jitter=20
+  group req5 * 12 arrival stagger 120us:
+    repeat 2:
+      compute 120 jitter=30
+      call net0 10
+    compute 100 jitter=20
+
+# Small "seed" groups to test group-aware pick_next
+group seeds * 2:
+  compute 60
+
+# Tasks that fanout from seeds — mixed I/O + compute
+group fanout_io * 8 after fanout(seeds):
+  repeat 3:
+    compute 40
+    call net0 8
+
+group fanout_cpu * 8 after fanout(seeds):
+  compute 180

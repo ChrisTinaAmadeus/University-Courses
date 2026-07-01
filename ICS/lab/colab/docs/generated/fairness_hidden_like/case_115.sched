@@ -1,0 +1,19 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 4
+cpu_rate 27
+switch_cost 4
+migration_cost 6
+device io0 fifo rate=18 parallel=1
+
+phase io_mix at 0us:
+  group cpu_anchor * 5 weight=4:
+    repeat 7:
+      compute 120
+  group io_burst * 29 weight=4 arrival burst 2 every 900us:
+    repeat 4:
+      compute 44
+      call io0 78
+      compute 34

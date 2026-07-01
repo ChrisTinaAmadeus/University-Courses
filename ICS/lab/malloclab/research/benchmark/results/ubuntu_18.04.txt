@@ -1,0 +1,55 @@
+image=ubuntu:18.04
+os=Ubuntu 18.04.6 LTS
+kernel=6.6.87.2-microsoft-standard-WSL2
+glibc=2.27
+gcc=gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+variant=baseline
+glibc=2.27
+mode=small          threads=1  iters=2000000    size=64       ns_total=6338361          ns_per_op=3.17
+glibc=2.27
+mode=small          threads=8  iters=2000000    size=64       ns_total=8613158          ns_per_op=0.54
+glibc=2.27
+mode=sweep_16       threads=1  iters=2000000    size=16       ns_total=6436551          ns_per_op=3.22
+mode=sweep_32       threads=1  iters=2000000    size=32       ns_total=6332124          ns_per_op=3.17
+mode=sweep_64       threads=1  iters=2000000    size=64       ns_total=6484745          ns_per_op=3.24
+mode=sweep_128      threads=1  iters=2000000    size=128      ns_total=6365470          ns_per_op=3.18
+mode=sweep_160      threads=1  iters=2000000    size=160      ns_total=6320607          ns_per_op=3.16
+mode=sweep_256      threads=1  iters=2000000    size=256      ns_total=6376403          ns_per_op=3.19
+mode=sweep_512      threads=1  iters=2000000    size=512      ns_total=6411051          ns_per_op=3.21
+mode=sweep_1024     threads=1  iters=2000000    size=1024     ns_total=6450970          ns_per_op=3.23
+glibc=2.27
+mode=burst          threads=1  iters=20000      size=64       ns_total=359422685        ns_per_op=17.55
+glibc=2.27
+mode=burst          threads=8  iters=20000      size=64       ns_total=359585898        ns_per_op=2.19
+glibc=2.27
+mode=mixed          threads=1  iters=2000000    size=0        ns_total=10285383         ns_per_op=5.14
+glibc=2.27
+mode=mixed          threads=8  iters=2000000    size=0        ns_total=12178948         ns_per_op=0.76
+glibc=2.27
+mode=thread_spawn   spawns=2000 iters=1000       size=64       ns_total=114830492        ns_per_op=57.42
+glibc=2.27
+mode=large_touch    threads=1  iters=20         size=67108864 ns_total=725483417        ns_per_op=36274170.85
+variant=tcache_off
+glibc=2.27
+mode=small          threads=1  iters=2000000    size=64       ns_total=38071738         ns_per_op=19.04
+glibc=2.27
+mode=small          threads=8  iters=2000000    size=64       ns_total=42843125         ns_per_op=2.68
+glibc=2.27
+mode=sweep_16       threads=1  iters=2000000    size=16       ns_total=38625098         ns_per_op=19.31
+mode=sweep_32       threads=1  iters=2000000    size=32       ns_total=38171676         ns_per_op=19.09
+mode=sweep_64       threads=1  iters=2000000    size=64       ns_total=38171051         ns_per_op=19.09
+mode=sweep_128      threads=1  iters=2000000    size=128      ns_total=48593590         ns_per_op=24.30
+mode=sweep_160      threads=1  iters=2000000    size=160      ns_total=48868489         ns_per_op=24.43
+mode=sweep_256      threads=1  iters=2000000    size=256      ns_total=48237589         ns_per_op=24.12
+mode=sweep_512      threads=1  iters=2000000    size=512      ns_total=48310486         ns_per_op=24.16
+mode=sweep_1024     threads=1  iters=2000000    size=1024     ns_total=48688332         ns_per_op=24.34
+glibc=2.27
+mode=burst          threads=1  iters=20000      size=64       ns_total=464814038        ns_per_op=22.70
+glibc=2.27
+mode=burst          threads=8  iters=20000      size=64       ns_total=466622258        ns_per_op=2.85
+glibc=2.27
+mode=mixed          threads=1  iters=2000000    size=0        ns_total=64351284         ns_per_op=32.18
+glibc=2.27
+mode=mixed          threads=8  iters=2000000    size=0        ns_total=69716765         ns_per_op=4.36
+glibc=2.27
+mode=thread_spawn   spawns=2000 iters=1000       size=64       ns_total=148852223        ns_per_op=74.43

@@ -1,0 +1,213 @@
+=== lucene fixed verification ===
+2026-06-19T17:30:09+08:00
+repo: sources/lucene-solr-fixed
+commit: ea3f8363319955c589eb3a7df59a031621852d3e
+java:
+openjdk version "1.8.0_492"
+OpenJDK Runtime Environment (Temurin)(build 1.8.0_492-b09)
+OpenJDK 64-Bit Server VM (Temurin)(build 25.492-b09, mixed mode)
+ant:
+Apache Ant(TM) version 1.10.14 compiled on August 16 2023
+command: HOME="$LAB_HOME" ANT_OPTS="-Duser.home=$LAB_HOME" ant test -Dtestcase=TestTragicIndexWriterDeadlock -Dtests.method=testDeadlockStalledMerges
+Buildfile: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/core/build.xml
+
+-clover.disable:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: Apache Ivy 2.3.0 - 20130110142753 :: http://ant.apache.org/ivy/ ::
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/top-level-ivy-settings.xml
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+resolve:
+
+init:
+
+compile-core:
+
+compile-test-framework:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/top-level-ivy-settings.xml
+
+resolve:
+
+init:
+
+compile-lucene-core:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/top-level-ivy-settings.xml
+
+resolve:
+
+init:
+
+-clover.disable:
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+compile-core:
+
+compile-codecs:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/top-level-ivy-settings.xml
+
+resolve:
+
+common.init:
+
+compile-lucene-core:
+
+init:
+
+-clover.disable:
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+compile-core:
+
+-clover.disable:
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+common.compile-core:
+
+compile-core:
+
+compile-test:
+
+install-junit4-taskdef:
+[ivy:cachepath] downloading /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ivy2/shared/com.carrotsearch.randomizedtesting/junit4-ant/2.4.0/jars/junit4-ant.jar ...
+[ivy:cachepath] ........................ (1451kB)
+[ivy:cachepath] 	[SUCCESSFUL ] com.carrotsearch.randomizedtesting#junit4-ant;2.4.0!junit4-ant.jar (2ms)
+[ivy:cachepath] downloading /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ivy2/shared/com.carrotsearch.randomizedtesting/junit4-ant/2.4.0/sources/junit4-ant.jar ...
+[ivy:cachepath] ... (125kB)
+[ivy:cachepath] 	[SUCCESSFUL ] com.carrotsearch.randomizedtesting#junit4-ant;2.4.0!junit4-ant.jar(source) (1ms)
+[ivy:cachepath] downloading /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ivy2/shared/com.carrotsearch.randomizedtesting/junit4-ant/2.4.0/javadocs/junit4-ant.jar ...
+[ivy:cachepath] .......... (514kB)
+[ivy:cachepath] 	[SUCCESSFUL ] com.carrotsearch.randomizedtesting#junit4-ant;2.4.0!junit4-ant.jar(javadoc) (1ms)
+
+validate:
+
+resolve-groovy:
+[ivy:cachepath] :: resolving dependencies :: org.codehaus.groovy#groovy-all-caller;working
+[ivy:cachepath] 	confs: [default]
+[ivy:cachepath] 	found org.codehaus.groovy#groovy-all;2.4.6 in central
+[ivy:cachepath] downloading https://repo.maven.apache.org/maven2/org/codehaus/groovy/groovy-all/2.4.6/groovy-all-2.4.6.jar ...
+[ivy:cachepath] ................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................... (6859kB)
+[ivy:cachepath] .. (0kB)
+[ivy:cachepath] 	[SUCCESSFUL ] org.codehaus.groovy#groovy-all;2.4.6!groovy-all.jar (722ms)
+[ivy:cachepath] :: resolution report :: resolve 555ms :: artifacts dl 722ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   1   |   1   |   1   |   0   ||   1   |   1   |
+	---------------------------------------------------------------------
+
+-init-totals:
+
+-test:
+    [mkdir] Created dir: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/build/core/test
+    [mkdir] Created dir: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/build/core/test/temp
+    [mkdir] Created dir: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/.caches/test-stats/core
+   [junit4] <JUnit4> says jolly good day! Master seed: C2B83966A6995A19
+   [junit4] Executing 1 suite with 1 JVM.
+   [junit4] 
+   [junit4] Started J0 PID(52659@localhost).
+   [junit4] Suite: org.apache.lucene.index.TestTragicIndexWriterDeadlock
+   [junit4] OK      0.09s | TestTragicIndexWriterDeadlock.testDeadlockStalledMerges
+   [junit4] Completed [1/1] in 0.23s, 1 test
+   [junit4] 
+   [junit4] JVM J0:     0.28 ..     0.82 =     0.54s
+   [junit4] Execution time total: 0.82 sec.
+   [junit4] Tests summary: 1 suite, 1 test
+   [junit4] Could not remove temporary path: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/build/core/test/J0 (/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/build/core/test/J0)
+     [echo] 5 slowest tests:
+[junit4:tophints]   0.23s | org.apache.lucene.index.TestTragicIndexWriterDeadlock
+
+-check-totals:
+
+common.test:
+
+test-lock-factory:
+
+test:
+
+BUILD SUCCESSFUL
+Total time: 4 seconds
+exit_code=0

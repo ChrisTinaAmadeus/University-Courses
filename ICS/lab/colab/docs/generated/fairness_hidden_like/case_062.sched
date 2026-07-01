@@ -1,0 +1,26 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 8
+cpu_rate 20
+switch_cost 5
+migration_cost 18
+
+phase base at 0us:
+  group base_a * 10 weight=3:
+    repeat 9:
+      compute 126
+  group base_b * 11 weight=4:
+    repeat 7:
+      compute 152
+
+phase join_one at 1320us:
+  group join_c * 5 weight=7 arrival stagger 420us:
+    repeat 6:
+      compute 175
+
+phase join_two at 2770us:
+  group join_d * 11 weight=3 arrival burst 4 every 260us:
+    repeat 5:
+      compute 48

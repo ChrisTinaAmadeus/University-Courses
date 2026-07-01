@@ -1,0 +1,33 @@
+image=ubuntu:16.04
+os=Ubuntu 16.04.7 LTS
+kernel=6.6.87.2-microsoft-standard-WSL2
+glibc=2.23
+gcc=gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609
+variant=baseline
+glibc=2.23
+mode=small          threads=1  iters=2000000    size=64       ns_total=55364894         ns_per_op=27.68
+glibc=2.23
+mode=small          threads=8  iters=2000000    size=64       ns_total=55382006         ns_per_op=3.46
+glibc=2.23
+mode=sweep_16       threads=1  iters=2000000    size=16       ns_total=54526877         ns_per_op=27.26
+mode=sweep_32       threads=1  iters=2000000    size=32       ns_total=54887145         ns_per_op=27.44
+mode=sweep_64       threads=1  iters=2000000    size=64       ns_total=53779287         ns_per_op=26.89
+mode=sweep_128      threads=1  iters=2000000    size=128      ns_total=52479847         ns_per_op=26.24
+mode=sweep_160      threads=1  iters=2000000    size=160      ns_total=53156139         ns_per_op=26.58
+mode=sweep_256      threads=1  iters=2000000    size=256      ns_total=52773962         ns_per_op=26.39
+mode=sweep_512      threads=1  iters=2000000    size=512      ns_total=53050253         ns_per_op=26.53
+mode=sweep_1024     threads=1  iters=2000000    size=1024     ns_total=52843352         ns_per_op=26.42
+glibc=2.23
+mode=burst          threads=1  iters=20000      size=64       ns_total=527987852        ns_per_op=25.78
+glibc=2.23
+mode=burst          threads=8  iters=20000      size=64       ns_total=541016781        ns_per_op=3.30
+glibc=2.23
+mode=mixed          threads=1  iters=2000000    size=0        ns_total=75105568         ns_per_op=37.55
+glibc=2.23
+mode=mixed          threads=8  iters=2000000    size=0        ns_total=81829974         ns_per_op=5.11
+glibc=2.23
+mode=thread_spawn   spawns=2000 iters=1000       size=64       ns_total=166541886        ns_per_op=83.27
+glibc=2.23
+mode=large_touch    threads=1  iters=20         size=67108864 ns_total=841595351        ns_per_op=42079767.55
+variant=tcache_off
+skip=tcache_off (glibc<2.26, no tcache)

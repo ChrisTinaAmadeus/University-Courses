@@ -1,0 +1,31 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 16
+cpu_rate 22
+switch_cost 6
+migration_cost 9
+
+phase micro at 0us:
+  group g0 * 11 weight=3 arrival burst 5 every 325us:
+    repeat 8:
+      compute 68
+      sleep 300us
+      compute 30
+  group g1 * 15 weight=7 arrival burst 1 every 490us:
+    repeat 4:
+      compute 74
+  group g2 * 19 weight=1 arrival burst 2 every 160us:
+    repeat 5:
+      compute 14
+      sleep 420us
+      compute 40
+  group g3 * 23 weight=3 arrival burst 3 every 325us:
+    repeat 6:
+      compute 20
+  group g4 * 3 weight=7 arrival burst 4 every 490us:
+    repeat 7:
+      compute 26
+      sleep 540us
+      compute 10

@@ -1,0 +1,18 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 6
+cpu_rate 23
+switch_cost 6
+migration_cost 6
+
+phase light_flood at 0us:
+  group light_flood * 18 weight=1 arrival burst 6 every 10us:
+    repeat 6:
+      compute 40
+
+phase heavy_arrives at 1900us:
+  group heavy_late * 3 weight=12 arrival stagger 30us:
+    repeat 8:
+      compute 256

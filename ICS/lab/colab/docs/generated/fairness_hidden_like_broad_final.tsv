@@ -1,0 +1,81 @@
+name	family	score	student_quality	baseline_quality	max_share_skew	share_balance_ratio	worst_group	worst_group_severity	note
+case_046	phase_churn	0.816689	0.277511	0.339799	3.603467	5.565434	join_d	3.415444	t1=700, t2=1180
+case_023	topology_churn	0.878502	0.591321	0.673101	1.691129	1.534505	local_pressure	1.296947	workers=16
+case_017	inverse_stagger_no_block	0.922831	0.492305	0.533473	2.031259	1.357044	high_anchor	1.201272	ratio=5, high_count=5, low_count=40
+case_002	sleepy_reactivation	0.938568	0.659584	0.702756	1.516107	1.301287	sleeper	1.190886	steady_w=3, sleeper_w=1
+case_042	sleepy_reactivation	0.940177	0.675752	0.718750	1.479833	1.428460	sleeper	1.345532	steady_w=3, sleeper_w=1
+case_079	topology_churn	0.969765	0.566038	0.583686	1.766667	1.615141	local_pressure	1.407935	workers=16
+case_038	phase_churn	0.973716	0.381019	0.391304	2.624539	2.588009	join_d	1.622634	t1=590, t2=1390
+case_047	topology_churn	0.975331	0.675111	0.692187	1.481238	1.735627	local_pressure	1.364621	workers=16
+case_031	topology_churn	0.978002	0.747085	0.763889	1.338536	1.565464	local_pressure	1.413150	workers=16
+case_015	topology_churn	0.981055	0.821348	0.837209	1.217510	1.283012	local_pressure	1.218002	workers=16
+case_039	topology_churn	0.981634	0.589959	0.600997	1.695033	1.724029	local_pressure	1.373114	workers=16
+case_055	topology_churn	0.982270	0.812087	0.826745	1.231395	1.320581	local_pressure	1.226109	workers=16
+case_003	device_wakeup	0.985735	0.380173	0.385675	2.630380	5.227323	cpu_anchor	3.276251	io_parallel=4
+case_053	parallelism_mismatch	0.997712	0.341270	0.342052	2.930233	1.779095	scarce_heavy	1.500715	ratio=6, high_count=3, low_count=60
+case_070	phase_churn	0.999122	0.384078	0.384416	2.603636	5.583566	join_d	2.456140	t1=260, t2=580
+case_001	inverse_stagger_no_block	1.000000	1.000000	1.000000	1.000000	1.447382	high_anchor	1.259549	ratio=5, high_count=4, low_count=24
+case_007	topology_churn	1.000000	1.000000	1.000000	1.000000	1.720031	local_pressure	1.572333	workers=16
+case_025	inverse_stagger_no_block	1.000000	1.000000	1.000000	1.000000	1.302925	high_anchor	1.169223	ratio=5, high_count=4, low_count=24
+case_063	topology_churn	1.000000	1.000000	1.000000	1.000000	1.493375	local_pressure	1.347079	workers=16
+case_071	topology_churn	1.007880	0.718064	0.712450	1.392634	1.371793	local_pressure	1.251337	workers=16
+case_022	phase_churn	1.023191	0.369126	0.360760	2.709100	4.340476	join_d	2.191695	t1=370, t2=1010
+case_052	many_group_microburst	1.029189	0.487256	0.473437	2.052310	2.527900	g2	1.638574	groups=4
+case_058	sleepy_reactivation	1.032185	0.542925	0.525996	1.841875	1.398973	steady	1.184214	steady_w=4, sleeper_w=1
+case_006	phase_churn	1.036403	0.303392	0.292735	3.296071	3.039542	join_d	2.059019	t1=920, t2=1400
+case_020	many_group_microburst	1.037797	0.308948	0.297696	3.236788	3.870980	g0	2.557012	groups=5
+case_044	many_group_microburst	1.051146	0.383948	0.365266	2.604519	3.784466	g3	2.801523	groups=5
+case_030	phase_churn	1.063763	0.396796	0.373011	2.520188	6.518555	join_d	3.481683	t1=480, t2=800
+case_013	parallelism_mismatch	1.087706	0.199829	0.183716	5.004277	13.572774	abundant_light	5.012587	ratio=6, high_count=2, low_count=32
+case_069	parallelism_mismatch	1.090992	0.204678	0.187608	4.885714	11.209213	abundant_light	5.159309	ratio=6, high_count=1, low_count=12
+case_050	sleepy_reactivation	1.133108	0.600000	0.529517	1.666667	1.653233	sleeper	1.375656	steady_w=1, sleeper_w=3
+case_036	many_group_microburst	1.166033	0.524715	0.450000	1.905797	2.143035	g1	1.535275	groups=3
+case_018	sleepy_reactivation	1.170485	0.577700	0.493556	1.731004	1.660557	sleeper	1.447964	steady_w=4, sleeper_w=1
+case_064	two_group_stagger_no_block	1.178496	0.239583	0.203296	4.173913	1.817424	high_stagger	1.474450	ratio=8, low_count=10, high_count=2
+case_012	many_group_microburst	1.180510	0.535509	0.453625	1.867384	2.520027	g0	1.762344	groups=3
+case_041	inverse_stagger_no_block	1.184307	0.583123	0.492375	1.714905	1.435874	high_anchor	1.223858	ratio=5, high_count=5, low_count=40
+case_060	many_group_microburst	1.264808	0.764887	0.604745	1.307383	1.769885	g0	1.586631	groups=3
+case_028	many_group_microburst	1.299136	0.321032	0.247112	3.114957	4.659339	g1	3.213555	groups=4
+case_004	many_group_microburst	1.348015	0.283106	0.210017	3.532246	4.119735	g3	2.770890	groups=4
+case_074	sleepy_reactivation	1.352693	0.448592	0.331629	2.229196	2.093308	sleeper	1.489975	steady_w=1, sleeper_w=6
+case_026	sleepy_reactivation	1.420643	0.689936	0.485650	1.449410	1.500155	sleeper	1.282107	steady_w=2, sleeper_w=5
+case_016	two_group_stagger_no_block	1.462279	0.435162	0.297592	2.297996	3.719790	high_stagger	2.225536	ratio=4, low_count=10, high_count=2
+case_049	inverse_stagger_no_block	1.486928	1.000000	0.672527	1.000000	1.422265	high_anchor	1.221686	ratio=5, high_count=4, low_count=24
+case_027	device_wakeup	1.514860	0.371745	0.245399	2.690018	5.172324	cpu_anchor	3.637676	io_parallel=4
+case_009	inverse_stagger_no_block	1.520425	0.784515	0.515984	1.274672	1.712258	low_wave	1.362530	ratio=5, high_count=3, low_count=15
+case_033	inverse_stagger_no_block	1.522863	0.743243	0.488056	1.345455	1.654361	low_wave	1.368078	ratio=5, high_count=3, low_count=15
+case_073	inverse_stagger_no_block	1.557167	0.824540	0.529513	1.212798	1.386343	low_wave	1.179637	ratio=5, high_count=4, low_count=24
+case_000	two_group_stagger_no_block	1.600000	1.000000	0.625000	1.000000	2.516340	high_stagger	1.941175	ratio=3, low_count=8, high_count=2
+case_054	phase_churn	1.600541	0.194595	0.121581	5.138889	2.475665	join_d	2.213578	t1=810, t2=1770
+case_051	device_wakeup	1.605819	0.583227	0.363196	1.714598	2.314787	cpu_anchor	1.714694	io_parallel=4
+case_076	many_group_microburst	1.623368	0.480315	0.295876	2.081967	1.882457	g1	1.548836	groups=4
+case_061	parallelism_mismatch	1.634644	0.300310	0.183716	3.329887	11.610737	abundant_light	3.714375	ratio=6, high_count=2, low_count=32
+case_037	parallelism_mismatch	1.638327	0.300987	0.183716	3.322403	7.417703	scarce_heavy	3.079462	ratio=6, high_count=2, low_count=32
+case_045	parallelism_mismatch	1.641472	0.307953	0.187608	3.247253	14.591810	abundant_light	4.357977	ratio=6, high_count=1, low_count=12
+case_043	device_wakeup	1.754092	0.565836	0.322581	1.767296	2.388128	cpu_anchor	1.581956	io_parallel=4
+case_077	parallelism_mismatch	1.766667	0.700000	0.396226	1.428571	1.585124	scarce_heavy	1.461640	ratio=6, high_count=3, low_count=60
+case_008	two_group_stagger_no_block	1.832709	0.319463	0.174312	3.130252	3.711650	high_stagger	2.295800	ratio=6, low_count=12, high_count=2
+case_005	parallelism_mismatch	1.846075	0.631454	0.342052	1.583646	1.688542	scarce_heavy	1.489611	ratio=6, high_count=3, low_count=60
+case_010	sleepy_reactivation	1.846529	0.689884	0.373611	1.449519	1.281417	steady	1.132432	steady_w=1, sleeper_w=3
+case_029	parallelism_mismatch	1.849580	0.632653	0.342052	1.580645	1.696241	scarce_heavy	1.494433	ratio=6, high_count=3, low_count=60
+case_014	phase_churn	1.855840	0.390857	0.210609	2.558480	2.414338	join_c	1.641807	t1=260, t2=1220
+case_034	sleepy_reactivation	1.858996	0.472582	0.254214	2.116034	2.143675	sleeper	1.475120	steady_w=1, sleeper_w=6
+case_019	device_wakeup	1.954427	0.413879	0.211765	2.416168	4.069293	cpu_anchor	2.642022	io_parallel=4
+case_062	phase_churn	1.986972	0.349102	0.175695	2.864492	2.589188	join_d	1.687450	t1=920, t2=1560
+case_068	many_group_microburst	2.139880	0.311996	0.145801	3.205172	6.758450	g1	4.447359	groups=5
+case_056	two_group_stagger_no_block	2.148845	0.558796	0.260045	1.789563	2.810815	high_stagger	1.882442	ratio=4, low_count=12, high_count=2
+case_066	sleepy_reactivation	2.157406	0.783902	0.363354	1.275670	1.326044	sleeper	1.217411	steady_w=2, sleeper_w=5
+case_072	two_group_stagger_no_block	2.206128	0.505571	0.229167	1.977961	2.536435	high_stagger	2.098037	ratio=5, low_count=8, high_count=2
+case_040	two_group_stagger_no_block	2.315473	0.508895	0.219780	1.965041	2.710099	high_stagger	2.081356	ratio=3, low_count=10, high_count=2
+case_048	two_group_stagger_no_block	2.376238	0.323432	0.136111	3.091837	3.851912	high_stagger	3.103364	ratio=6, low_count=8, high_count=2
+case_078	phase_churn	2.500701	0.777334	0.310847	1.286448	1.915762	join_d	1.560349	t1=370, t2=1170
+case_032	two_group_stagger_no_block	2.924253	0.400679	0.137019	2.495764	3.296130	high_stagger	2.442748	ratio=5, low_count=12, high_count=2
+case_024	two_group_stagger_no_block	3.004321	0.431008	0.143463	2.320142	2.937520	high_stagger	2.390686	ratio=8, low_count=8, high_count=2
+case_057	inverse_stagger_no_block	3.323964	1.000000	0.300846	1.000000	1.795875	high_anchor	1.352607	ratio=5, high_count=3, low_count=15
+case_067	device_wakeup	3.371446	0.625169	0.185430	1.599568	2.973456	cpu_anchor	2.052893	io_parallel=4
+case_059	device_wakeup	3.635366	0.654137	0.179937	1.528732	1.626938	cpu_anchor	1.352367	io_parallel=4
+case_065	inverse_stagger_no_block	3.649692	1.000000	0.273996	1.000000	1.537921	high_anchor	1.346254	ratio=5, high_count=5, low_count=40
+case_075	device_wakeup	5.312500	1.000000	0.188235	1.000000	2.024740	cpu_anchor	1.670873	io_parallel=4
+case_021	parallelism_mismatch	5.330275	1.000000	0.187608	1.000000	7.997858	scarce_heavy	3.333033	ratio=6, high_count=1, low_count=12
+case_035	device_wakeup	5.413057	0.997799	0.184332	1.002206	1.018250	cpu_anchor	1.009688	io_parallel=4
+case_011	device_wakeup	8.447037	0.966164	0.114379	1.035021	1.071379	cpu_anchor	1.045089	io_parallel=4

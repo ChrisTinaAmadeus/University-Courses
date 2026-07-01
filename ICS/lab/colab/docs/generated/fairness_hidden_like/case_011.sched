@@ -1,0 +1,19 @@
+track fairness
+score fairness_share_skew
+role leaderboard
+scenario_weight = 1.00
+workers 12
+cpu_rate 18
+switch_cost 8
+migration_cost 9
+
+phase three_groups at 0us:
+  group heavy_exit * 5 weight=11:
+    repeat 5:
+      compute 160
+  group mid_stay * 5 weight=2:
+    repeat 10:
+      compute 79
+  group light_stay * 13 weight=1:
+    repeat 5:
+      compute 59

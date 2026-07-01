@@ -1,0 +1,26 @@
+cases=200
+geomean_score=1.534789
+min_score=0.704820
+median_score=1.352693
+
+family_geomean:
+  device_wakeup: 3.016202
+  inverse_stagger_no_block: 1.556127
+  many_group_microburst: 1.369371
+  parallelism_mismatch: 1.594156
+  phase_churn: 1.218063
+  sleepy_reactivation: 1.281183
+  topology_churn: 0.976884
+  two_group_stagger_no_block: 1.971098
+
+worst_10:
+  case_089 inverse_stagger_no_block score=0.704820 skew=2.313 worst=low_wave
+  case_126 phase_churn score=0.735544 skew=4.752 worst=join_d
+  case_166 phase_churn score=0.784544 skew=3.648 worst=join_d
+  case_122 sleepy_reactivation score=0.820556 skew=1.717 worst=sleeper
+  case_046 phase_churn score=0.825300 skew=3.566 worst=join_d
+  case_110 phase_churn score=0.828888 skew=1.997 worst=join_d
+  case_150 phase_churn score=0.862799 skew=3.573 worst=join_d
+  case_082 sleepy_reactivation score=0.870237 skew=1.866 worst=sleeper
+  case_111 topology_churn score=0.875948 skew=1.488 worst=local_pressure
+  case_023 topology_churn score=0.878502 skew=1.691 worst=local_pressure

@@ -1,0 +1,30 @@
+=== lucene ivy bootstrap ===
+2026-06-19T17:25:07+08:00
+command: HOME="$LAB_HOME" ANT_OPTS="-Duser.home=$LAB_HOME" ant ivy-bootstrap
+Buildfile: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/core/build.xml
+
+ivy-bootstrap1:
+    [mkdir] Created dir: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib
+     [echo] installing ivy 2.3.0 to /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib
+      [get] Getting: http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar
+      [get] To: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib/ivy-2.3.0.jar
+      [get] http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar permanently moved to https://repo1.maven.org/501-https-required.html
+      [get] Error opening connection java.io.IOException: Server returned HTTP response code: 501 for URL: https://repo1.maven.org/501-https-required.html
+      [get] Error opening connection java.io.IOException: Server returned HTTP response code: 501 for URL: https://repo1.maven.org/501-https-required.html
+      [get] Error opening connection java.io.IOException: Server returned HTTP response code: 501 for URL: https://repo1.maven.org/501-https-required.html
+      [get] Can't get http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar to /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib/ivy-2.3.0.jar
+
+ivy-bootstrap2:
+     [echo] installing ivy 2.3.0 to /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib
+      [get] Getting: http://uk.maven.org/maven2/org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar
+      [get] To: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib/ivy-2.3.0.jar
+      [get] Error getting http://uk.maven.org/maven2/org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar to /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib/ivy-2.3.0.jar
+
+ivy-checksum:
+ [checksum] Could not find file /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib/ivy-2.3.0.jar to generate checksum for.
+
+BUILD FAILED
+/home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-fixed/lucene/common-build.xml:478: Could not find file /home/amadeus/ICS/locklab-ChrisTinaAmadeus/.lab-tools/home/.ant/lib/ivy-2.3.0.jar to generate checksum for.
+
+Total time: 1 second
+exit_code=1

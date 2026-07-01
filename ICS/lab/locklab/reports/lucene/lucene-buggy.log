@@ -1,0 +1,181 @@
+=== lucene buggy reproduction ===
+2026-06-19T17:30:48+08:00
+repo: sources/lucene-solr-buggy
+commit: 72537fd2cd8caf1d85c0ec0ffac52b167f6982b2
+java:
+openjdk version "1.8.0_492"
+OpenJDK Runtime Environment (Temurin)(build 1.8.0_492-b09)
+OpenJDK 64-Bit Server VM (Temurin)(build 25.492-b09, mixed mode)
+ant:
+Apache Ant(TM) version 1.10.14 compiled on August 16 2023
+command: timeout --kill-after=5s 45s env HOME="$LAB_HOME" ANT_OPTS="-Duser.home=$LAB_HOME" ant test -Dtestcase=TestTragicIndexWriterDeadlock -Dtests.method=testDeadlockStalledMerges
+Buildfile: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/lucene/core/build.xml
+
+-clover.disable:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: Apache Ivy 2.3.0 - 20130110142753 :: http://ant.apache.org/ivy/ ::
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/lucene/top-level-ivy-settings.xml
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+resolve:
+
+init:
+
+compile-core:
+
+compile-test-framework:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/lucene/top-level-ivy-settings.xml
+
+resolve:
+
+init:
+
+compile-lucene-core:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/lucene/top-level-ivy-settings.xml
+
+resolve:
+
+init:
+
+-clover.disable:
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+compile-core:
+
+compile-codecs:
+
+-check-git-state:
+
+-git-cleanroot:
+
+-copy-git-state:
+
+git-autoclean:
+
+ivy-availability-check:
+
+ivy-fail:
+
+ivy-configure:
+[ivy:configure] :: loading settings :: file = /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/lucene/top-level-ivy-settings.xml
+
+resolve:
+
+common.init:
+
+compile-lucene-core:
+
+init:
+
+-clover.disable:
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+compile-core:
+
+-clover.disable:
+
+-clover.load:
+
+-clover.classpath:
+
+-clover.setup:
+
+clover:
+
+common.compile-core:
+
+compile-core:
+
+compile-test:
+
+install-junit4-taskdef:
+
+validate:
+
+resolve-groovy:
+[ivy:cachepath] :: resolving dependencies :: org.codehaus.groovy#groovy-all-caller;working
+[ivy:cachepath] 	confs: [default]
+[ivy:cachepath] 	found org.codehaus.groovy#groovy-all;2.4.6 in central
+[ivy:cachepath] :: resolution report :: resolve 16ms :: artifacts dl 0ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   1   |   0   |   0   |   0   ||   1   |   0   |
+	---------------------------------------------------------------------
+
+-init-totals:
+
+-test:
+    [mkdir] Created dir: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/lucene/build/core/test
+    [mkdir] Created dir: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/lucene/build/core/test/temp
+    [mkdir] Created dir: /home/amadeus/ICS/locklab-ChrisTinaAmadeus/sources/lucene-solr-buggy/.caches/test-stats/core
+   [junit4] <JUnit4> says ahoj! Master seed: 8E1F9AB01A7E6F6
+   [junit4] Executing 1 suite with 1 JVM.
+   [junit4] 
+   [junit4] Started J0 PID(53097@localhost).
+   [junit4] Suite: org.apache.lucene.index.TestTragicIndexWriterDeadlock
+exit_code=124
+result: timed out / killed, expected for buggy deadlock reproduction

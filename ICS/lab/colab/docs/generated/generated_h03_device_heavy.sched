@@ -1,0 +1,33 @@
+track throughput
+score throughput_makespan
+role leaderboard
+scenario_weight = 1.0
+workers 4
+cpu_rate 16
+switch_cost 8
+migration_cost 15
+
+device disk0 fifo rate=4 parallel=2
+
+# I/O-bound groups: short compute + frequent device calls
+# These model the h03 pattern — very short CPU bursts between I/O
+phase main at 0us:
+  group io_small * 16 arrival stagger 40us:
+    repeat 8:
+      compute 15 jitter=10
+      call disk0 8
+
+  group io_medium * 8 arrival stagger 80us:
+    repeat 5:
+      compute 25 jitter=15
+      call disk0 12
+
+# CPU-bound groups: longer compute without device
+# These create queue depth behind which I/O tasks get stuck
+phase cpu_noise at 0us:
+  group cpu_long * 4:
+    compute 800
+
+  group cpu_medium * 8 arrival stagger 200us:
+    repeat 2:
+      compute 200 jitter=50
