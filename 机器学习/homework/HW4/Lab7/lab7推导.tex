@@ -1,0 +1,72 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{ctex}
+\usepackage{amsmath, amssymb, bm}
+\usepackage{geometry}
+\geometry{a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\title{Lab 7: 基于 GMM 与 EM 算法的点云配准推导}
+\author{王松宸 \\ 学号: 2024201594}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{问题背景 (Problem Formulation)}
+给定两个点云：目标点云（Target）记作 $X = [\bm{x}_1, \bm{x}_2, \ldots, \bm{x}_N]^\top \in \mathbb{R}^{N \times D}$，源点云（Source）记作 $Y = [\bm{y}_1, \bm{y}_2, \ldots, \bm{y}_M]^\top \in \mathbb{R}^{M \times D}$。
+
+目标是寻找一个仿射变换矩阵 $A \in \mathbb{R}^{D \times D}$ 和平移向量 $t \in \mathbb{R}^{1 \times D}$，使得变换后的源点云 $\tilde{Y} = Y A + t$ 能够最好地与目标点云 $X$ 对齐。
+
+\section{高斯混合模型建模 (GMM Modeling)}
+我们将目标点云 $X$ 视为从高斯混合模型（GMM）中采样得到的观测数据，而模型的高斯中心（均值）就是变换后的源点云 $\tilde{Y}$。
+假设共有 $M$ 个高斯分量，每个分量对应一个源点 $\bm{y}_m$ 变换后的位置 $\tilde{\bm{y}}_m = \bm{y}_m A + t$。
+同时假设所有的高斯分量权重相等（均为 $1/M$），且方差相同，即协方差矩阵为各向同性的 $\sigma^2 I$（代码中的 \texttt{variance}）。
+
+则观测样本 $\bm{x}_n$ 的概率密度函数为：
+\begin{equation}
+    p(\bm{x}_n | Y, A, t, \sigma^2) = \sum_{m=1}^{M} \frac{1}{M} \mathcal{N}(\bm{x}_n | \bm{y}_m A + t, \sigma^2 I)
+\end{equation}
+
+\section{EM 算法推导 (EM Algorithm Derivation)}
+
+\subsection{E 步 (Expectation Step)}
+计算给定当前参数 $A^{(k)}, t^{(k)}, \sigma^{2(k)}$ 下隐变量的后验概率（即代码中的 \texttt{responsibility} 矩阵 $P^{(k)} \in \mathbb{R}^{N \times M}$）：
+\begin{equation}
+    P(y_m | x_n)=P_{nm}^{(k)} = \frac{\exp \left( -\frac{1}{2\sigma^{2(k)}} \| \bm{x}_n - (\bm{y}_m A^{(k)} + t^{(k)}) \|_2^2 \right)}{\sum_{j=1}^{M} \exp \left( -\frac{1}{2\sigma^{2(k)}} \| \bm{x}_n - (\bm{y}_j A^{(k)} + t^{(k)}) \|_2^2 \right)}
+\end{equation}
+
+\subsection{M 步 (Maximization Step)}
+目标函数：
+\begin{equation}
+    \min_{A,\, t,\, \sigma^2} \; \frac{1}{2\sigma^2} \sum_{n=1}^{N} \sum_{m=1}^{M} P_{nm} \left\| \bm{x}_n -  \bm{y}_mA - t \right\|_2^2
+\end{equation}
+
+\subsubsection{求解仿射变换矩阵 $A$}
+令 $\frac{\partial E}{\partial t} = 0$，定义总权重 $W_{total}^{(k)} = \sum_{n,m} P_{nm}^{(k)} = N$，以及加权均值：
+\begin{equation}
+    \bar{\bm{x}}^{(k)} = \frac{1}{W_{total}^{(k)}} \sum_{n=1}^{N} \left(\sum_m P_{nm}^{(k)}\right) \bm{x}_n, \quad \bar{\bm{y}}^{(k)} = \frac{1}{W_{total}^{(k)}} \sum_{m=1}^{M} \left(\sum_n P_{nm}^{(k)}\right) \bm{y}_m
+\end{equation}
+解得平移量为：
+\begin{equation}
+    t^{(k)} = \bar{\bm{x}}^{(k)} - \bar{\bm{y}}^{(k)} A^{(k)}
+\end{equation}
+将 $t^{(k)}$ 代入误差函数，令 $\hat{\bm{x}}_n^{(k)} = \bm{x}_n - \bar{\bm{x}}^{(k)}$，$\hat{\bm{y}}_m^{(k)} = \bm{y}_m - \bar{\bm{y}}^{(k)}$，并令 $\frac{\partial L}{\partial A} = 0$，化简得：
+\begin{equation}
+    (\hat{Y}^{(k)\top} \text{diag}(W_Y^{(k)}) \hat{Y}^{(k)}) A^{(k+1)} = \hat{Y}^{(k)\top} (P^{(k)})^\top \hat{X}^{(k)}
+\end{equation}
+左侧为代码中的 \texttt{lhs}，右侧为 \texttt{rhs}，最后借 \texttt{np.linalg.solve} 求 $A^{(k+1)}$。
+
+\subsubsection{求解平移向量 $t$}
+\begin{equation}
+    t^{(k+1)} = \bar{\bm{x}}^{(k)} - \bar{\bm{y}}^{(k)} A^{(k+1)}
+\end{equation}
+
+\subsubsection{求解方差 $\sigma^2$}
+对似然函数关于 $\sigma^2$ 求导并令等于 $0$：
+\begin{equation}
+    \sigma^{2(k+1)} = \frac{\sum_{n,m} P_{nm}^{(k)} \| \bm{x}_n - (\bm{y}_m A^{(k+1)} + t^{(k+1)}) \|_2^2}{N \times D}
+\end{equation}
+这与 \texttt{estimate\_variance} 函数的计算完全对应。
+
+\end{document}
